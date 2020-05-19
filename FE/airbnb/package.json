@@ -9,7 +9,6 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "dotenv-webpack": "^1.8.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "typescript": "^3.9.2"
@@ -22,6 +21,8 @@
     "@types/react": "^16.9.35",
     "@types/react-dom": "^16.9.8",
     "babel-loader": "^8.1.0",
+    "dotenv-webpack": "^1.8.0",
+    "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "ts-loader": "^7.0.4",
     "tslint": "^6.1.2",
