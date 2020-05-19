@@ -2,7 +2,7 @@
 name: "FE 피쳐 개발 이슈 템플릿(Ellin)"
 about: FE 피쳐 개발 이슈 템플릿
 title: "[FE] Title"
-labels: "enhancement"
+labels: "feature, FE"
 assignees: "Elllin"
 ---
 

@@ -3,7 +3,7 @@ name: "기타 공통 이슈 템플릿"
 about: 기타 공통 이슈 템플릿
 title: "[Team] Title"
 labels: "documentation"
-assignees: ""
+assignees: "beginin15, Elllin, choichoigang"
 ---
 
 ### 기능
