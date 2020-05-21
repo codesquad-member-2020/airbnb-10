@@ -82,4 +82,14 @@ const personReducer = (state = initialValue, action) => {
   }
 };
 
+export const personnelCounts = {
+  increaseAdultCount,
+  decreaseAdultCount,
+  increaseChildCount,
+  decreaseChildCount,
+  increaseBabyCount,
+  decreaseBabyCount,
+  resetCount,
+};
+
 export default personReducer;

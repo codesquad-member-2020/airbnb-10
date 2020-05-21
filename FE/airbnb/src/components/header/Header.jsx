@@ -1,5 +1,5 @@
 import React from "react";
-import Person from "./Person.jsx";
+import Person from "./Person/Person.jsx";
 
 const Header = () => {
   return (
