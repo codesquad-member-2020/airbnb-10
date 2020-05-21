@@ -4,10 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./modules/index.js";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 import App from "./App";
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, composeWithDevTools());
 
 const rootElement = document.getElementById("root");
 
