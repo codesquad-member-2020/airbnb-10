@@ -1,7 +1,12 @@
 import React from "react";
+import Person from "./Person.jsx";
 
 const Header = () => {
-  return <div></div>;
+  return (
+    <div>
+      <Person />
+    </div>
+  );
 };
 
 export default Header;

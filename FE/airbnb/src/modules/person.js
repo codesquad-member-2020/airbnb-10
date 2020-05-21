@@ -10,38 +10,38 @@ const BABY_DECREASE = "person/BABY_DECREASE";
 
 const RESET = "person/RESET";
 
-const increaseAdultCount = () => {
+export const increaseAdultCount = () => {
   return {
     type: ADULT_INCREASE,
   };
 };
-const decreaseAdultCount = () => {
+export const decreaseAdultCount = () => {
   return {
     type: ADULT_DECREASE,
   };
 };
-const increaseChildCount = () => {
+export const increaseChildCount = () => {
   return {
     type: CHILD_INCREASE,
   };
 };
-const decreaseChildCount = () => {
+export const decreaseChildCount = () => {
   return {
     type: CHILD_DECREASE,
   };
 };
-const increaseBabyCount = () => {
+export const increaseBabyCount = () => {
   return {
     type: BABY_INCREASE,
   };
 };
-const decreaseBabyCount = () => {
+export const decreaseBabyCount = () => {
   return {
     type: BABY_DECREASE,
   };
 };
 
-const resetCount = () => {
+export const resetCount = () => {
   return {
     type: RESET,
   };
@@ -60,21 +60,23 @@ const personReducer = (state = initialValue, action) => {
       return { ...state, adultCount: state.adultCount + 1, totalCount: state.totalCount + 1 };
 
     case ADULT_DECREASE:
-      return { ...state, adultCount: state.adultCount - 1, totalCount: state.totalCount + 1 };
+      return { ...state, adultCount: state.adultCount - 1, totalCount: state.totalCount - 1 };
 
     case CHILD_INCREASE:
       return { ...state, childCount: state.adultCount + 1, totalCount: state.totalCount + 1 };
 
     case CHILD_DECREASE:
-      return { ...state, childCount: state.adultCount - 1, totalCount: state.totalCount + 1 };
+      return { ...state, childCount: state.adultCount - 1, totalCount: state.totalCount - 1 };
 
     case BABY_INCREASE:
       return { ...state, adultCount: state.adultCount + 1, totalCount: state.totalCount + 1 };
 
     case BABY_DECREASE:
-      return { ...state, adultCount: state.adultCount - 1, totalCount: state.totalCount + 1 };
+      return { ...state, adultCount: state.adultCount - 1, totalCount: state.totalCount - 1 };
+
     case RESET:
       return { adultCount: 0, childCount: 0, babyCount: 0, totalCount: 0 };
+
     default:
       return state;
   }
