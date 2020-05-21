@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { personnelCounts } from "../../../modules/person";
 
-import { Button, CountButton } from "../../../style/CustomStyle.jsx";
+import { Button, CountButton, ToggleWrap } from "../../../style/CustomStyle.jsx";
 
-const Person = () => {
+const Personnel = () => {
   const [isClick, setIsClick] = useState(false);
 
   const { adultCount, childCount, babyCount, totalCount } = useSelector((state) => state.personReducer);
@@ -20,6 +20,9 @@ const Person = () => {
   };
 
   const increaseAdult = () => {
+    if (adultCount === 8) {
+      return;
+    }
     dispatch(personnelCounts.increaseAdultCount());
   };
 
@@ -34,11 +37,13 @@ const Person = () => {
     <Test>
       <Button onClick={clickPersonBtn}>인원</Button>
       {isClick && (
-        <Personnel>
-          <CountButton onClick={decreaseAdult}>-</CountButton>
-          <div>{adultCount}</div>
-          <CountButton onClick={increaseAdult}>+</CountButton>
-        </Personnel>
+        <PersonnelWrap>
+          <Line>
+            <CountButton onClick={decreaseAdult}>-</CountButton>
+            <div>{adultCount}</div>
+            <CountButton onClick={increaseAdult}>+</CountButton>
+          </Line>
+        </PersonnelWrap>
       )}
     </Test>
   );
@@ -48,17 +53,19 @@ const Test = styled.div`
   padding-left: 20px;
 `;
 
-const Personnel = styled.div`
+const Line = styled.div`
+  font-size: 1rem;
   display: flex;
   align-items: center;
+  width: 100%;
+  padding: 20px;
+`;
+
+const PersonnelWrap = styled(ToggleWrap)`
   width: 400px;
   height: 400px;
-  background-color: #fff;
-  border-radius: 5%;
-  border: 1px solid var(--gray-1);
-  box-shadow: var(--box-shadow);
 `;
 
 const PlusBtn = styled.button``;
 
-export default Person;
+export default Personnel;

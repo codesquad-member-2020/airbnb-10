@@ -1,10 +1,10 @@
 import React from "react";
-import Person from "./Person/Person.jsx";
+import Personnel from "./personnel/Personnel.jsx";
 
 const Header = () => {
   return (
     <div>
-      <Person />
+      <Personnel />
     </div>
   );
 };
