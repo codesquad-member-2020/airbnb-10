@@ -54,8 +54,9 @@ const Personnel = styled.div`
   width: 400px;
   height: 400px;
   background-color: #fff;
-  border-radius: 10%;
+  border-radius: 5%;
   border: 1px solid var(--gray-1);
+  box-shadow: var(--box-shadow);
 `;
 
 const PlusBtn = styled.button``;
