@@ -54,7 +54,7 @@ const initialValue = {
   totalCount: 0,
 };
 
-const personReducer = (state = initialValue, action) => {
+const personnelReducer = (state = initialValue, action) => {
   switch (action.type) {
     case ADULT_INCREASE:
       return { ...state, adultCount: state.adultCount + 1, totalCount: state.totalCount + 1 };
@@ -92,4 +92,4 @@ export const personnelCounts = {
   resetCount,
 };
 
-export default personReducer;
+export default personnelReducer;

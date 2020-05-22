@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { personnelCounts } from "../../../modules/person";
+import { personnelCounts } from "../../../modules/personnel.js";
 
 import { Button, CountButton, ToggleWrap } from "../../../style/CustomStyle.jsx";
 
@@ -58,12 +58,14 @@ const Line = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  height: 20%;
   padding: 20px;
+  border-radius: 5%;
 `;
 
 const PersonnelWrap = styled(ToggleWrap)`
   width: 400px;
-  height: 400px;
+  height: 350px;
 `;
 
 const PlusBtn = styled.button``;
