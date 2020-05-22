@@ -17,7 +17,24 @@ export const Button = styled.button`
 `;
 
 export const CountButton = styled.button`
+  width: 50px;
+  height: 50px;
   padding: 5px;
   border-radius: 50%;
   border: 1px solid var(--gray-1);
+  font-size: 2rem;
+  outline: none;
+  color: var(--gray-1);
+  :hover {
+    color: var(--black);
+  }
+`;
+
+export const ToggleWrap = styled.div`
+  display: flex;
+
+  background-color: #fff;
+  border-radius: 5%;
+  border: 1px solid var(--gray-1);
+  box-shadow: var(--box-shadow);
 `;
