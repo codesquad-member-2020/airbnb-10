@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import PersonnelTabColumn from "./PersonnelTabColumn.jsx";
 
@@ -16,7 +16,6 @@ import {
 
 const Personnel = () => {
   const [isClick, setIsClick] = useState(false);
-  const [personnelBtnText, setPersonnelBtnText] = useState("인원");
 
   const { adultCount, childCount, babyCount, totalCount } = useSelector(
     (state) => state.personnelReducer,
@@ -30,19 +29,17 @@ const Personnel = () => {
     }
   };
 
-  useEffect(() => {
+  const judgeCurrentPersonnel = () => {
     if (totalCount > MIN_COUNT) {
-      setPersonnelBtnText(
-        `게스트 ${adultCount + childCount}명,유아 ${babyCount}명 `,
-      );
+      return `게스트 ${adultCount + childCount}명,유아 ${babyCount}명 `;
     } else {
-      setPersonnelBtnText("인원");
+      return "인원";
     }
-  }, [totalCount]);
+  };
 
   return (
     <Test>
-      <Button onClick={clickPersonBtn}>{personnelBtnText}</Button>
+      <Button onClick={clickPersonBtn}>{judgeCurrentPersonnel()}</Button>
       {isClick && (
         <PersonnelWrap>
           <PersonnelTabColumn
