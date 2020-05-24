@@ -17,8 +17,8 @@ export const Button = styled.button`
 `;
 
 export const CountButton = styled.button`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   padding: 5px;
   border-radius: 50%;
   border: 1px solid var(--gray-1);
@@ -31,8 +31,6 @@ export const CountButton = styled.button`
 `;
 
 export const ToggleWrap = styled.div`
-  display: flex;
-
   background-color: #fff;
   border-radius: 5%;
   border: 1px solid var(--gray-1);
