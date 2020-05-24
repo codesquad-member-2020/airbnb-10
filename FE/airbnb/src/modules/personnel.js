@@ -57,22 +57,22 @@ const initialValue = {
 const personnelReducer = (state = initialValue, action) => {
   switch (action.type) {
     case ADULT_INCREASE:
-      return { ...state, adultCount: state.adultCount + 1, totalCount: state.totalCount + 1 };
+      return setIncreaseCount("adultCount", state);
 
     case ADULT_DECREASE:
-      return { ...state, adultCount: state.adultCount - 1, totalCount: state.totalCount - 1 };
+      return setDecreaseCount("adultCount", state);
 
     case CHILD_INCREASE:
-      return { ...state, childCount: state.adultCount + 1, totalCount: state.totalCount + 1 };
+      return setIncreaseCount("childCount", state);
 
     case CHILD_DECREASE:
-      return { ...state, childCount: state.adultCount - 1, totalCount: state.totalCount - 1 };
+      return setDecreaseCount("childCount", state);
 
     case BABY_INCREASE:
-      return { ...state, adultCount: state.adultCount + 1, totalCount: state.totalCount + 1 };
+      return setIncreaseCount("babyCount", state);
 
     case BABY_DECREASE:
-      return { ...state, adultCount: state.adultCount - 1, totalCount: state.totalCount - 1 };
+      return setDecreaseCount("babyCount", state);
 
     case RESET:
       return { adultCount: 0, childCount: 0, babyCount: 0, totalCount: 0 };
@@ -82,14 +82,16 @@ const personnelReducer = (state = initialValue, action) => {
   }
 };
 
-export const personnelCounts = {
-  increaseAdultCount,
-  decreaseAdultCount,
-  increaseChildCount,
-  decreaseChildCount,
-  increaseBabyCount,
-  decreaseBabyCount,
-  resetCount,
+const setIncreaseCount = (personnelType, state) => {
+  const returnObj = { ...state, totalCount: state.totalCount + 1 };
+  returnObj[personnelType] = state[personnelType] + 1;
+  return returnObj;
+};
+
+const setDecreaseCount = (personnelType, state) => {
+  const returnObj = { ...state, totalCount: state.totalCount - 1 };
+  returnObj[personnelType] = state[personnelType] - 1;
+  return returnObj;
 };
 
 export default personnelReducer;

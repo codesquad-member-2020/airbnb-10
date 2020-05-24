@@ -1,15 +1,26 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components";
-import { personnelCounts } from "../../../modules/personnel.js";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import PersonnelTabColumn from "./PersonnelTabColumn.jsx";
 
-import { Button, CountButton, ToggleWrap } from "../../../style/CustomStyle.jsx";
+import styled from "styled-components";
+import { Button, ToggleWrap } from "../../../style/CustomStyle.jsx";
+
+import {
+  increaseAdultCount,
+  decreaseAdultCount,
+  increaseChildCount,
+  decreaseChildCount,
+  increaseBabyCount,
+  decreaseBabyCount,
+} from "../../../modules/personnel.js";
 
 const Personnel = () => {
   const [isClick, setIsClick] = useState(false);
+  const [personnelBtnText, setPersonnelBtnText] = useState("인원");
 
-  const { adultCount, childCount, babyCount, totalCount } = useSelector((state) => state.personReducer);
-  const dispatch = useDispatch();
+  const { adultCount, childCount, babyCount, totalCount } = useSelector(
+    (state) => state.personnelReducer,
+  );
 
   const clickPersonBtn = () => {
     if (!isClick) {
@@ -19,55 +30,53 @@ const Personnel = () => {
     }
   };
 
-  const increaseAdult = () => {
-    if (adultCount === 8) {
-      return;
+  useEffect(() => {
+    if (totalCount > MIN_COUNT) {
+      setPersonnelBtnText(
+        `게스트 ${adultCount + childCount}명,유아 ${babyCount}명 `,
+      );
+    } else {
+      setPersonnelBtnText("인원");
     }
-    dispatch(personnelCounts.increaseAdultCount());
-  };
-
-  const decreaseAdult = () => {
-    if (adultCount <= 0) {
-      return;
-    }
-    dispatch(personnelCounts.decreaseAdultCount());
-  };
+  }, [totalCount]);
 
   return (
     <Test>
-      <Button onClick={clickPersonBtn}>인원</Button>
+      <Button onClick={clickPersonBtn}>{personnelBtnText}</Button>
       {isClick && (
         <PersonnelWrap>
-          <Line>
-            <CountButton onClick={decreaseAdult}>-</CountButton>
-            <div>{adultCount}</div>
-            <CountButton onClick={increaseAdult}>+</CountButton>
-          </Line>
+          <PersonnelTabColumn
+            count={adultCount}
+            onIncrease={increaseAdultCount}
+            onDecrease={decreaseAdultCount}
+          />
+          <PersonnelTabColumn
+            count={childCount}
+            onIncrease={increaseChildCount}
+            onDecrease={decreaseChildCount}
+          />
+          <PersonnelTabColumn
+            count={babyCount}
+            onIncrease={increaseBabyCount}
+            onDecrease={decreaseBabyCount}
+          />
         </PersonnelWrap>
       )}
     </Test>
   );
 };
 
+const MIN_COUNT = 0;
+
 const Test = styled.div`
   padding-left: 20px;
 `;
 
-const Line = styled.div`
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 20%;
-  padding: 20px;
-  border-radius: 5%;
-`;
-
 const PersonnelWrap = styled(ToggleWrap)`
+  display: flex;
+  flex-direction: column;
   width: 400px;
   height: 350px;
 `;
-
-const PlusBtn = styled.button``;
 
 export default Personnel;
