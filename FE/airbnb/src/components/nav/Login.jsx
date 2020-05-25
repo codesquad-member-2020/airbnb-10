@@ -6,8 +6,6 @@ const Login = ({ text }) => {
 };
 
 const LoginWarp = styled.div`
-  padding: 0 15px;
-
   text-decoration: underline;
   cursor: pointer;
 `;
