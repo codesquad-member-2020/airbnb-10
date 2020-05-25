@@ -4,7 +4,13 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { CountButton } from "../../../style/CustomStyle.jsx";
 
-const PersonnelTabColumn = ({ count, onIncrease, onDecrease }) => {
+const PersonnelTabColumn = ({
+  count,
+  onIncrease,
+  onDecrease,
+  personnelType,
+  personnelScope,
+}) => {
   const dispatch = useDispatch();
 
   const onIncreaseCount = (actionFunc) => {
@@ -23,21 +29,27 @@ const PersonnelTabColumn = ({ count, onIncrease, onDecrease }) => {
 
   return (
     <Column>
-      <CountButton
-        onClick={() => {
-          onDecreaseCount(onDecrease);
-        }}
-      >
-        -
-      </CountButton>
-      <div>{count}</div>
-      <CountButton
-        onClick={() => {
-          onIncreaseCount(onIncrease);
-        }}
-      >
-        +
-      </CountButton>
+      <PersonnelInfoArea>
+        <div>{personnelType}</div>
+        <div>{personnelScope}</div>
+      </PersonnelInfoArea>
+      <CountArea>
+        <CountButton
+          onClick={() => {
+            onDecreaseCount(onDecrease);
+          }}
+        >
+          -
+        </CountButton>
+        <div>{count}</div>
+        <CountButton
+          onClick={() => {
+            onIncreaseCount(onIncrease);
+          }}
+        >
+          +
+        </CountButton>
+      </CountArea>
     </Column>
   );
 };
@@ -46,13 +58,26 @@ const MIN_COUNT = 0;
 const MAX_COUNT = 8;
 
 const Column = styled.div`
-  font-size: 1rem;
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 20%;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 85%;
+  height: 15%;
   padding: 20px;
   border-radius: 5%;
+`;
+
+const CountArea = styled.div`
+  width: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
+
+const PersonnelInfoArea = styled.div`
+  line-height: 1.5rem;
 `;
 
 export default PersonnelTabColumn;
