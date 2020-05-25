@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import PersonnelTabColumn from "./PersonnelTabColumn.jsx";
 
 import styled from "styled-components";
@@ -12,10 +12,12 @@ import {
   decreaseChildCount,
   increaseBabyCount,
   decreaseBabyCount,
+  resetCount,
 } from "../../../modules/personnel.js";
 
 const Personnel = () => {
   const [isClick, setIsClick] = useState(false);
+  const dispatch = useDispatch();
 
   const { adultCount, childCount, babyCount, totalCount } = useSelector(
     (state) => state.personnelReducer,
@@ -37,43 +39,86 @@ const Personnel = () => {
     }
   };
 
+  const resetSelectPersonnel = () => {
+    dispatch(resetCount());
+  };
+
   return (
-    <Test>
+    <PersonnelWrap>
       <Button onClick={clickPersonBtn}>{judgeCurrentPersonnel()}</Button>
       {isClick && (
-        <PersonnelWrap>
+        <PersonnelModalWrap>
           <PersonnelTabColumn
             count={adultCount}
             onIncrease={increaseAdultCount}
             onDecrease={decreaseAdultCount}
+            personnelType="성인"
+            personnelScope="만 13세 이상"
           />
           <PersonnelTabColumn
             count={childCount}
             onIncrease={increaseChildCount}
             onDecrease={decreaseChildCount}
+            personnelType="어린이"
+            personnelScope="2 ~ 12세"
           />
           <PersonnelTabColumn
             count={babyCount}
             onIncrease={increaseBabyCount}
             onDecrease={decreaseBabyCount}
+            personnelType="유아"
+            personnelScope="2세 미만"
           />
-        </PersonnelWrap>
+          <BottomArea>
+            <ResetButton onClick={resetSelectPersonnel}>지우기</ResetButton>
+            <SaveButton>저장</SaveButton>
+          </BottomArea>
+        </PersonnelModalWrap>
       )}
-    </Test>
+    </PersonnelWrap>
   );
 };
 
 const MIN_COUNT = 0;
 
-const Test = styled.div`
+const PersonnelWrap = styled.div`
+  position: relative;
   padding-left: 20px;
 `;
 
-const PersonnelWrap = styled(ToggleWrap)`
+const PersonnelModalWrap = styled(ToggleWrap)`
+  margin-top: 5px;
+  position: absolute;
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 400px;
   height: 350px;
+`;
+
+const BottomArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 85%;
+  height: 20%;
+`;
+
+const ResetButton = styled.button`
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
+const SaveButton = styled.div`
+  font-size: 1rem;
+  text-align: center;
+  color: var(--white);
+  background-color: black;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
 `;
 
 export default Personnel;
