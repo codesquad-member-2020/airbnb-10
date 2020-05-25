@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Button = styled.button`
   box-sizing: border-box;
+  height: 30px;
   font-size: 12px;
   padding: 5px 13px;
   border-radius: 40px;
@@ -19,10 +20,9 @@ export const Button = styled.button`
 export const CountButton = styled.button`
   width: 40px;
   height: 40px;
-  padding: 5px;
   border-radius: 50%;
   border: 1px solid var(--gray-1);
-  font-size: 2rem;
+  font-size: 1.5rem;
   outline: none;
   color: var(--gray-1);
   :hover {
@@ -36,3 +36,194 @@ export const ToggleWrap = styled.div`
   border: 1px solid var(--gray-1);
   box-shadow: var(--box-shadow);
 `;
+
+export const DateWarp = styled.div`
+  color: var(--black);
+  .DateRangePicker_picker {
+  }
+  .CalendarMonth_table {
+    margin-top: 10px;
+  }
+  .DateRangePickerInput {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 40px;
+    box-shadow: var(-box-shadow);
+  }
+  .DateRangePickerInput__showClearDates {
+    padding-right: 0px;
+  }
+  .DateRangePickerInput_clearDates {
+    padding: 0px;
+  }
+  .DateInput {
+    width: 100px;
+  }
+  .DateInput_input {
+    font-size: 12px;
+    padding: 0px;
+    border-bottom: none;
+    width: 80%;
+  }
+  .DateInput.DateInput_1 {
+    border-radius: 40px;
+    margin-left: 15px;
+  }
+  .DateInput.DateInput_1 {
+    border-radius: 40px;
+  }
+  .DateRangePickerInput_arrow_svg {
+    display: none;
+  }
+  .DateRangePickerInput_clearDates_svg {
+    vertical-align: inherit;
+  }
+
+  .CalendarDay {
+    vertical-align: middle;
+    position: relative;
+    z-index: 0;
+    &.CalendarDay__selected {
+      background-color: #fff;
+      &::before {
+        content: "";
+        width: 50%;
+        height: 100%;
+        background-color: #ecf0f1;
+        position: absolute;
+        top: 0;
+        z-index: -2;
+      }
+      &::after {
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: #000;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+    }
+    &.CalendarDay__selected_start {
+      &::before {
+        right: 0;
+      }
+    }
+    &.CalendarDay__selected_end {
+      &::before {
+        left: 0;
+      }
+    }
+    &.CalendarDay__hovered_span,
+    &.CalendarDay__selected_span {
+      background-color: #ecf0f1;
+      color: #484848;
+      outline: none;
+    }
+  }
+`;
+
+// const DatePickerWrap = styled.div`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   display: flex;
+//   z-index: 5;
+//   .DateRangePicker {
+//     width: 100%;
+//   }
+//   .DateRangePickerInput {
+//     display: flex;
+//     background-color: transparent;
+//     position: relative;
+//     #airbnb-end-date {
+//       display: none;
+//     }
+//     .DateInput {
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       width: 100%;
+//       height: 100%;
+//     }
+//     .DateInput_input {
+//       cursor: pointer;
+//       opacity: 0;
+//     }
+//     .DateInput_fang {
+//       display: none;
+//     }
+//     .DateRangePickerInput_arrow {
+//       display: none;
+//     }
+//   }
+//   .DayPickerNavigation_button__default {
+//     border: none;
+//     outline: none;
+//   }
+//   .DayPicker_weekHeader {
+//     color: #95a5a6;
+//   }
+//   .CalendarMonth_table {
+//     margin-top: 10px;
+//     tr {
+//       border: 1px solid #fff;
+//     }
+//     td {
+//       outline: none;
+//     }
+//   }
+//   .CalendarDay__default {
+//     border: none;
+//   }
+//   .CalendarDay {
+//     vertical-align: middle;
+//     position: relative;
+//     z-index: 0;
+//     &.CalendarDay__selected {
+//       background-color: #fff;
+//       &::before {
+//         content: "";
+//         width: 50%;
+//         height: 100%;
+//         background-color: #ecf0f1;
+//         position: absolute;
+//         top: 0;
+//         z-index: -2;
+//       }
+//       &::after {
+//         content: "";
+//         width: 100%;
+//         height: 100%;
+//         background-color: #000;
+//         border-radius: 50%;
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         z-index: -1;
+//       }
+//     }
+//     &.CalendarDay__selected_start {
+//       &::before {
+//         right: 0;
+//       }
+//     }
+//     &.CalendarDay__selected_end {
+//       &::before {
+//         left: 0;
+//       }
+//     }
+//     &.CalendarDay__hovered_span,
+//     &.CalendarDay__selected_span {
+//       background-color: #ecf0f1;
+//       color: #484848;
+//       outline: none;
+//     }
+//   }
+// `;

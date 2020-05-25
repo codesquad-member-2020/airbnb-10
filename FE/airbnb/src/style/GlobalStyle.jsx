@@ -3,10 +3,12 @@ import reset from "styled-reset";
 
 const variables = css`
   :root {
-    --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
     /* color */
     --gray-1: #d2d2d2;
     --black: #000;
+    --white: #ffffff;
   }
 `;
 
