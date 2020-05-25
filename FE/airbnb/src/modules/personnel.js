@@ -8,6 +8,9 @@ const CHILD_DECREASE = "person/CHILD_DECREASE";
 const BABY_INCREASE = "person/BABY_INCREASE";
 const BABY_DECREASE = "person/BABY_DECREASE";
 
+const TEST_INCREASE = "person/TEST_INCREASE";
+const TEST_DECREASE = "person/TEST_DECREASE";
+
 const RESET = "person/RESET";
 
 export const increaseAdultCount = () => {

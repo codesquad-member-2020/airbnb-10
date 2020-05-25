@@ -10,6 +10,7 @@ export const Button = styled.button`
   cursor: pointer;
   box-shadow: var(--box-shadow);
   outline: none;
+  margin-right: 5px;
 
   :hover {
     border: 2px solid var(--black);
@@ -50,7 +51,7 @@ export const DateWarp = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 40px;
-    box-shadow: var(-box-shadow);
+    box-shadow: var(--box-shadow);
   }
   .DateRangePickerInput__showClearDates {
     padding-right: 0px;
