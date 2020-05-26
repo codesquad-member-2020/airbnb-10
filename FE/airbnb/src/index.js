@@ -5,6 +5,7 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./modules/index.js";
 import { composeWithDevTools } from "redux-devtools-extension";
+import "@babel/polyfill";
 
 import App from "./App";
 

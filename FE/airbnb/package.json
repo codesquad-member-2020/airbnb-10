@@ -9,6 +9,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
     "css-loader": "^3.5.3",
     "moment": "^2.26.0",
     "react": "^16.13.1",

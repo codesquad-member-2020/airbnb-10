@@ -6,7 +6,7 @@ const Dotenv = require("dotenv-webpack");
 module.exports = {
   mode: "development",
 
-  entry: "./src/index.js",
+  entry: ["@babel/polyfill", "./src/index.js"],
 
   devServer: {
     historyApiFallback: true,
