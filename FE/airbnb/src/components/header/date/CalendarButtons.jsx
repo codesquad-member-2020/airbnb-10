@@ -7,14 +7,6 @@ import { useDispatch } from "react-redux";
 import { setResetDate } from "../../../modules/date.js";
 
 const CalendarButtons = () => {
-  const dispatch = useDispatch();
-
-  //   const onClickResetBtn = () => {
-  //     dispatch(setResetDate());
-  //   };
-
-  const onClickSaveBtn = () => {};
-
   return (
     <CalerndarButtonsWrap>
       <ResetButton>지우기</ResetButton>
