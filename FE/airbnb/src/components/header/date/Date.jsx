@@ -16,18 +16,37 @@ import {
 
 import { DateWarp } from "../../../style/CustomStyle.jsx";
 
-import styled from "styled-components";
 import CalendarButtons from "./CalendarButtons.jsx";
 
 const Date = () => {
   const { startDate, endDate } = useSelector((state) => state.dateReducer);
-  const dispatch = useDispatch();
-
   const [focusedInput, setFocusedInput] = useState(null);
+  const dispatch = useDispatch();
 
   const handleDatesChange = ({ startDate, endDate }) => {
     dispatch(setStartDate(startDate));
     dispatch(setEndDate(endDate));
+
+    if (focusedInput === "endDate") {
+      setFocusedInput("startDate");
+    }
+  };
+
+  const onClickResetHandler = () => {
+    dispatch(setResetDate());
+  };
+
+  const onClickSaveHandler = () => {
+    console.log("fetching.........");
+  };
+
+  const CalendarButtonsTab = () => {
+    return (
+      <CalendarButtons
+        resetHandler={onClickResetHandler}
+        saveHandler={onClickSaveHandler}
+      />
+    );
   };
 
   return (
@@ -44,11 +63,9 @@ const Date = () => {
             setFocusedInput(focusedInput);
           }}
           readOnly
-          showClearDates
           calendarInfoPosition="bottom"
-          renderCalendarInfo={CalendarButtons}
+          renderCalendarInfo={CalendarButtonsTab}
           keepOpenOnDateSelect
-          autoFocus
         />
       </DateWarp>
     </div>
@@ -56,21 +73,3 @@ const Date = () => {
 };
 
 export default Date;
-
-// const judge_test = () => {
-//   if (startDate !== null) {
-//     return setDate(startDate)(dispatch, startDates);
-//   }
-//   if (endDate !== null) {
-//     return setDate(endDate)(dispatch, endDates);
-//   }
-// };
-
-// const setDate = (dateObj) => {
-//   const year = dateObj._d.getUTCFullYear();
-//   const month = dateObj._d.getMonth() + 1;
-//   const date = dateObj._d.getDate();
-//   return (dispatchDate = (dispatch, actionFunc) => {
-//     return dispatch(actionFunc(year, month, date));
-//   });
-// };

@@ -39,17 +39,19 @@ export const ToggleWrap = styled.div`
 `;
 
 export const ResetButton = styled.button`
+  outline: none;
   text-decoration: underline;
   font-weight: bold;
   cursor: pointer;
 `;
 
 export const SaveButton = styled.button`
+  outline: none;
   font-size: 0.8rem;
   color: var(--white);
   background-color: var(--black);
   cursor: pointer;
-  padding: 10px;
+  padding: 7px 10px;
   border-radius: 10px;
   font-weight: bold;
 `;

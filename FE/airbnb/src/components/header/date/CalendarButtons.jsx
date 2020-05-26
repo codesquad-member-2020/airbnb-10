@@ -1,16 +1,12 @@
 import React from "react";
-
 import { SaveButton, ResetButton } from "../../../style/CustomStyle.jsx";
 import styled from "styled-components";
 
-import { useDispatch } from "react-redux";
-import { setResetDate } from "../../../modules/date.js";
-
-const CalendarButtons = () => {
+const CalendarButtons = ({ resetHandler, saveHandler }) => {
   return (
     <CalerndarButtonsWrap>
-      <ResetButton>지우기</ResetButton>
-      <SaveButton>저장</SaveButton>
+      <ResetButton onClick={resetHandler}>지우기</ResetButton>
+      <SaveButton onClick={saveHandler}>저장</SaveButton>
     </CalerndarButtonsWrap>
   );
 };
