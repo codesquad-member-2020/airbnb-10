@@ -8,9 +8,6 @@ const CHILD_DECREASE = "person/CHILD_DECREASE";
 const BABY_INCREASE = "person/BABY_INCREASE";
 const BABY_DECREASE = "person/BABY_DECREASE";
 
-const TEST_INCREASE = "person/TEST_INCREASE";
-const TEST_DECREASE = "person/TEST_DECREASE";
-
 const RESET = "person/RESET";
 
 export const increaseAdultCount = () => {
@@ -96,5 +93,53 @@ const setDecreaseCount = (personnelType, state) => {
   returnObj[personnelType] = state[personnelType] - 1;
   return returnObj;
 };
+
+// const TEST_INCREASE = "person/TEST_INCREASE";
+// const TEST_DECREASE = "person/TEST_DECREASE";
+
+// const TEST_RESET = "person/TEST_RESET";
+
+// const test_initialValue = {
+//   adultCount: 0,
+//   childCount: 0,
+//   babyCount: 0,
+//   totalCount: 0,
+// };
+
+// export const test_increaseCount = (personnelType) => {
+//   return {
+//     type: TEST_INCREASE,
+//     personnelType,
+//   };
+// };
+// export const test_decreaseCount = (personnelType) => {
+//   return {
+//     type: TEST_DECREASE,
+//     personnelType,
+//   };
+// };
+
+// const test_setIncreaseCount = (personnelType, state) => {
+//   const returnObj = { ...state, totalCount: state.totalCount + 1 };
+//   returnObj[personnelType] = state[personnelType] + 1;
+//   return returnObj;
+// };
+
+// const test_setDecreaseCount = (personnelType, state) => {
+//   const returnObj = { ...state, totalCount: state.totalCount + 1 };
+//   returnObj[personnelType] = state[personnelType] + 1;
+//   return returnObj;
+// };
+
+// export const test_personnelReducer = (state = test_initialValue, action) => {
+//   switch (action.type) {
+//     case TEST_INCREASE:
+//       return test_setIncreaseCount(action.personnelType, state);
+//     case TEST_DECREASE:
+//       return test_setDecreaseCount(action.personnelType, state);
+//     default:
+//       return state;
+//   }
+// };
 
 export default personnelReducer;
