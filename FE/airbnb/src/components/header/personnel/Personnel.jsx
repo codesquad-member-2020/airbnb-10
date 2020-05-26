@@ -3,7 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import PersonnelTabColumn from "./PersonnelTabColumn.jsx";
 
 import styled from "styled-components";
-import { Button, ToggleWrap } from "../../../style/CustomStyle.jsx";
+import {
+  Button,
+  ToggleWrap,
+  SaveButton,
+  ResetButton,
+} from "../../../style/CustomStyle.jsx";
 
 import {
   increaseAdultCount,
@@ -102,23 +107,6 @@ const BottomArea = styled.div`
   justify-content: space-between;
   width: 85%;
   height: 20%;
-`;
-
-const ResetButton = styled.button`
-  text-decoration: underline;
-  font-weight: bold;
-  cursor: pointer;
-`;
-
-const SaveButton = styled.div`
-  font-size: 0.8rem;
-  text-align: center;
-  color: var(--white);
-  background-color: black;
-  cursor: pointer;
-  padding: 10px;
-  border-radius: 10px;
-  font-weight: bold;
 `;
 
 export default Personnel;

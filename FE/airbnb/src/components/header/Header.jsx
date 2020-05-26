@@ -1,6 +1,6 @@
 import React from "react";
 import Personnel from "./personnel/Personnel.jsx";
-import Date from "./Date.jsx";
+import Date from "./date/Date.jsx";
 
 import styled from "styled-components";
 

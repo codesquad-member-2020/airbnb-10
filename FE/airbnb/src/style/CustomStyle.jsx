@@ -38,9 +38,27 @@ export const ToggleWrap = styled.div`
   box-shadow: var(--box-shadow);
 `;
 
+export const ResetButton = styled.button`
+  text-decoration: underline;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
+export const SaveButton = styled.button`
+  font-size: 0.8rem;
+  color: var(--white);
+  background-color: var(--black);
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+`;
+
 export const DateWarp = styled.div`
   color: var(--black);
-  .DateRangePicker_picker {
+
+  .DayPickerKeyboardShortcuts_buttonReset {
+    display: none;
   }
   .CalendarMonth_table {
     margin-top: 10px;
@@ -127,104 +145,3 @@ export const DateWarp = styled.div`
     }
   }
 `;
-
-// const DatePickerWrap = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   display: flex;
-//   z-index: 5;
-//   .DateRangePicker {
-//     width: 100%;
-//   }
-//   .DateRangePickerInput {
-//     display: flex;
-//     background-color: transparent;
-//     position: relative;
-//     #airbnb-end-date {
-//       display: none;
-//     }
-//     .DateInput {
-//       position: absolute;
-//       top: 0;
-//       left: 0;
-//       width: 100%;
-//       height: 100%;
-//     }
-//     .DateInput_input {
-//       cursor: pointer;
-//       opacity: 0;
-//     }
-//     .DateInput_fang {
-//       display: none;
-//     }
-//     .DateRangePickerInput_arrow {
-//       display: none;
-//     }
-//   }
-//   .DayPickerNavigation_button__default {
-//     border: none;
-//     outline: none;
-//   }
-//   .DayPicker_weekHeader {
-//     color: #95a5a6;
-//   }
-//   .CalendarMonth_table {
-//     margin-top: 10px;
-//     tr {
-//       border: 1px solid #fff;
-//     }
-//     td {
-//       outline: none;
-//     }
-//   }
-//   .CalendarDay__default {
-//     border: none;
-//   }
-//   .CalendarDay {
-//     vertical-align: middle;
-//     position: relative;
-//     z-index: 0;
-//     &.CalendarDay__selected {
-//       background-color: #fff;
-//       &::before {
-//         content: "";
-//         width: 50%;
-//         height: 100%;
-//         background-color: #ecf0f1;
-//         position: absolute;
-//         top: 0;
-//         z-index: -2;
-//       }
-//       &::after {
-//         content: "";
-//         width: 100%;
-//         height: 100%;
-//         background-color: #000;
-//         border-radius: 50%;
-//         position: absolute;
-//         top: 0;
-//         left: 0;
-//         z-index: -1;
-//       }
-//     }
-//     &.CalendarDay__selected_start {
-//       &::before {
-//         right: 0;
-//       }
-//     }
-//     &.CalendarDay__selected_end {
-//       &::before {
-//         left: 0;
-//       }
-//     }
-//     &.CalendarDay__hovered_span,
-//     &.CalendarDay__selected_span {
-//       background-color: #ecf0f1;
-//       color: #484848;
-//       outline: none;
-//     }
-//   }
-// `;
