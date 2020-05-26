@@ -10,7 +10,7 @@ const App = () => {
     <div>
       <GlobalStyle />
       <Nav />
-      {/* <Header /> */}
+      <Header />
       <Rooms />
     </div>
   );
