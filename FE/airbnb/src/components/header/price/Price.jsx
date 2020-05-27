@@ -1,32 +1,25 @@
 import React, { useState } from "react";
-import Rheostat from "rheostat";
 import PriceModal from "./PriceModal.jsx";
 
 import styled from "styled-components";
 import { Button } from "../../../style/CustomStyle.jsx";
 
-import "rheostat/css/rheostat.css";
-import "react-dates/lib/css/_datepicker.css";
-import ThemedStyleSheet from "react-with-styles/lib/ThemedStyleSheet";
-import cssInterface from "react-with-styles-interface-css";
-import RheostatDefaultTheme from "rheostat/lib/themes/DefaultTheme";
-import ReactDatesDefaultTheme from "react-dates/lib/theme/DefaultTheme";
-ThemedStyleSheet.registerInterface(cssInterface);
-ThemedStyleSheet.registerTheme({
-  ...RheostatDefaultTheme,
-  ...ReactDatesDefaultTheme,
-});
-
 import { useDispatch, useSelector } from "react-redux";
+import { resetPrices } from "../../../modules/price.js";
 
 const Price = () => {
   const [isClicked, setClicked] = useState(false);
+  const dispatch = useDispatch();
 
   const { priceValues } = useSelector((state) => state.priceReducer);
   const [minPrice, maxPrice] = priceValues;
 
   const onClickPriceBtn = () => {
     setClicked(!isClicked);
+  };
+
+  const resetBtnHandler = () => {
+    dispatch(resetPrices());
   };
 
   return (
@@ -37,6 +30,7 @@ const Price = () => {
           priceValues={priceValues}
           minPrice={minPrice}
           maxPrice={maxPrice}
+          resetHandler={resetBtnHandler}
         />
       )}
     </PriceWrap>

@@ -6,16 +6,12 @@ import ModalButtons from "../ModalButtons.jsx";
 import styled from "styled-components";
 import { ToggleWrap } from "../../../style/CustomStyle.jsx";
 
-const PriceModal = ({ priceValues, minPrice, maxPrice }) => {
+const PriceModal = ({ priceValues, minPrice, maxPrice, resetHandler }) => {
   return (
     <PriceModalWrap>
       <PriceRange priceValues={priceValues}></PriceRange>
       <PriceBoxes minPrice={minPrice} maxPrice={maxPrice} />
-      {/* <ButtonsArea>
-        <ResetButton>지우기</ResetButton>
-        <SaveButton>저장</SaveButton>
-      </ButtonsArea> */}
-      <ModalButtons />
+      <ModalButtons resetHandler={resetHandler} />
     </PriceModalWrap>
   );
 };
