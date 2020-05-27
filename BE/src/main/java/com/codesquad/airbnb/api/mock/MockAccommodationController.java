@@ -3,10 +3,13 @@ package com.codesquad.airbnb.api.mock;
 import com.codesquad.airbnb.domain.*;
 import com.codesquad.airbnb.dto.AccommodationDTO;
 import com.codesquad.airbnb.response.ApiResponse;
+import com.codesquad.airbnb.validator.FilterValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -112,14 +115,12 @@ public class MockAccommodationController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<ApiResponse> bookRoom(@PathVariable Integer id, Filter filter) {
+    public ResponseEntity<ApiResponse> bookRoom(@PathVariable Integer id, Filter filter, BindingResult result) {
 
-        log.debug("check In: {}, check Out: {}, period: {}", filter.getCheckIn(), filter.getCheckOut(), filter.getPeriod());
-
-        if (filter.getPeriod() <= 0) {
-            return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL, "체크인, 체크아웃을 다시 확인해주세요."), HttpStatus.UNPROCESSABLE_ENTITY);
+        new FilterValidator().validate(filter, result);
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL, getErrorMessage(result)), HttpStatus.FORBIDDEN);
         }
-
         return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS, null), HttpStatus.OK);
     }
 
@@ -158,4 +159,7 @@ public class MockAccommodationController {
                 .totalPrice(accommodation.getTotalPrice(priceDuringPeriod, serviceTax, accommodationTax))
                 .build();
     }
-}
+
+    private String getErrorMessage(BindingResult result) {
+        return result.getAllErrors().stream().map(ObjectError::getCode).collect(Collectors.joining(", "));
+    }}
