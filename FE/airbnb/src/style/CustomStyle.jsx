@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Button = styled.button`
   box-sizing: border-box;
@@ -55,9 +55,14 @@ export const ToggleWrap = styled.div`
   box-shadow: var(--box-shadow);
 `;
 
-export const DefaultLayout = styled.div`
+export const DefaultLayout = css`
   display: flex;
   align-items: center;
+`;
+
+export const ButtonsArea = styled.div`
+  ${DefaultLayout};
+  justify-content: space-between;
 `;
 
 export const DateWarp = styled.div`
