@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/mock/rooms")
 public class MockAccommodationController {
 
-    private static final Logger log = LoggerFactory.getLogger(MockAccommodationController.class);
-
     private static final int PRICE_MAX = 3200;
     private static final int PRICE_MIN = 65;
     private static final float CURRENCY_CONVERSION_FROM_USD_TO_KRW = 1231.54f;
@@ -48,7 +46,7 @@ public class MockAccommodationController {
                         new Image(2401,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_0.jpg", 1))
         );
 
-        accommodations.add(parseAccommodationDTOForRooms(filter, accommodation));
+        accommodations.add(parseAccommodationDTO(filter, accommodation, false));
 
         accommodation = new Accommodation(
                 2,
@@ -66,7 +64,7 @@ public class MockAccommodationController {
                         new Image(2402,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_1.jpg", 2))
         );
 
-        accommodations.add(parseAccommodationDTOForRooms(filter, accommodation));
+        accommodations.add(parseAccommodationDTO(filter, accommodation, false));
 
         accommodation = new Accommodation(
                 3,
@@ -84,7 +82,7 @@ public class MockAccommodationController {
                         new Image(2403,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_2.jpg", 3))
         );
 
-        accommodations.add(parseAccommodationDTOForRooms(filter, accommodation));
+        accommodations.add(parseAccommodationDTO(filter, accommodation, false));
 
         contents.put("accommodations", accommodations);
         contents.put("total", accommodations.size());
@@ -111,7 +109,7 @@ public class MockAccommodationController {
                         new Image(2401,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_0.jpg", 1))
         );
 
-        return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS, parseAccommodationDTOForBooking(filter, accommodation)), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS, parseAccommodationDTO(filter, accommodation, true)), HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
@@ -124,11 +122,24 @@ public class MockAccommodationController {
         return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS, null), HttpStatus.OK);
     }
 
-    private AccommodationDTO parseAccommodationDTOForRooms(Filter filter, Accommodation accommodation) {
+    private AccommodationDTO parseAccommodationDTO(Filter filter, Accommodation accommodation, boolean isForBooking) {
 
         int priceDuringPeriod = accommodation.getPriceDuringPeriod(filter);
         int serviceTax = accommodation.getServiceTax((int)((PRICE_MAX - PRICE_MIN) * CURRENCY_CONVERSION_FROM_USD_TO_KRW), feePolicy.getServiceFeeMaxRate());
         int accommodationTax = (int)(serviceTax * feePolicy.getAccommodationTaxRate());
+
+        if (isForBooking) {
+            return new AccommodationDTO.Builder(accommodation.getId())
+                    .name(accommodation.getName())
+                    .pricePerNight(accommodation.getPrice())
+                    .pricePerNightDiscounted(accommodation.getDiscountedPrice())
+                    .priceDuringPeriod(priceDuringPeriod)
+                    .cleaningFee(accommodation.getCleaningFee())
+                    .serviceTax(serviceTax)
+                    .accommodationTax(accommodationTax)
+                    .totalPrice(accommodation.getTotalPrice(priceDuringPeriod, serviceTax, accommodationTax))
+                    .build();
+        }
 
         return new AccommodationDTO.Builder(accommodation.getId())
                 .name(accommodation.getName())
@@ -139,24 +150,6 @@ public class MockAccommodationController {
                 .city(accommodation.getCity().getName())
                 .scoresRating(accommodation.getScoresRating())
                 .images(accommodation.getImages().stream().map(Image::getUrl).collect(Collectors.toList()))
-                .build();
-    }
-
-    private AccommodationDTO parseAccommodationDTOForBooking(Filter filter, Accommodation accommodation) {
-
-        int priceDuringPeriod = accommodation.getPriceDuringPeriod(filter);
-        int serviceTax = accommodation.getServiceTax((int)((PRICE_MAX - PRICE_MIN) * CURRENCY_CONVERSION_FROM_USD_TO_KRW), feePolicy.getServiceFeeMaxRate());
-        int accommodationTax = (int)(serviceTax * feePolicy.getAccommodationTaxRate());
-
-        return new AccommodationDTO.Builder(accommodation.getId())
-                .name(accommodation.getName())
-                .pricePerNight(accommodation.getPrice())
-                .pricePerNightDiscounted(accommodation.getDiscountedPrice())
-                .priceDuringPeriod(priceDuringPeriod)
-                .cleaningFee(accommodation.getCleaningFee())
-                .serviceTax(serviceTax)
-                .accommodationTax(accommodationTax)
-                .totalPrice(accommodation.getTotalPrice(priceDuringPeriod, serviceTax, accommodationTax))
                 .build();
     }
 
