@@ -32,8 +32,8 @@ public class AccommodationDTO {
 
     private int totalPrice;
 
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private boolean isSuperHost;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Boolean isSuperHost;
 
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private String city;
@@ -80,7 +80,7 @@ public class AccommodationDTO {
 
         private int totalPrice;
 
-        private boolean isSuperHost;
+        private Boolean isSuperHost;
 
         private String city;
 
@@ -132,7 +132,7 @@ public class AccommodationDTO {
             return this;
         }
 
-        public Builder isSuperHost(boolean isSuperHost) {
+        public Builder isSuperHost(Boolean isSuperHost) {
             this.isSuperHost = isSuperHost;
             return this;
         }
