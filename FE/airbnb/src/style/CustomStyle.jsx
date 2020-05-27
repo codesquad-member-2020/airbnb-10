@@ -58,7 +58,7 @@ export const SaveButton = styled.button`
 
 export const DateWarp = styled.div`
   color: var(--black);
-
+  font-weight: bold;
   .DayPickerKeyboardShortcuts_buttonReset {
     display: none;
   }
@@ -72,6 +72,7 @@ export const DateWarp = styled.div`
     justify-content: center;
     border-radius: 40px;
     box-shadow: var(--box-shadow);
+    margin-right: 5px;
   }
   .DateRangePickerInput__showClearDates {
     padding-right: 0px;
