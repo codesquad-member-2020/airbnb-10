@@ -56,6 +56,14 @@ public class Filter {
         this.itemsOffset = itemsOffset;
     }
 
+    public LocalDate getCheckIn() {
+        return checkIn;
+    }
+
+    public LocalDate getCheckOut() {
+        return checkOut;
+    }
+
     public int getPeriod() {
         return checkIn.until(checkOut).getDays();
     }

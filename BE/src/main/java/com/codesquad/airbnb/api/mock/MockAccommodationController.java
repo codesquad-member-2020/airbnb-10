@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -21,11 +18,10 @@ public class MockAccommodationController {
 
     private static final Logger log = LoggerFactory.getLogger(MockAccommodationController.class);
 
-
     private static final int PRICE_MAX = 3200;
     private static final int PRICE_MIN = 65;
     private static final float CURRENCY_CONVERSION_FROM_USD_TO_KRW = 1231.54f;
-    private static final FeeRate feeRate = new FeeRate(0.2f, 0.1f);
+    private static final FeePolicy feePolicy = new FeePolicy(0.2f, 0.1f);
 
     @GetMapping("")
     public ResponseEntity<ApiResponse> rooms(Filter filter) {
@@ -115,11 +111,23 @@ public class MockAccommodationController {
         return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS, parseAccommodationDTOForBooking(filter, accommodation)), HttpStatus.OK);
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<ApiResponse> bookRoom(@PathVariable Integer id, Filter filter) {
+
+        log.debug("check In: {}, check Out: {}, period: {}", filter.getCheckIn(), filter.getCheckOut(), filter.getPeriod());
+
+        if (filter.getPeriod() <= 0) {
+            return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL, "체크인, 체크아웃을 다시 확인해주세요."), HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS, null), HttpStatus.OK);
+    }
+
     private AccommodationDTO parseAccommodationDTOForRooms(Filter filter, Accommodation accommodation) {
 
         int priceDuringPeriod = accommodation.getPriceDuringPeriod(filter);
-        int serviceTax = accommodation.getServiceTax((int)((PRICE_MAX - PRICE_MIN) * CURRENCY_CONVERSION_FROM_USD_TO_KRW), feeRate.getServiceFeeMaxRate());
-        int accommodationTax = (int)(serviceTax * feeRate.getAccommodationTaxRate());
+        int serviceTax = accommodation.getServiceTax((int)((PRICE_MAX - PRICE_MIN) * CURRENCY_CONVERSION_FROM_USD_TO_KRW), feePolicy.getServiceFeeMaxRate());
+        int accommodationTax = (int)(serviceTax * feePolicy.getAccommodationTaxRate());
 
         return new AccommodationDTO.Builder(accommodation.getId())
                 .name(accommodation.getName())
@@ -136,8 +144,8 @@ public class MockAccommodationController {
     private AccommodationDTO parseAccommodationDTOForBooking(Filter filter, Accommodation accommodation) {
 
         int priceDuringPeriod = accommodation.getPriceDuringPeriod(filter);
-        int serviceTax = accommodation.getServiceTax((int)((PRICE_MAX - PRICE_MIN) * CURRENCY_CONVERSION_FROM_USD_TO_KRW), feeRate.getServiceFeeMaxRate());
-        int accommodationTax = (int)(serviceTax * feeRate.getAccommodationTaxRate());
+        int serviceTax = accommodation.getServiceTax((int)((PRICE_MAX - PRICE_MIN) * CURRENCY_CONVERSION_FROM_USD_TO_KRW), feePolicy.getServiceFeeMaxRate());
+        int accommodationTax = (int)(serviceTax * feePolicy.getAccommodationTaxRate());
 
         return new AccommodationDTO.Builder(accommodation.getId())
                 .name(accommodation.getName())
