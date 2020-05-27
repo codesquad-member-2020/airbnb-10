@@ -4,8 +4,6 @@ import com.codesquad.airbnb.domain.*;
 import com.codesquad.airbnb.dto.AccommodationDTO;
 import com.codesquad.airbnb.response.ApiResponse;
 import com.codesquad.airbnb.validator.FilterValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
