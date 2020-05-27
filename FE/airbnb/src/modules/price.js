@@ -1,13 +1,16 @@
 const UPDATE_PRICES = "price/UPDATE_PRICES";
-const setPrice = (values) => {
+
+export const setPrices = (values) => {
   return {
     type: UPDATE_PRICES,
     values,
   };
 };
+
 const initialValue = {
   priceValues: [0, 500000],
 };
+
 const priceReducer = (state = initialValue, action) => {
   switch (action.type) {
     case UPDATE_PRICES:

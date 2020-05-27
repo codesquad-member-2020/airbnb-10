@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { setPrices } from "../../../modules/price.js";
 
 import Rheostat from "rheostat";
 
@@ -15,9 +17,20 @@ ThemedStyleSheet.registerTheme({
 });
 
 const PriceRange = ({ priceValues }) => {
+  const dispatch = useDispatch();
+
+  const onValuesUpdatedHandler = ({ values }) => {
+    dispatch(setPrices(values));
+  };
+
   return (
     <div>
-      <Rheostat min={MIN_PRICE} max={MAX_PRICE} values={priceValues} />
+      <Rheostat
+        min={MIN_PRICE}
+        max={MAX_PRICE}
+        values={priceValues}
+        onValuesUpdated={onValuesUpdatedHandler}
+      />
     </div>
   );
 };

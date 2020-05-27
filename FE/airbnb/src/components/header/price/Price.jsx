@@ -32,7 +32,13 @@ const Price = () => {
   return (
     <PriceWrap>
       <Button onClick={onClickPriceBtn}>금액</Button>
-      {isClicked && <PriceModal priceValues={priceValues} />}
+      {isClicked && (
+        <PriceModal
+          priceValues={priceValues}
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+        />
+      )}
     </PriceWrap>
   );
 };
