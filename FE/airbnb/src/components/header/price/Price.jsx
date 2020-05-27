@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Rheostat from "rheostat";
+import PriceModal from "./PriceModal.jsx";
 
 import styled from "styled-components";
 import { Button } from "../../../style/CustomStyle.jsx";
@@ -19,7 +20,21 @@ ThemedStyleSheet.registerTheme({
 import { useDispatch, useSelector } from "react-redux";
 
 const Price = () => {
-  return <PriceWrap></PriceWrap>;
+  const [isClicked, setClicked] = useState(false);
+
+  const { priceValues } = useSelector((state) => state.priceReducer);
+  const [minPrice, maxPrice] = priceValues;
+
+  const onClickPriceBtn = () => {
+    setClicked(!isClicked);
+  };
+
+  return (
+    <PriceWrap>
+      <Button onClick={onClickPriceBtn}>금액</Button>
+      {isClicked && <PriceModal />}
+    </PriceWrap>
+  );
 };
 
 const MIN_PRICE = 0;
