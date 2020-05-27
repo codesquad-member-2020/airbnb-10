@@ -32,7 +32,7 @@ const Price = () => {
   return (
     <PriceWrap>
       <Button onClick={onClickPriceBtn}>금액</Button>
-      {isClicked && <PriceModal />}
+      {isClicked && <PriceModal priceValues={priceValues} />}
     </PriceWrap>
   );
 };
