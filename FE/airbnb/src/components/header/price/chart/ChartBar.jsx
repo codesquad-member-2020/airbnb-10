@@ -44,11 +44,10 @@ const HEIGHT_UNIT = 10;
 const ChartBarWrap = styled.div`
   width: ${(props) => props.width && `${props.width}%`};
   height: ${(props) => props.height && `${props.height}px`};
+  border: ${(props) => props.height && "1px solid black"};
   background-color: gray;
   position: relative;
-
-  /* border-top-left-radius: 5px;
-  border-top-right-radius: 5px; */
+  border-bottom: none;
 `;
 
 const ChartBarInfoModal = styled.div`
