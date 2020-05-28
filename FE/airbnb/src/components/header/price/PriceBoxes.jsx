@@ -30,7 +30,7 @@ const PriceBoxWrap = styled.div`
 `;
 
 const PriceBox = styled.div`
-  width: 200px;
+  width: 14vw;
   height: 50px;
   border: 1px solid var(--gray-1);
   border-radius: 10px;
