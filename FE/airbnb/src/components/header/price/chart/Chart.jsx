@@ -3,32 +3,48 @@ import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
 
 const Chart = ({
-  snapPointUnit,
-  snapPoints,
+  chartBarUnit,
+  chartBarCount,
   chartDatas,
   chartBarWidthPercent,
 }) => {
-  const calculationWidth = (length) => {
-    return chartBarWidthPercent / length;
+  const calculationWidth = (widthPercent, count) => {
+    return widthPercent / count;
   };
 
-  const calculationChartDataLocate = (snapPointUnit, chartData) => {
-    return Math.floor(chartData / snapPointUnit);
+  const calculationChartDataLocate = (chartBarUnit, chartData) => {
+    return Math.floor(chartData / chartBarUnit);
   };
 
-  const createChartBar = (snapPoints) => {
-    const widthValue = calculationWidth(snapPoints.length);
-    const chartBars = snapPoints.map((el) => {
-      return <ChartBar dataScope={el} height={0} width={widthValue} />;
-    });
+  const createChartBar = (chartBarCount) => {
+    const widthValue = calculationWidth(chartBarWidthPercent, chartBarCount);
+
+    const chartBars = [];
+
+    let multiplicationCount = 1;
+
+    for (let i = 0; i < chartBarCount; i++) {
+      const chartBar = (
+        <ChartBar
+          dataScope={chartBarUnit * multiplicationCount}
+          height={0}
+          width={widthValue}
+        />
+      );
+
+      chartBars.push(chartBar);
+
+      multiplicationCount++;
+    }
+
     return chartBars;
   };
 
   const analyseChartData = (chartDatas) => {
-    const chartBars = createChartBar(snapPoints);
+    const chartBars = createChartBar(chartBarCount);
 
     chartDatas.forEach((el) => {
-      const position = calculationChartDataLocate(snapPointUnit, el);
+      const position = calculationChartDataLocate(chartBarUnit, el);
       const dataScope = chartBars[position].props.dataScope;
       const height = chartBars[position].props.height;
       const width = chartBars[position].props.width;
@@ -45,7 +61,7 @@ const Chart = ({
     return chartBars;
   };
 
-  return <ChartWrap>{setChartBarHeight(chartDatas)}</ChartWrap>;
+  return <ChartWrap>{analyseChartData(chartDatas)}</ChartWrap>;
 };
 
 const CHART_POINT = 10;
