@@ -14,6 +14,7 @@ const PriceModal = ({ priceValues, minPrice, maxPrice, resetHandler }) => {
         snapPointUnit={PRICE_UNIT}
         snapPoints={SNAP_POINT}
         chartDatas={CHART_DATAS}
+        chartBarWidthPercent={40}
       />
       <PriceRange priceValues={priceValues}></PriceRange>
       <PriceBoxes minPrice={minPrice} maxPrice={maxPrice} />

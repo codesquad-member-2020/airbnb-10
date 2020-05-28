@@ -2,21 +2,24 @@ import React from "react";
 import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
 
-const Chart = ({ snapPointUnit, snapPoints, chartDatas }) => {
+const Chart = ({
+  snapPointUnit,
+  snapPoints,
+  chartDatas,
+  chartBarWidthPercent,
+}) => {
   const calculationWidth = (length) => {
-    return 40 / length;
+    return chartBarWidthPercent / length;
   };
 
   const calculationChartDataLocate = (snapPointUnit, data) => {
     return Math.floor(data / snapPointUnit);
   };
 
-  console.log(<ChartBar height={20} />);
-
   const createChartBar = (snapPoints) => {
     const widthValue = calculationWidth(snapPoints.length);
     const chartBars = snapPoints.map((el) => {
-      return <ChartBar dataScope={el} height={2} width={widthValue} />;
+      return <ChartBar dataScope={el} height={0} width={widthValue} />;
     });
     return chartBars;
   };
@@ -50,7 +53,7 @@ const ChartWrap = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
-
+  border-bottom: 3px solid var(--gray-1);
   opacity: 0.7;
 `;
 
