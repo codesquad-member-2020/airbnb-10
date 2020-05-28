@@ -1,4 +1,4 @@
-package com.codesquad.airbnb.api.mock;
+package com.codesquad.airbnb.controller.mock;
 
 import com.codesquad.airbnb.domain.*;
 import com.codesquad.airbnb.dto.AccommodationDTO;
