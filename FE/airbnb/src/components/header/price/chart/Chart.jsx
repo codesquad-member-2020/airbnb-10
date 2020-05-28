@@ -12,8 +12,8 @@ const Chart = ({
     return chartBarWidthPercent / length;
   };
 
-  const calculationChartDataLocate = (snapPointUnit, data) => {
-    return Math.floor(data / snapPointUnit);
+  const calculationChartDataLocate = (snapPointUnit, chartData) => {
+    return Math.floor(chartData / snapPointUnit);
   };
 
   const createChartBar = (snapPoints) => {
@@ -24,13 +24,15 @@ const Chart = ({
     return chartBars;
   };
 
-  const setChartBarHeight = (chartDatas) => {
+  const analyseChartData = (chartDatas) => {
     const chartBars = createChartBar(snapPoints);
+
     chartDatas.forEach((el) => {
       const position = calculationChartDataLocate(snapPointUnit, el);
       const dataScope = chartBars[position].props.dataScope;
       const height = chartBars[position].props.height;
       const width = chartBars[position].props.width;
+
       return (chartBars[position] = (
         <ChartBar
           dataScope={dataScope}
