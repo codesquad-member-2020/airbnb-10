@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
+import PropTypes from "prop-types";
+
+const CHART_POINT = 10;
 
 const Chart = ({
   chartBarUnit,
@@ -64,7 +67,14 @@ const Chart = ({
   return <ChartWrap>{analyseChartData(chartDatas)}</ChartWrap>;
 };
 
-const CHART_POINT = 10;
+Chart.propTypes = {
+  chartBarUnit: PropTypes.number,
+  chartBarCount: PropTypes.number,
+  chartDatas: PropTypes.array,
+  chartBarWidthPercent: PropTypes.number,
+  chartWidth: PropTypes.number,
+  chartHeight: propTypes.number,
+};
 
 const ChartWrap = styled.div`
   width: 100%;
