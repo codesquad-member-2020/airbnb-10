@@ -32,6 +32,8 @@ const PriceRange = ({ priceValues }) => {
         max={MAX_PRICE}
         values={priceValues}
         onValuesUpdated={onValuesUpdatedHandler}
+        snap
+        snapPoints={[0, 200000, 400000, 600000, 800000, 1000000]}
       />
     </PriceRangeWrap>
   );
