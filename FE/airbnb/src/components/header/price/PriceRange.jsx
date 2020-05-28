@@ -16,6 +16,8 @@ ThemedStyleSheet.registerTheme({
   ...ReactDatesDefaultTheme,
 });
 
+import styled from "styled-components";
+
 const PriceRange = ({ priceValues }) => {
   const dispatch = useDispatch();
 
@@ -24,18 +26,37 @@ const PriceRange = ({ priceValues }) => {
   };
 
   return (
-    <div>
+    <PriceRangeWrap>
       <Rheostat
         min={MIN_PRICE}
         max={MAX_PRICE}
         values={priceValues}
         onValuesUpdated={onValuesUpdatedHandler}
       />
-    </div>
+    </PriceRangeWrap>
   );
 };
 
 const MIN_PRICE = 0;
 const MAX_PRICE = 1000000;
+
+const PriceRangeWrap = styled.div`
+  margin-top: 10px;
+  .DefaultHandle_handle {
+    border-radius: 50%;
+  }
+  .DefaultProgressBar_progressBar {
+    background-color: #fc3962;
+    opacity: 0.9;
+  }
+  .DefaultBackground_background__horizontal {
+    height: 10px;
+    border-radius: 10px;
+  }
+  .DefaultProgressBar_background__horizontal {
+    height: 8px;
+    border-radius: 10px;
+  }
+`;
 
 export default PriceRange;
