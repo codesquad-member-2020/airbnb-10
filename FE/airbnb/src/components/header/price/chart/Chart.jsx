@@ -3,13 +3,27 @@ import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
 import PropTypes from "prop-types";
 
-const CHART_POINT = 10;
+import {
+  CHART_POINT,
+  CHART_BAR_WIDTH,
+  CHART_WIDTH,
+  CHART_HEIGHT,
+} from "./ChartConstants.js";
+
+const defaultProps = {
+  chartBarUnit: null,
+  chartBarCount: null,
+  chartDatas: null,
+  chartBarIncreasePoint: CHART_POINT,
+  chartBarWidthPercent: CHART_BAR_WIDTH,
+};
 
 const Chart = ({
   chartBarUnit,
   chartBarCount,
   chartDatas,
   chartBarWidthPercent,
+  chartBarIncreasePoint,
 }) => {
   const calculationWidth = (widthPercent, count) => {
     return widthPercent / count;
@@ -55,7 +69,7 @@ const Chart = ({
       return (chartBars[position] = (
         <ChartBar
           dataScope={dataScope}
-          height={height + CHART_POINT}
+          height={height + chartBarIncreasePoint}
           width={width}
         />
       ));
@@ -70,11 +84,11 @@ const Chart = ({
 Chart.propTypes = {
   chartBarUnit: PropTypes.number,
   chartBarCount: PropTypes.number,
-  chartDatas: PropTypes.array,
+  chartDatas: PropTypes.arrayOf(PropTypes.number),
   chartBarWidthPercent: PropTypes.number,
-  chartWidth: PropTypes.number,
-  chartHeight: propTypes.number,
+  chartBarIncreasePoint: PropTypes.number,
 };
+Chart.defaultProps = defaultProps;
 
 const ChartWrap = styled.div`
   width: 100%;
