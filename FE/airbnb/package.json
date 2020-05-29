@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
+    "airbnb-prop-types": "^2.15.0",
     "css-loader": "^3.5.3",
     "moment": "^2.26.0",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dates": "^21.8.0",
     "react-dom": "^16.13.1",
