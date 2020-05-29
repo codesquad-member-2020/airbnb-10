@@ -43,9 +43,15 @@ const RoomsList = ({ roomsData }) => {
             </div>
           )}
         </ContentRowBothEnds>
-        <ContentRow>{name}</ContentRow>
         <ContentRow>
-          <OriginalPrice discount>₩{getCurrency(pricePerNight)}</OriginalPrice>
+          <Title>{name}</Title>
+        </ContentRow>
+        <ContentRow>
+          {pricePerNight !== pricePerNightDiscounted && (
+            <OriginalPrice discount>
+              ₩{getCurrency(pricePerNight)}
+            </OriginalPrice>
+          )}
           <TotalPrice>₩{getCurrency(pricePerNightDiscounted)}</TotalPrice>
         </ContentRow>
         <ContentRowBothEnds>
@@ -92,6 +98,10 @@ const ImageArea = styled.div`
     width: 100%;
     height: 100%;
   }
+`;
+
+const Title = styled.span`
+  font-size: 17px;
 `;
 
 const SuperHost = styled.span`
