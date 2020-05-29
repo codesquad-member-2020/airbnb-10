@@ -14,7 +14,7 @@ const PriceModal = ({ priceValues, minPrice, maxPrice, resetHandler }) => {
         chartBarUnit={PRICE_UNIT}
         chartBarCount={CHART_COUNT}
         chartDatas={CHART_DATAS}
-        chartBarIncreasePoint={30}
+        chartBarWidthPercent={90}
       />
       <PriceRange priceValues={priceValues}></PriceRange>
       <PriceBoxes minPrice={minPrice} maxPrice={maxPrice} />
@@ -25,7 +25,7 @@ const PriceModal = ({ priceValues, minPrice, maxPrice, resetHandler }) => {
 
 const PRICE_UNIT = 50000;
 const CHART_COUNT = 20;
-const CHART_DATAS = [50000, 100000, 150000];
+const CHART_DATAS = [50000, 100000, 150000, 150000, 150000, 150000, 150000];
 
 const PriceModalWrap = styled(ToggleWrap)`
   margin-top: 5px;
