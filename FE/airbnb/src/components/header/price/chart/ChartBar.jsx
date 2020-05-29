@@ -21,17 +21,13 @@ const ChartBar = ({ height, dataScope, width }) => {
       height={height}
       dataScope={dataScope}
       width={width}
-      onMouseEnter={() => {
-        onMouseOverHandler();
-      }}
-      onMouseLeave={() => {
-        onMouseOverHandler();
-      }}
+      onMouseEnter={onMouseOverHandler}
+      onMouseLeave={onMouseOverHandler}
     >
       {isOver && (
         <ChartBarInfoModal position={height}>
-          <div>금액:{dataScope}</div>
-          <div>방 갯수:{calculationRoomsCount()}</div>
+          <div>unit : {dataScope}</div>
+          <div>count : {calculationRoomsCount()}</div>
         </ChartBarInfoModal>
       )}
     </ChartBarWrap>
@@ -44,7 +40,7 @@ const HEIGHT_UNIT = 10;
 const ChartBarWrap = styled.div`
   width: ${(props) => props.width && `${props.width}%`};
   height: ${(props) => props.height && `${props.height}px`};
-  border: ${(props) => props.height && "1px solid black"};
+
   background-color: gray;
   position: relative;
   border-bottom: none;
@@ -52,8 +48,8 @@ const ChartBarWrap = styled.div`
 
 const ChartBarInfoModal = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   width: 7vw;
   position: absolute;
