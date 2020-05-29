@@ -33,7 +33,15 @@ const RoomsList = ({ roomsData }) => {
 };
 
 const RoomsWrap = styled.div`
-  padding: 20px 0;
+  padding: 20px 13px;
+  /* border: 1px solid var(--gray-1); */
+  box-shadow: var(--box-shadow);
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const RoomsContent = styled.div``;
