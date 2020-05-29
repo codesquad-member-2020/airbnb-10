@@ -48,7 +48,7 @@ const PriceRangeWrap = styled.div`
     border-radius: 50%;
   }
   .DefaultProgressBar_progressBar {
-    background-color: #fc3962;
+    background-color: var(--mainColor);
     opacity: 0.9;
   }
   .DefaultBackground_background__horizontal {
