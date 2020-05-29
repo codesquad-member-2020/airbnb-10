@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const Button = styled.button`
   box-sizing: border-box;
@@ -31,13 +31,6 @@ export const CountButton = styled.button`
   }
 `;
 
-export const ToggleWrap = styled.div`
-  background-color: #fff;
-  border-radius: 5%;
-  border: 1px solid var(--gray-1);
-  box-shadow: var(--box-shadow);
-`;
-
 export const ResetButton = styled.button`
   outline: none;
   text-decoration: underline;
@@ -54,6 +47,22 @@ export const SaveButton = styled.button`
   padding: 7px 10px;
   border-radius: 10px;
   font-weight: bold;
+`;
+export const ToggleWrap = styled.div`
+  background-color: #fff;
+  border-radius: 5%;
+  border: 1px solid var(--gray-1);
+  box-shadow: var(--box-shadow);
+`;
+
+export const DefaultLayout = css`
+  display: flex;
+  align-items: center;
+`;
+
+export const ButtonsArea = styled.div`
+  ${DefaultLayout};
+  justify-content: space-between;
 `;
 
 export const DateWarp = styled.div`

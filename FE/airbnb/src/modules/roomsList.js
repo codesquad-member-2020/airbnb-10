@@ -8,22 +8,25 @@ export const fetchInitialData = (initialData) => {
 };
 
 const initialValue = {
-  content: [
-    {
-      id: null,
-      name: null,
-      price: null,
-      totalPrice: null,
-      isSuperHost: null,
-      city: null,
-      scoresRating: null,
-      images: [
-        {
-          url: null,
-        },
-      ],
-    },
-  ],
+  content: {
+    total: null,
+    accommodations: [
+      {
+        id: null,
+        name: null,
+        price: null,
+        totalPrice: null,
+        isSuperHost: null,
+        city: null,
+        scoresRating: null,
+        images: [
+          {
+            url: null,
+          },
+        ],
+      },
+    ],
+  },
 };
 
 const roomsListReducer = (state = initialValue, action) => {
