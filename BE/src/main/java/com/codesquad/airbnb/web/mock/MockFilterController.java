@@ -15,7 +15,6 @@ public class MockFilterController {
 
     @GetMapping("")
     public ResponseEntity<ApiResponse> rooms(Filter filter) {
-
         Map<String, Object> contents = new HashMap<>();
         List<AccommodationDTO> accommodations = new ArrayList<>();
 

@@ -37,7 +37,6 @@ public class MockAccommodationUtil {
     }
 
     public static AccommodationDTO parseAccommodationDTO(Filter filter, Accommodation accommodation, boolean isForBooking) {
-
         int priceDuringPeriod = accommodation.getPriceDuringPeriod(filter);
         int serviceTax = accommodation.getServiceTax((int)((PRICE_MAX - PRICE_MIN) * CURRENCY_CONVERSION_FROM_USD_TO_KRW), feePolicy.getServiceFeeMaxRate());
         int accommodationTax = (int)(serviceTax * feePolicy.getAccommodationTaxRate());
