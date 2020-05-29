@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch.jsx";
 import { fetchInitialData } from "../../modules/roomsList.js";
 import { useDispatch, useSelector } from "react-redux";
+import RoomsList from "./RoomsList.jsx";
 
 import styled from "styled-components";
 
@@ -45,10 +46,12 @@ const Rooms = () => {
       <Title>
         <div>{totalCount}개 이상의 숙소</div>
       </Title>
+      <div>
+        {accommodations.map((roomsData) => (
+          <RoomsList key={roomsData.id} roomsData={roomsData} />
+        ))}
+      </div>
     </RoomsWrap>
-    // <div>
-    //  {accommodations.map(roomsList => )}
-    //  </div>
   );
 };
 
@@ -57,7 +60,7 @@ const RoomsWrap = styled.div`
 `;
 
 const Title = styled.div`
-  padding: 10px 0;
+  padding: 20px 0;
   font-size: 19px;
 `;
 
