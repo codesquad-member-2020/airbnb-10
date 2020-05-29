@@ -20,7 +20,6 @@ public class MockBookController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getReservationInformation(@PathVariable Integer id, Filter filter) {
-
         Accommodation accommodation = MockAccommodationUtil.createAccommodation(
                 1,
                 null,
@@ -42,7 +41,6 @@ public class MockBookController {
 
     @PostMapping("/{id}")
     public ResponseEntity<ApiResponse> bookRoom(@PathVariable Integer id, Filter filter, BindingResult result) {
-
         new FilterValidator().validate(filter, result);
         if (result.hasErrors()) {
             return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL, getErrorMessage(result)), HttpStatus.FORBIDDEN);
