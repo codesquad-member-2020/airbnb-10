@@ -68,6 +68,9 @@ export const ButtonsArea = styled.div`
 export const DateWarp = styled.div`
   color: var(--black);
   font-weight: bold;
+  .DateRangePicker_picker {
+    z-index: 3;
+  }
   .DayPickerKeyboardShortcuts_buttonReset {
     display: none;
   }

@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-  mode: "development",
+  mode: "production",
 
   entry: ["@babel/polyfill", "./src/index.js"],
 
@@ -25,6 +25,10 @@ module.exports = {
       {
         test: /\.js?$/,
         use: ["babel-loader"],
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.jsx?$/,

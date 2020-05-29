@@ -1,37 +1,75 @@
 import React from "react";
 import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
+import PropTypes from "prop-types";
 
-const Chart = ({ snapPointUnit, snapPoints, chartDatas }) => {
-  const calculationWidth = (length) => {
-    return 40 / length;
+import {
+  CHART_POINT,
+  CHART_BAR_WIDTH,
+  CHART_WIDTH,
+  CHART_HEIGHT,
+} from "./ChartConstants.js";
+
+const defaultProps = {
+  chartBarUnit: null,
+  chartBarCount: null,
+  chartDatas: null,
+  chartBarIncreasePoint: CHART_POINT,
+  chartBarWidthPercent: CHART_BAR_WIDTH,
+};
+
+const Chart = ({
+  chartBarUnit,
+  chartBarCount,
+  chartDatas,
+  chartBarWidthPercent,
+  chartBarIncreasePoint,
+}) => {
+  const calculationWidth = (widthPercent, count) => {
+    return widthPercent / count;
   };
 
-  const calculationChartDataLocate = (snapPointUnit, data) => {
-    return Math.floor(data / snapPointUnit);
+  const calculationChartDataLocate = (chartBarUnit, chartData) => {
+    return Math.floor(chartData / chartBarUnit);
   };
 
-  console.log(<ChartBar height={20} />);
+  const createChartBar = (chartBarCount) => {
+    const widthValue = calculationWidth(chartBarWidthPercent, chartBarCount);
 
-  const createChartBar = (snapPoints) => {
-    const widthValue = calculationWidth(snapPoints.length);
-    const chartBars = snapPoints.map((el) => {
-      return <ChartBar dataScope={el} height={2} width={widthValue} />;
-    });
+    const chartBars = [];
+
+    let multiplicationCount = 1;
+
+    for (let i = 0; i < chartBarCount; i++) {
+      const chartBar = (
+        <ChartBar
+          dataScope={chartBarUnit * multiplicationCount}
+          height={0}
+          width={widthValue}
+        />
+      );
+
+      chartBars.push(chartBar);
+
+      multiplicationCount++;
+    }
+
     return chartBars;
   };
 
-  const setChartBarHeight = (chartDatas) => {
-    const chartBars = createChartBar(snapPoints);
+  const analyseChartData = (chartDatas) => {
+    const chartBars = createChartBar(chartBarCount);
+
     chartDatas.forEach((el) => {
-      const position = calculationChartDataLocate(snapPointUnit, el);
+      const position = calculationChartDataLocate(chartBarUnit, el);
       const dataScope = chartBars[position].props.dataScope;
       const height = chartBars[position].props.height;
       const width = chartBars[position].props.width;
+
       return (chartBars[position] = (
         <ChartBar
           dataScope={dataScope}
-          height={height + CHART_POINT}
+          height={height + chartBarIncreasePoint}
           width={width}
         />
       ));
@@ -40,17 +78,24 @@ const Chart = ({ snapPointUnit, snapPoints, chartDatas }) => {
     return chartBars;
   };
 
-  return <ChartWrap>{setChartBarHeight(chartDatas)}</ChartWrap>;
+  return <ChartWrap>{analyseChartData(chartDatas)}</ChartWrap>;
 };
 
-const CHART_POINT = 10;
+Chart.propTypes = {
+  chartBarUnit: PropTypes.number,
+  chartBarCount: PropTypes.number,
+  chartDatas: PropTypes.arrayOf(PropTypes.number),
+  chartBarWidthPercent: PropTypes.number,
+  chartBarIncreasePoint: PropTypes.number,
+};
+Chart.defaultProps = defaultProps;
 
 const ChartWrap = styled.div`
   width: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
-
+  border-bottom: 3px solid var(--gray-1);
   opacity: 0.7;
 `;
 
