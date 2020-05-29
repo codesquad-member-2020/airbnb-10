@@ -1,32 +1,60 @@
 import React from "react";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const RoomsList = ({ roomsData }) => {
   console.log(roomsData);
-  const { images, isSuperHost, city, scoresRating } = roomsData;
+  const {
+    images,
+    isSuperHost,
+    city,
+    scoresRating,
+    name,
+    pricePerNight,
+    pricePerNightDiscounted,
+    totalPrice,
+  } = roomsData;
+
+  const getCurrency = (stringNum) => {
+    return parseInt(stringNum).toLocaleString();
+  };
 
   return (
     <RoomsWrap>
       <ImageArea>
-        <img src={images[0]} alt="숙소이미지" />
+        <img src={images[1]} alt="숙소이미지" />
       </ImageArea>
       <RoomsContent>
-        <RoomContentRow>
+        <ContentRowBothEnds>
           <div>
             {isSuperHost && <SuperHost>슈퍼호스트</SuperHost>}
             <span>{city}</span>
           </div>
+
+          {scoresRating && (
+            <div>
+              <StarIcon>
+                <FontAwesomeIcon icon={faStar} />
+              </StarIcon>
+              <span>{scoresRating}</span>
+            </div>
+          )}
+        </ContentRowBothEnds>
+        <ContentRow>{name}</ContentRow>
+        <ContentRow>
+          <OriginalPrice discount>₩{getCurrency(pricePerNight)}</OriginalPrice>
+          <TotalPrice>₩{getCurrency(pricePerNightDiscounted)}</TotalPrice>
+        </ContentRow>
+        <ContentRowBothEnds>
           <div>
-            <StarIcon>
-              <FontAwesomeIcon icon={faStar} />
-            </StarIcon>
-            <span>{scoresRating}</span>
+            <span>총요금 </span>
+            <TotalPrice>{getCurrency(totalPrice)}</TotalPrice>
           </div>
-        </RoomContentRow>
+          <ReservationBtn>예약</ReservationBtn>
+        </ContentRowBothEnds>
       </RoomsContent>
     </RoomsWrap>
   );
@@ -38,18 +66,23 @@ const RoomsWrap = styled.div`
   box-shadow: var(--box-shadow);
   border-radius: 8px;
   transition: all 0.2s ease-in-out;
-  cursor: pointer;
+
   &:hover {
     transform: scale(1.1);
   }
 `;
 
-const RoomsContent = styled.div``;
+const RoomsContent = styled.div`
+  font-size: 15px;
+`;
 
-const RoomContentRow = styled.div`
+const ContentRow = styled.span`
   ${DefaultLayout}
-  justify-content:space-between;
-  margin: 10px 0;
+  margin: 14px 0;
+`;
+
+const ContentRowBothEnds = styled(ContentRow)`
+  justify-content: space-between;
 `;
 
 const ImageArea = styled.div`
@@ -73,6 +106,25 @@ const SuperHost = styled.span`
 const StarIcon = styled.span`
   padding: 0 10px;
   color: var(--mainColor);
+`;
+const OriginalPrice = styled.span`
+  color: ${(props) => (props.discount ? "gray" : "black")};
+  text-decoration: line-through;
+  margin-right: 10px;
+`;
+const TotalPrice = styled.span`
+  color: #000;
+  font-weight: bold;
+`;
+
+const ReservationBtn = styled.button`
+  width: 70px;
+  height: 35px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: bold;
+  background-color: var(--mainColor);
+  cursor: pointer;
 `;
 
 export default RoomsList;
