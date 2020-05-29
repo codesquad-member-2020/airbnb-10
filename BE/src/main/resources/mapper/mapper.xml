@@ -1,0 +1,31 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.codesquad.airbnb.dao.AccommodationDAO">
+    <resultMap id="accommodationResult" type="com.codesquad.airbnb.domain.model.Accommodation">
+        <id property="id" column="accommodation_id"/>
+        <result property="name" column="accommodation_name"/>
+        <result property="isSuperHost" column="is_super_host"/>
+        <result property="latitude" column="latitude"/>
+        <result property="longitude" column="longitude"/>
+        <result property="maximumCapacity" column="maximum_capacity"/>
+        <result property="minimumNights" column="minimum_nights"/>
+        <result property="maximumNights" column="maximum_nights"/>
+        <result property="scoresRating" column="scores_rating"/>
+        <result property="price" column="price"/>
+        <result property="discountRate" column="discount_rate"/>
+        <result property="cleaningFee" column="cleaning_fee"/>
+        
+        <association property="city" javaType="com.codesquad.airbnb.domain.model.City">
+            <id property="id" column="city_id"/>
+            <result property="name" column="city_name"/>
+            <result property="country" column="city_country"/>
+        </association>
+        <collection property="images" ofType="com.codesquad.airbnb.domain.model.Image">
+            <id property="id" column="image_id"/>
+            <result property="url" column="image_url"/>
+            <result property="accommodation" column="image_accommodation"/>
+        </collection>
+    </resultMap>
+</mapper>
