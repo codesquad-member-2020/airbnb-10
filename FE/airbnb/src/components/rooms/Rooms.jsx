@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RoomsList from "./RoomsList.jsx";
 
 import styled from "styled-components";
+import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
 const getDate = (tomorrow) => {
   const today = new Date();
@@ -46,11 +47,11 @@ const Rooms = () => {
       <Title>
         <div>{totalCount}개 이상의 숙소</div>
       </Title>
-      <div>
+      <RoomsListWrap>
         {accommodations.map((roomsData) => (
           <RoomsList key={roomsData.id} roomsData={roomsData} />
         ))}
-      </div>
+      </RoomsListWrap>
     </RoomsWrap>
   );
 };
@@ -62,6 +63,11 @@ const RoomsWrap = styled.div`
 const Title = styled.div`
   padding: 20px 0;
   font-size: 19px;
+`;
+
+const RoomsListWrap = styled.div`
+  ${DefaultLayout};
+  justify-content: space-between;
 `;
 
 export default Rooms;

@@ -8,7 +8,9 @@ const variables = css`
     /* color */
     --gray-1: #d2d2d2;
     --black: #000;
-    --white: #ffffff;
+    --white: #fff;
+    --mainColor: #fc3962;
+    --subColor: #248bdb;
   }
 `;
 
