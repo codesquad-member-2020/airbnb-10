@@ -68,6 +68,7 @@ const Title = styled.div`
 const RoomsListWrap = styled.div`
   ${DefaultLayout};
   justify-content: space-between;
+  width: 100%;
 `;
 
 export default Rooms;
