@@ -13,6 +13,7 @@ const defaultProps = {
   chartBarWidthPercent: CHART_BAR_WIDTH,
   chartBarIncreaseUnit: CHART_POINT,
   chartWidth: CHART_WIDTH,
+  chartGauge: false,
 };
 
 const Chart = ({
@@ -22,6 +23,7 @@ const Chart = ({
   chartBarWidthPercent,
   chartBarIncreaseUnit,
   chartWidth,
+  chartGauge,
 }) => {
   const { priceValues } = useSelector((state) => state.priceReducer);
   const [minPrice, maxPrice] = priceValues;
@@ -97,10 +99,12 @@ const Chart = ({
     <ChartWrap
       chartWidth={chartWidth !== CHART_WIDTH ? chartWidth : CHART_WIDTH}
     >
-      <ChartRangeWrap>
-        <ChartStartPoint width={minPrice / 10000} />
-        <ChartEndPoint width={100 - maxPrice / 10000} />
-      </ChartRangeWrap>
+      {chartGauge && (
+        <ChartRangeWrap>
+          <ChartStartPoint width={minPrice / 10000} />
+          <ChartEndPoint width={100 - maxPrice / 10000} />
+        </ChartRangeWrap>
+      )}
       {analyseChartData(chartDatas)}
     </ChartWrap>
   );
@@ -113,6 +117,7 @@ Chart.propTypes = {
   chartBarWidthPercent: PropTypes.number,
   chartBarIncreaseUnit: PropTypes.number,
   chartWidth: PropTypes.number,
+  chartGauge: PropTypes.bool,
 };
 Chart.defaultProps = defaultProps;
 

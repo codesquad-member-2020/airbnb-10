@@ -23,8 +23,10 @@ const PriceModal = () => {
         chartBarUnit={PRICE_UNIT}
         chartBarCount={CHART_COUNT}
         chartDatas={CHART_DATAS}
-        chartBarIncreaseUnit={10}
-        chartWidth={50}
+        chartBarIncreaseUnit={2}
+        chartBarWidthPercent={90}
+        chartWidth={100}
+        chartGauge
       />
       <PriceRange />
       <PriceBoxes />
@@ -35,7 +37,26 @@ const PriceModal = () => {
 
 const PRICE_UNIT = 50000;
 const CHART_COUNT = 20;
-const CHART_DATAS = [500000, 500000, 500000, 500000, 500000];
+const CHART_DATAS = [
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  100000,
+  150000,
+  200000,
+  250000,
+  300000,
+  350000,
+  400000,
+];
 
 const PriceModalWrap = styled(ToggleWrap)`
   position: absolute;
