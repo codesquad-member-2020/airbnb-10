@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setPrices } from "../../../modules/price.js";
 
 import Rheostat from "rheostat";
@@ -18,7 +18,8 @@ ThemedStyleSheet.registerTheme({
 
 import styled from "styled-components";
 
-const PriceRange = ({ priceValues }) => {
+const PriceRange = () => {
+  const { priceValues } = useSelector((state) => state.priceReducer);
   const dispatch = useDispatch();
 
   const onValuesUpdatedHandler = ({ values }) => {

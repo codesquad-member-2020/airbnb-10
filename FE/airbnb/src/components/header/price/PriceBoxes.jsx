@@ -2,7 +2,13 @@ import React from "react";
 
 import { DefaultLayout } from "../../../style/CustomStyle.jsx";
 import styled from "styled-components";
-const PriceBoxes = ({ minPrice, maxPrice }) => {
+
+import { useSelector } from "react-redux";
+
+const PriceBoxes = () => {
+  const { priceValues } = useSelector((state) => state.priceReducer);
+  const [minPrice, maxPrice] = priceValues;
+
   return (
     <PriceBoxWrap>
       <PriceBox>

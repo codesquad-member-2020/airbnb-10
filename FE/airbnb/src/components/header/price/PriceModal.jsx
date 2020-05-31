@@ -7,7 +7,16 @@ import Chart from "./chart/Chart.jsx";
 import styled from "styled-components";
 import { ToggleWrap } from "../../../style/CustomStyle.jsx";
 
-const PriceModal = ({ priceValues, minPrice, maxPrice, resetHandler }) => {
+import { resetPrices } from "../../../modules/price.js";
+import { useDispatch } from "react-redux";
+
+const PriceModal = () => {
+  const dispatch = useDispatch();
+
+  const onClickResetHandler = () => {
+    dispatch(resetPrices());
+  };
+
   return (
     <PriceModalWrap>
       <Chart
@@ -18,9 +27,9 @@ const PriceModal = ({ priceValues, minPrice, maxPrice, resetHandler }) => {
         chartBarIncreaseUnit={10}
         chartWidth={50}
       />
-      <PriceRange priceValues={priceValues}></PriceRange>
-      <PriceBoxes minPrice={minPrice} maxPrice={maxPrice} />
-      <ModalButtons resetHandler={resetHandler} />
+      <PriceRange />
+      <PriceBoxes />
+      <ModalButtons resetHandler={onClickResetHandler} />
     </PriceModalWrap>
   );
 };
