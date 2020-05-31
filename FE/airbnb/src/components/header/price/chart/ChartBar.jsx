@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const ChartBar = ({ height, dataScope, width }) => {
+const ChartBar = ({ height, dataScope, width, chartBarIncreaseUnit }) => {
   const [isOver, setIsOver] = useState(false);
 
   const onMouseOverHandler = () => {
@@ -12,7 +12,7 @@ const ChartBar = ({ height, dataScope, width }) => {
     if (height === DEFAULT_HEIGHT) {
       return 0;
     } else {
-      return Math.floor(height / HEIGHT_UNIT);
+      return Math.floor(height / chartBarIncreaseUnit);
     }
   };
 
@@ -35,7 +35,6 @@ const ChartBar = ({ height, dataScope, width }) => {
 };
 
 const DEFAULT_HEIGHT = 2;
-const HEIGHT_UNIT = 10;
 
 const ChartBarWrap = styled.div`
   width: ${(props) => props.width && `${props.width}%`};
