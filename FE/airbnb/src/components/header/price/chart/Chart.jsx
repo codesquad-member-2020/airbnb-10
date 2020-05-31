@@ -3,19 +3,14 @@ import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
 import PropTypes from "prop-types";
 
-import {
-  CHART_POINT,
-  CHART_BAR_WIDTH,
-  CHART_WIDTH,
-  CHART_HEIGHT,
-} from "./ChartConstants.js";
+import { CHART_POINT, CHART_BAR_WIDTH, CHART_WIDTH } from "./ChartConstants.js";
 
 const defaultProps = {
   chartBarUnit: null,
   chartBarCount: null,
   chartDatas: null,
-  chartBarIncreaseUnit: CHART_POINT,
   chartBarWidthPercent: CHART_BAR_WIDTH,
+  chartBarIncreaseUnit: CHART_POINT,
 };
 
 const Chart = ({
@@ -89,7 +84,17 @@ const Chart = ({
     return chartBars;
   };
 
-  return <ChartWrap>{analyseChartData(chartDatas)}</ChartWrap>;
+  return (
+    <ChartWrap
+      chartWidth={
+        chartBarWidthPercent !== CHART_WIDTH
+          ? chartBarWidthPercent
+          : CHART_WIDTH
+      }
+    >
+      {analyseChartData(chartDatas)}
+    </ChartWrap>
+  );
 };
 
 Chart.propTypes = {

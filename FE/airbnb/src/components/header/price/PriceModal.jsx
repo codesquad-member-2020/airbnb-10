@@ -23,7 +23,6 @@ const PriceModal = () => {
         chartBarUnit={PRICE_UNIT}
         chartBarCount={CHART_COUNT}
         chartDatas={CHART_DATAS}
-        chartBarWidthPercent={90}
         chartBarIncreaseUnit={10}
         chartWidth={50}
       />
