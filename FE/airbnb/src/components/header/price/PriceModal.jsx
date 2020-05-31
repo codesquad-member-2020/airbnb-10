@@ -28,6 +28,7 @@ const PriceModal = () => {
         chartBarIncreaseUnit={2}
         chartBarWidthPercent={90}
         chartWidth={100}
+        chartHeight={150}
         chartGauge
         chartGaugeStart={minPrice}
         chartGaugeEnd={maxPrice}

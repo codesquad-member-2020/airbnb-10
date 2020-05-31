@@ -3,7 +3,12 @@ import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
 import PropTypes from "prop-types";
 
-import { CHART_POINT, CHART_BAR_WIDTH, CHART_WIDTH } from "./ChartConstants.js";
+import {
+  CHART_POINT,
+  CHART_BAR_WIDTH,
+  CHART_WIDTH,
+  CHART_HEIGHT,
+} from "./ChartConstants.js";
 
 const defaultProps = {
   chartBarUnit: null,
@@ -12,8 +17,12 @@ const defaultProps = {
   chartBarWidthPercent: CHART_BAR_WIDTH,
   chartBarIncreaseUnit: CHART_POINT,
   chartWidth: CHART_WIDTH,
+  chartHeight: CHART_HEIGHT,
   chartGauge: false,
 };
+
+//  100 % chartBarIncreaseUnit === 0 Add Conditional Expression
+//  If the height value is over 100, add a conditional expression that no longer adds height.
 
 const Chart = ({
   chartBarUnit,
@@ -22,6 +31,7 @@ const Chart = ({
   chartBarWidthPercent,
   chartBarIncreaseUnit,
   chartWidth,
+  chartHeight,
   chartGauge,
   chartGaugeStart,
   chartGaugeEnd,
@@ -105,6 +115,7 @@ const Chart = ({
   return (
     <ChartWrap
       chartWidth={chartWidth !== CHART_WIDTH ? chartWidth : CHART_WIDTH}
+      chartHeight={chartHeight !== CHART_HEIGHT ? chartHeight : CHART_HEIGHT}
     >
       {chartGauge && (
         <ChartRangeWrap>
@@ -124,6 +135,7 @@ Chart.propTypes = {
   chartBarWidthPercent: PropTypes.number,
   chartBarIncreaseUnit: PropTypes.number,
   chartWidth: PropTypes.number,
+  chartHeight: PropTypes.number,
   chartGauge: PropTypes.bool,
   chartGaugeStart: PropTypes.number,
   chartGaugeEnd: PropTypes.number,
@@ -132,9 +144,8 @@ Chart.defaultProps = defaultProps;
 
 const ChartWrap = styled.div`
   position: relative;
-  width: ${(props) =>
-    props.chartWidth ? `${props.chartWidth}%` : `${CHART_WIDTH}%`};
-  height: 150px;
+  width: ${(props) => `${props.chartWidth}%`};
+  height: ${(props) => `${props.chartHeight}px`};
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
