@@ -106,12 +106,4 @@ const PersonnelModalWrap = styled(ToggleWrap)`
   height: 350px;
 `;
 
-const BottomArea = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 85%;
-  height: 20%;
-`;
-
 export default Personnel;
