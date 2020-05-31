@@ -14,7 +14,7 @@ const defaultProps = {
   chartBarUnit: null,
   chartBarCount: null,
   chartDatas: null,
-  chartBarIncreasePoint: CHART_POINT,
+  chartBarIncreaseUnit: CHART_POINT,
   chartBarWidthPercent: CHART_BAR_WIDTH,
 };
 
@@ -23,7 +23,7 @@ const Chart = ({
   chartBarCount,
   chartDatas,
   chartBarWidthPercent,
-  chartBarIncreasePoint,
+  chartBarIncreaseUnit,
 }) => {
   const calculationWidth = (widthPercent, count) => {
     return widthPercent / count;
@@ -46,6 +46,8 @@ const Chart = ({
           dataScope={chartBarUnit * multiplicationCount}
           height={0}
           width={widthValue}
+          chartBarIncreaseUnit={chartBarIncreaseUnit}
+          key={i}
         />
       );
 
@@ -61,18 +63,27 @@ const Chart = ({
     const chartBars = createChartBar(chartBarCount);
 
     chartDatas.forEach((el) => {
-      const position = calculationChartDataLocate(chartBarUnit, el);
+      let position = calculationChartDataLocate(chartBarUnit, el);
+
+      if (position >= chartBarCount) {
+        const chartLastIndex = chartBarCount - 1;
+        position = chartLastIndex;
+      }
+
       const dataScope = chartBars[position].props.dataScope;
       const height = chartBars[position].props.height;
       const width = chartBars[position].props.width;
+      const keyValue = chartBars[position].key;
 
-      return (chartBars[position] = (
+      chartBars[position] = (
         <ChartBar
           dataScope={dataScope}
-          height={height + chartBarIncreasePoint}
+          height={height + chartBarIncreaseUnit}
           width={width}
+          chartBarIncreaseUnit={chartBarIncreaseUnit}
+          key={keyValue}
         />
-      ));
+      );
     });
 
     return chartBars;
@@ -86,12 +97,13 @@ Chart.propTypes = {
   chartBarCount: PropTypes.number,
   chartDatas: PropTypes.arrayOf(PropTypes.number),
   chartBarWidthPercent: PropTypes.number,
-  chartBarIncreasePoint: PropTypes.number,
+  chartBarIncreaseUnit: PropTypes.number,
 };
 Chart.defaultProps = defaultProps;
 
 const ChartWrap = styled.div`
-  width: 100%;
+  width: ${(props) =>
+    props.chartWidth ? `${props.chartWidth}%` : `${CHART_WIDTH}%`};
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
