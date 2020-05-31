@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-const ChartBar = ({ height, dataScope, width, chartBarIncreaseUnit }) => {
+const ChartBar = ({
+  height,
+  width,
+  count,
+  dataScope,
+  chartBarIncreaseUnit,
+}) => {
   const [isOver, setIsOver] = useState(false);
 
   const onMouseOverHandler = () => {
@@ -19,15 +26,15 @@ const ChartBar = ({ height, dataScope, width, chartBarIncreaseUnit }) => {
   return (
     <ChartBarWrap
       height={height}
-      dataScope={dataScope}
       width={width}
+      dataScope={dataScope}
       onMouseEnter={onMouseOverHandler}
       onMouseLeave={onMouseOverHandler}
     >
       {isOver && (
         <ChartBarInfoModal position={height}>
           <div>unit : {dataScope}</div>
-          <div>count : {calculationRoomsCount()}</div>
+          <div>count : {count}</div>
         </ChartBarInfoModal>
       )}
     </ChartBarWrap>
@@ -38,9 +45,8 @@ const DEFAULT_HEIGHT = 2;
 
 const ChartBarWrap = styled.div`
   width: ${(props) => props.width && `${props.width}%`};
-  height: ${(props) => props.height && `${props.height}px`};
-
-  background-color: gray;
+  height: ${(props) => props.height && `${props.height}%`};
+  background-color: red;
   position: relative;
   border-bottom: none;
 `;

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 import { CHART_POINT, CHART_BAR_WIDTH, CHART_WIDTH } from "./ChartConstants.js";
 
@@ -11,6 +12,7 @@ const defaultProps = {
   chartDatas: null,
   chartBarWidthPercent: CHART_BAR_WIDTH,
   chartBarIncreaseUnit: CHART_POINT,
+  chartWidth: CHART_WIDTH,
 };
 
 const Chart = ({
@@ -19,7 +21,11 @@ const Chart = ({
   chartDatas,
   chartBarWidthPercent,
   chartBarIncreaseUnit,
+  chartWidth,
 }) => {
+  const { priceValues } = useSelector((state) => state.priceReducer);
+  const [minPrice, maxPrice] = priceValues;
+
   const calculationWidth = (widthPercent, count) => {
     return widthPercent / count;
   };
@@ -38,9 +44,10 @@ const Chart = ({
     for (let i = 0; i < chartBarCount; i++) {
       const chartBar = (
         <ChartBar
-          dataScope={chartBarUnit * multiplicationCount}
           height={0}
           width={widthValue}
+          count={0}
+          dataScope={chartBarUnit * multiplicationCount}
           chartBarIncreaseUnit={chartBarIncreaseUnit}
           key={i}
         />
@@ -68,13 +75,15 @@ const Chart = ({
       const dataScope = chartBars[position].props.dataScope;
       const height = chartBars[position].props.height;
       const width = chartBars[position].props.width;
+      const count = chartBars[position].props.count + 1;
       const keyValue = chartBars[position].key;
 
       chartBars[position] = (
         <ChartBar
-          dataScope={dataScope}
           height={height + chartBarIncreaseUnit}
           width={width}
+          count={count}
+          dataScope={dataScope}
           chartBarIncreaseUnit={chartBarIncreaseUnit}
           key={keyValue}
         />
@@ -86,12 +95,12 @@ const Chart = ({
 
   return (
     <ChartWrap
-      chartWidth={
-        chartBarWidthPercent !== CHART_WIDTH
-          ? chartBarWidthPercent
-          : CHART_WIDTH
-      }
+      chartWidth={chartWidth !== CHART_WIDTH ? chartWidth : CHART_WIDTH}
     >
+      <ChartRangeWrap>
+        <ChartStartPoint width={minPrice / 10000} />
+        <ChartEndPoint width={100 - maxPrice / 10000} />
+      </ChartRangeWrap>
       {analyseChartData(chartDatas)}
     </ChartWrap>
   );
@@ -103,17 +112,42 @@ Chart.propTypes = {
   chartDatas: PropTypes.arrayOf(PropTypes.number),
   chartBarWidthPercent: PropTypes.number,
   chartBarIncreaseUnit: PropTypes.number,
+  chartWidth: PropTypes.number,
 };
 Chart.defaultProps = defaultProps;
 
 const ChartWrap = styled.div`
+  position: relative;
   width: ${(props) =>
     props.chartWidth ? `${props.chartWidth}%` : `${CHART_WIDTH}%`};
+  height: 150px;
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
   border-bottom: 3px solid var(--gray-1);
   opacity: 0.7;
+`;
+
+const ChartRangeWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+`;
+
+const ChartStartPoint = styled.div`
+  background: rgba(255, 255, 255, 0.8);
+  width: ${(props) => props.width && `${props.width}%`};
+  z-index: 1;
+`;
+
+const ChartEndPoint = styled.div`
+  background: rgba(255, 255, 255, 0.8);
+  width: ${(props) => props.width && `${props.width}%`};
+  z-index: 1;
 `;
 
 export default Chart;
