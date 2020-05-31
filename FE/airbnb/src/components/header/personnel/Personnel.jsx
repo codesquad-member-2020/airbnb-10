@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PersonnelTabColumn from "./PersonnelTabColumn.jsx";
+import ModalButtons from "../ModalButtons.jsx";
 
 import styled from "styled-components";
 import {
@@ -74,10 +75,12 @@ const Personnel = () => {
             personnelType="유아"
             personnelScope="2세 미만"
           />
-          <BottomArea>
-            <ResetButton onClick={resetSelectPersonnel}>지우기</ResetButton>
-            <SaveButton>저장</SaveButton>
-          </BottomArea>
+
+          <ModalButtons
+            resetHandler={resetSelectPersonnel}
+            width="85"
+            height="20"
+          />
         </PersonnelModalWrap>
       )}
     </PersonnelWrap>
