@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 import { CHART_POINT, CHART_BAR_WIDTH, CHART_WIDTH } from "./ChartConstants.js";
 
@@ -24,16 +23,24 @@ const Chart = ({
   chartBarIncreaseUnit,
   chartWidth,
   chartGauge,
+  chartGaugeStart,
+  chartGaugeEnd,
 }) => {
-  const { priceValues } = useSelector((state) => state.priceReducer);
-  const [minPrice, maxPrice] = priceValues;
-
   const calculationWidth = (widthPercent, count) => {
     return widthPercent / count;
   };
 
   const calculationChartDataLocate = (chartBarUnit, chartData) => {
     return Math.floor(chartData / chartBarUnit);
+  };
+
+  const calculationGaugeWidth = (type) => {
+    const percentUnit = (chartBarUnit * chartBarCount) / 100;
+    if (type === "start") {
+      return chartGaugeStart / percentUnit;
+    } else if (type === "end") {
+      return 100 - chartGaugeEnd / percentUnit;
+    }
   };
 
   const createChartBar = (chartBarCount) => {
@@ -101,8 +108,8 @@ const Chart = ({
     >
       {chartGauge && (
         <ChartRangeWrap>
-          <ChartStartPoint width={minPrice / 10000} />
-          <ChartEndPoint width={100 - maxPrice / 10000} />
+          <GaugeStart width={calculationGaugeWidth("start")} />
+          <GaugeEnd width={calculationGaugeWidth("end")} />
         </ChartRangeWrap>
       )}
       {analyseChartData(chartDatas)}
@@ -118,6 +125,8 @@ Chart.propTypes = {
   chartBarIncreaseUnit: PropTypes.number,
   chartWidth: PropTypes.number,
   chartGauge: PropTypes.bool,
+  chartGaugeStart: PropTypes.number,
+  chartGaugeEnd: PropTypes.number,
 };
 Chart.defaultProps = defaultProps;
 
@@ -143,13 +152,13 @@ const ChartRangeWrap = styled.div`
   height: inherit;
 `;
 
-const ChartStartPoint = styled.div`
+const GaugeStart = styled.div`
   background: rgba(255, 255, 255, 0.8);
   width: ${(props) => props.width && `${props.width}%`};
   z-index: 1;
 `;
 
-const ChartEndPoint = styled.div`
+const GaugeEnd = styled.div`
   background: rgba(255, 255, 255, 0.8);
   width: ${(props) => props.width && `${props.width}%`};
   z-index: 1;
