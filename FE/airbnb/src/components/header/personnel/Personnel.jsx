@@ -45,7 +45,7 @@ const Personnel = () => {
     }
   };
 
-  const resetSelectPersonnel = () => {
+  const onClickResetHandler = () => {
     dispatch(resetCount());
   };
 
@@ -77,7 +77,7 @@ const Personnel = () => {
           />
 
           <ModalButtons
-            resetHandler={resetSelectPersonnel}
+            resetHandler={onClickResetHandler}
             width="85"
             height="20"
           />
