@@ -1,15 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PersonnelTabColumn from "./PersonnelTabColumn.jsx";
 import ModalButtons from "../ModalButtons.jsx";
 
 import styled from "styled-components";
-import {
-  Button,
-  ToggleWrap,
-  SaveButton,
-  ResetButton,
-} from "../../../style/CustomStyle.jsx";
+import { Button, ToggleWrap } from "../../../style/CustomStyle.jsx";
 
 import {
   increaseAdultCount,
@@ -22,20 +17,13 @@ import {
 } from "../../../modules/personnel.js";
 
 const Personnel = () => {
-  const [isClick, setIsClick] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleContainer = useRef();
   const dispatch = useDispatch();
 
   const { adultCount, childCount, babyCount, totalCount } = useSelector(
     (state) => state.personnelReducer,
   );
-
-  const clickPersonBtn = () => {
-    if (!isClick) {
-      setIsClick(true);
-    } else {
-      setIsClick(false);
-    }
-  };
 
   const judgeCurrentPersonnel = () => {
     if (totalCount > MIN_COUNT) {
@@ -45,14 +33,28 @@ const Personnel = () => {
     }
   };
 
+  const onClickHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const onClickOutsideHandler = () => {
+    if (isOpen && !toggleContainer.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
   const onClickResetHandler = () => {
     dispatch(resetCount());
   };
 
+  useEffect(() => {
+    window.addEventListener("click", onClickOutsideHandler);
+  });
+
   return (
-    <PersonnelWrap>
-      <Button onClick={clickPersonBtn}>{judgeCurrentPersonnel()}</Button>
-      {isClick && (
+    <PersonnelWrap ref={toggleContainer}>
+      <Button onClick={onClickHandler}>{judgeCurrentPersonnel()}</Button>
+      {isOpen && (
         <PersonnelModalWrap>
           <PersonnelTabColumn
             count={adultCount}
