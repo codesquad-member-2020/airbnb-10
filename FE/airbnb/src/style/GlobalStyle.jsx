@@ -7,6 +7,7 @@ const variables = css`
       0 4px 6px -2px rgba(0, 0, 0, 0.05);
     /* color */
     --gray-1: #d2d2d2;
+    --gray-2: #848080;
     --black: #000;
     --white: #fff;
     --mainColor: #fc3962;

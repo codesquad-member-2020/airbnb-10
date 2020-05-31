@@ -31,14 +31,14 @@ const RoomsList = ({ roomsData }) => {
         <ContentRowBothEnds>
           <div>
             {isSuperHost && <SuperHost>슈퍼호스트</SuperHost>}
-            <City>{city}</City>
+            <span>{city}</span>
           </div>
           {scoresRating && (
             <div>
               <StarIcon>
                 <FontAwesomeIcon icon={faStar} />
               </StarIcon>
-              <span>{scoresRating}</span>
+              <ScoresRating>{scoresRating}</ScoresRating>
             </div>
           )}
         </ContentRowBothEnds>
@@ -56,7 +56,7 @@ const RoomsList = ({ roomsData }) => {
         <ContentRowBothEnds>
           <div>
             <span>총요금 </span>
-            <TotalPrice>{getCurrency(totalPrice)}</TotalPrice>
+            <TotalPrice total>{getCurrency(totalPrice)}</TotalPrice>
           </div>
           <ReservationBtn>예약</ReservationBtn>
         </ContentRowBothEnds>
@@ -66,10 +66,10 @@ const RoomsList = ({ roomsData }) => {
 };
 
 const RoomsWrap = styled.div`
-  padding: 20px 13px;
+  margin: 0 10px;
+  padding: 20px 13px 0;
   width: 26%;
-  min-width: 50px;
-  /* border: 1px solid var(--gray-1); */
+  min-width: 300px;
   box-shadow: var(--box-shadow);
   border-radius: 8px;
   transition: all 0.2s ease-in-out;
@@ -90,14 +90,10 @@ const ContentRow = styled.span`
 
 const ContentRowBothEnds = styled(ContentRow)`
   justify-content: space-between;
-`;
-
-const City = styled.span`
-  color: #848080;
+  color: var(--gray-2);
 `;
 
 const ImageArea = styled.div`
-  height: 240px;
   & img {
     width: 100%;
     height: 100%;
@@ -124,19 +120,25 @@ const StarIcon = styled.span`
   padding: 0 10px;
   color: var(--mainColor);
 `;
+
+const ScoresRating = styled.span`
+  color: var(--black);
+`;
+
 const OriginalPrice = styled.span`
-  color: ${(props) => (props.discount ? "#848080" : "#000")};
+  color: ${(props) => (props.discount ? `var(--gray-2)` : `var(--black)`)};
   text-decoration: line-through;
   margin-right: 10px;
 `;
 
-const TotalPrice = styled.span`
-  color: var(--black);
+const TotalPrice = styled.strong`
+  color: ${(props) => (props.total ? `var(--gray-2)` : `var(--black)`)};
   font-weight: bold;
+  font-size: 16px;
 `;
 
 const ReservationBtn = styled.button`
-  width: 70px;
+  width: 75px;
   height: 35px;
   border-radius: 10px;
   color: var(--white);
