@@ -10,55 +10,19 @@ public class Accommodation {
 
     private boolean isSuperHost;
 
-    private City city;
-
-    private float latitude;
-
-    private float longitude;
-
-    private int maximumCapacity;
-
-    private int minimumNights;
-
-    private int maximumNights;
-
     private float scoresRating;
 
-    private int price;
+    private float maximumCapacity;
 
-    private float discountRate;
+    private City city;
 
-    private int cleaningFee;
+    private Coordinates coordinates;
 
-    private List<Image> images;
+    private Charge charge;
+
+    private List<String> images;
 
     public Accommodation() {}
-
-    public Accommodation(Integer id,
-                         String name,
-                         boolean isSuperHost,
-                         City city,
-                         float latitude, float longitude,
-                         int maximumCapacity,
-                         int minimumNights, int maximumNights,
-                         float scoresRating,
-                         int price, float discountRate, int cleaningFee,
-                         List<Image> images) {
-        this.id = id;
-        this.name = name;
-        this.isSuperHost = isSuperHost;
-        this.city = city;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.maximumCapacity = maximumCapacity;
-        this.minimumNights = minimumNights;
-        this.maximumNights = maximumNights;
-        this.scoresRating = scoresRating;
-        this.price = price;
-        this.discountRate = discountRate;
-        this.cleaningFee = cleaningFee;
-        this.images = images;
-    }
 
     public Integer getId() {
         return id;
@@ -72,67 +36,35 @@ public class Accommodation {
         return isSuperHost;
     }
 
-    public City getCity() {
-        return city;
-    }
-
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public int getMaximumCapacity() {
-        return maximumCapacity;
-    }
-
-    public int getMinimumNights() {
-        return minimumNights;
-    }
-
-    public int getMaximumNights() {
-        return maximumNights;
-    }
-
     public float getScoresRating() {
         return scoresRating;
     }
 
-    public int getPrice() {
-        return price;
+    public float getMaximumCapacity() {
+        return maximumCapacity;
     }
 
-    public float getDiscountRate() {
-        return discountRate;
+    public City getCity() {
+        return city;
     }
 
-    public int getCleaningFee() {
-        return cleaningFee;
+    public Coordinates getCoordinates() {
+        return coordinates;
     }
 
-    public List<Image> getImages() {
+    public float getPricePerNight() {
+        return charge.getPricePerNight();
+    }
+
+    public float getPricePerNightDiscounted() {
+        return charge.getPricePerNightDiscounted();
+    }
+
+    public float getTotalPrice() {
+        return charge.getTotalPricePerNight();
+    }
+
+    public List<String> getImages() {
         return images;
-    }
-
-    public int getDiscountedPrice() {
-        return discountRate == 0.f ? price : (price - (int)(price * discountRate));
-    }
-
-    public int getPriceDuringPeriod(Filter filter) {
-        return discountRate == 0.f ? (price * filter.getPeriod()) : (getDiscountedPrice() * filter.getPeriod());
-    }
-
-    public int getServiceTax(int totalAmount, float serviceRateMax) {
-        return (int)(getDiscountedPrice() * calculateServiceTaxRate(totalAmount, serviceRateMax));
-    }
-
-    public int getTotalPrice(int priceDuringPeriod, int serviceTax, int accommodationTax) {
-        return priceDuringPeriod + cleaningFee + serviceTax + accommodationTax;
-    }
-
-    private float calculateServiceTaxRate(int totalAmount, float serviceRateMax) {
-        return getDiscountedPrice() / (float)totalAmount * serviceRateMax;
     }
 }
