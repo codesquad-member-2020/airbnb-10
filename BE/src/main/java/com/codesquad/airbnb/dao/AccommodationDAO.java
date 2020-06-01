@@ -1,33 +1,34 @@
 package com.codesquad.airbnb.dao;
 
 import com.codesquad.airbnb.domain.model.Accommodation;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@Mapper
-public interface AccommodationDAO {
-    @Select("SELECT a.id as accommodation_id," +
-            " a.name as accommodation_name," +
-            " a.is_super_host as is_super_host," +
-            " c.id as city_id," +
-            " c.name as city_name," +
-            " c.country as city_country," +
-            " a.latitude as latitude," +
-            " a.longitude as longitude," +
-            " a.maximum_capacity as maximum_capacity," +
-            " a.minimum_nights as minimum_nights," +
-            " a.maximum_nights as maximum_nights," +
-            " a.scores_rating as scores_rating," +
-            " a.price as price," +
-            " a.discount_rate as discount_rate," +
-            " a.cleaning_fee as cleaning_fee," +
-            " i.id as image_id," +
-            " i.url as image_url," +
-            " i.accommodation as image_accommodation" +
-            " FROM accommodation a" +
-            " LEFT OUTER JOIN city c ON a.city = c.id" +
-            " LEFT OUTER JOIN image i ON a.id = i.accommodation")
-    @ResultMap("accommodationResult")
-    public List<Accommodation> findAll();
+@Repository
+public class AccommodationDAO {
+
+    private static final String NAMESPACE = "accommodationMapper.";
+
+    @Autowired
+    private SqlSession sqlSession;
+
+    public List<Accommodation> findUsingFilter(int people,
+                                               int priceMin, int priceMax,
+                                               float exchangeRate,
+                                               long period,
+                                               int itemsOffset) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("people", people);
+        parameters.put("priceMin", priceMin);
+        parameters.put("priceMax", priceMax);
+        parameters.put("exchangeRate", exchangeRate);
+        parameters.put("period", period);
+        parameters.put("itemsOffset", itemsOffset);
+        return sqlSession.selectList(NAMESPACE + "findUsingFilter", parameters);
+    }
 }
