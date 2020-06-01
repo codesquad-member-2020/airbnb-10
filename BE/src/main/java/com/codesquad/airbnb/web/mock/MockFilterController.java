@@ -18,59 +18,55 @@ public class MockFilterController {
         Map<String, Object> contents = new HashMap<>();
         List<AccommodationDTO> accommodations = new ArrayList<>();
 
-        Accommodation accommodation = MockAccommodationUtil.createAccommodation(
-                1,
-                "Downtown DC Private Carriage House",
-                false,
-                "Washington", "United States",
-                38.91139f, -77.0208f,
-                4, 2, 1125, 4.75f,
-                129, 0.14f, 60,
-                Arrays.asList(
-                        new Image(1,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/0/img_0.jpg", 1),
-                        new Image(601,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/1/img_0.jpg", 1),
-                        new Image(1201,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/2/img_0.jpg", 1),
-                        new Image(1801,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/3/img_0.jpg", 1),
-                        new Image(2401,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_0.jpg", 1))
-        );
+        AccommodationDTO accommodation = new AccommodationDTO.Builder(1)
+                .name("Downtown DC Private Carriage House")
+                .pricePerNight(158868)
+                .pricePerNightDiscounted(136627)
+                .totalPrice(211581)
+                .isSuperHost(false)
+                .city("Washington")
+                .scoresRating(4.75f)
+                .images(Arrays.asList("https://codesquad-project.s3.ap-northeast-2.amazonaws.com/0/img_0.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/1/img_0.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/2/img_0.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/3/img_0.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_0.jpg"))
+                .build();
 
-        accommodations.add(MockAccommodationUtil.parseAccommodationDTO(filter, accommodation, false));
+        accommodations.add(accommodation);
 
-        accommodation = MockAccommodationUtil.createAccommodation(
-                2,
-                "Room in Logan",
-                false,
-                "Washington", "United States",
-                38.91227f, -77.03041f,
-                1, 1, 1125, 0.f,
-                95, 0.f, 0,
-                Arrays.asList(
-                        new Image(2,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/0/img_1.jpg", 2),
-                        new Image(602,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/1/img_1.jpg", 2),
-                        new Image(1202,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/2/img_1.jpg", 2),
-                        new Image(1802,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/3/img_1.jpg", 2),
-                        new Image(2402,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_1.jpg", 2))
-        );
+        accommodation = new AccommodationDTO.Builder(2)
+                .name("Room in Logan")
+                .pricePerNight(116996)
+                .pricePerNightDiscounted(116996)
+                .totalPrice(117775)
+                .isSuperHost(false)
+                .city("Washington")
+                .images(Arrays.asList("https://codesquad-project.s3.ap-northeast-2.amazonaws.com/0/img_1.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/1/img_1.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/2/img_1.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/3/img_1.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_1.jpg"))
+                .build();
 
-        accommodations.add(MockAccommodationUtil.parseAccommodationDTO(filter, accommodation, false));
+        accommodations.add(accommodation);
 
-        accommodation = MockAccommodationUtil.createAccommodation(
-                3,
-                "Eastern Market 1BR Condo - walk to everything!",
-                true,
-                "Washington", "United States",
-                38.88591f, -76.99364f,
-                4, 2, 1125, 5.f,
-                118, 0.f, 70,
-                Arrays.asList(
-                        new Image(3,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/0/img_2.jpg", 3),
-                        new Image(603,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/1/img_2.jpg", 3),
-                        new Image(1203,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/2/img_2.jpg", 3),
-                        new Image(1803,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/3/img_2.jpg", 3),
-                        new Image(2403,"https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_2.jpg", 3))
-        );
+        accommodation = new AccommodationDTO.Builder(3)
+                .name("Eastern Market 1BR Condo - walk to everything!")
+                .pricePerNight(145321)
+                .pricePerNightDiscounted(145321)
+                .totalPrice(232730)
+                .isSuperHost(true)
+                .city("Washington")
+                .scoresRating(5.0f)
+                .images(Arrays.asList("https://codesquad-project.s3.ap-northeast-2.amazonaws.com/0/img_2.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/1/img_2.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/2/img_2.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/3/img_2.jpg",
+                        "https://codesquad-project.s3.ap-northeast-2.amazonaws.com/4/img_2.jpg"))
+                .build();
 
-        accommodations.add(MockAccommodationUtil.parseAccommodationDTO(filter, accommodation, false));
+        accommodations.add(accommodation);
 
         contents.put("accommodations", accommodations);
         contents.put("total", accommodations.size());
