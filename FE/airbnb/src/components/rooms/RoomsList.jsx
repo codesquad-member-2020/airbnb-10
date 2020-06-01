@@ -1,6 +1,6 @@
 import React from "react";
 
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -22,10 +22,28 @@ const RoomsList = ({ roomsData }) => {
     return parseInt(stringNum).toLocaleString();
   };
 
+  const scoreRender = () => {
+    return (
+      <div>
+        <StarIcon>
+          <FontAwesomeIcon icon={faStar} />
+        </StarIcon>
+        <ScoresRating>{scoresRating}</ScoresRating>
+      </div>
+    );
+  };
+
+  const originalPriceRender = () => {
+    return (
+      <OriginalPrice discount>₩{getCurrency(pricePerNight)}</OriginalPrice>
+    );
+  };
+
   return (
     <RoomsWrap>
       <ImageArea>
         <img src={images[1]} alt="숙소이미지" />
+        {/* 수정하기 */}
       </ImageArea>
       <RoomsContent>
         <ContentRowBothEnds>
@@ -33,32 +51,21 @@ const RoomsList = ({ roomsData }) => {
             {isSuperHost && <SuperHost>슈퍼호스트</SuperHost>}
             <span>{city}</span>
           </div>
-          {scoresRating && (
-            <div>
-              <StarIcon>
-                <FontAwesomeIcon icon={faStar} />
-              </StarIcon>
-              <ScoresRating>{scoresRating}</ScoresRating>
-            </div>
-          )}
+          {scoresRating && scoreRender()}
         </ContentRowBothEnds>
         <ContentRow>
           <Title>{name}</Title>
         </ContentRow>
         <ContentRow>
-          {pricePerNight !== pricePerNightDiscounted && (
-            <OriginalPrice discount>
-              ₩{getCurrency(pricePerNight)}
-            </OriginalPrice>
-          )}
+          {pricePerNight !== pricePerNightDiscounted && originalPriceRender()}
           <TotalPrice>₩{getCurrency(pricePerNightDiscounted)}</TotalPrice>
         </ContentRow>
         <ContentRowBothEnds>
           <div>
             <span>총요금 </span>
-            <TotalPrice total>{getCurrency(totalPrice)}</TotalPrice>
+            <TotalPrice total>₩{getCurrency(totalPrice)}</TotalPrice>
           </div>
-          <ReservationBtn>예약</ReservationBtn>
+          <ReservationBtn onClick={}>예약</ReservationBtn>
         </ContentRowBothEnds>
       </RoomsContent>
     </RoomsWrap>
@@ -144,6 +151,7 @@ const ReservationBtn = styled.button`
   color: var(--white);
   font-weight: bold;
   background-color: var(--mainColor);
+  outline: none;
   cursor: pointer;
 `;
 

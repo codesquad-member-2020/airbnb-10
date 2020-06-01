@@ -7,9 +7,9 @@ import RoomsList from "./RoomsList.jsx";
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
-const getDate = (tomorrow) => {
+const getDate = (date) => {
   const today = new Date();
-  if (tomorrow) today.setDate(today.getDate() + 1);
+  today.setDate(today.getDate() + date);
 
   let day = today.getDate();
   let month = today.getMonth() + 1;
@@ -22,8 +22,8 @@ const getDate = (tomorrow) => {
 };
 
 const getInitialUrl = () => {
-  const today = getDate();
-  const tomorrow = getDate(true);
+  const today = getDate(0);
+  const tomorrow = getDate(1);
   const initialUrl = `http://15.165.117.230/api/mock/rooms?checkIn=${today}&checkOut=${tomorrow}`;
   return initialUrl;
 };
