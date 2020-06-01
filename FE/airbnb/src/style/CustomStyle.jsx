@@ -67,6 +67,7 @@ export const ButtonsArea = styled.div`
 `;
 
 export const DateWarp = styled.div`
+  position: relative;
   color: var(--black);
   font-weight: bold;
   .DateRangePicker_picker {
