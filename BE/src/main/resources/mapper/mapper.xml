@@ -2,30 +2,161 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.codesquad.airbnb.dao.AccommodationDAO">
-    <resultMap id="accommodationResult" type="com.codesquad.airbnb.domain.model.Accommodation">
+<mapper namespace="accommodationMapper">
+<!--    <select id="findUsingFilter" resultMap="accommodationResult">-->
+<!--        SELECT accommodation_id,-->
+<!--               accommodation_name,-->
+<!--               is_super_host,-->
+<!--               latitude,-->
+<!--               longitude,-->
+<!--               maximum_capacity,-->
+<!--               maximum_nights,-->
+<!--               minimum_nights,-->
+<!--               scores_rating,-->
+<!--               price,-->
+<!--               discount_rate,-->
+<!--               cleaning_fee,-->
+<!--               i.id as image_id,-->
+<!--               i.url as image_url,-->
+<!--               i.accommodation as image_accommodation,-->
+<!--               c.id as city_id,-->
+<!--               c.name as city_name,-->
+<!--               c.country as city_country-->
+<!--        FROM   image i-->
+<!--               RIGHT OUTER JOIN-->
+<!--               (SELECT id as accommodation_id,-->
+<!--                       name as accommodation_name,-->
+<!--                       city,-->
+<!--                       is_super_host,-->
+<!--                       latitude,-->
+<!--                       longitude,-->
+<!--                       maximum_capacity,-->
+<!--                       minimum_nights,-->
+<!--                       maximum_nights,-->
+<!--                       scores_rating,-->
+<!--                       price,-->
+<!--                       discount_rate,-->
+<!--                       cleaning_fee-->
+<!--               FROM    accommodation-->
+<!--               <where>-->
+<!--                   <if test="people != 0">-->
+<!--                       AND maximum_capacity >= #{people}-->
+<!--                   </if>-->
+<!--                   <if test="priceMin != 0">-->
+<!--                       AND price * #{exchangeRate} >= #{priceMin}-->
+<!--                   </if>-->
+<!--                   <if test="priceMax != 0">-->
+<!--                       AND price * #{exchangeRate} <![CDATA[<=]]> #{priceMax}-->
+<!--                   </if>-->
+<!--               </where>-->
+<!--               LIMIT   20-->
+<!--               OFFSET  #{itemsOffset}) a-->
+<!--               ON i.accommodation = a.accommodation_id-->
+<!--               LEFT OUTER JOIN city c-->
+<!--               ON a.city = c.id-->
+<!--    </select>-->
+    <select id="findUsingFilter" resultMap="accommodationResult">
+        SELECT accommodation_id,
+               accommodation_name,
+               is_super_host,
+               scores_rating,
+               maximum_capacity,
+               price_per_night,
+               price_per_night_discounted,
+               cleaning_fee,
+               service_tax,
+               latitude,
+               longitude,
+               i.url as image_url,
+               c.id as city_id,
+               c.name as city_name,
+               c.country as city_country
+        FROM   image i
+               RIGHT OUTER JOIN
+               (SELECT a1.id as accommodation_id,
+                       name as accommodation_name,
+                       city,
+                       is_super_host,
+                       latitude,
+                       longitude,
+                       maximum_capacity,
+                       minimum_nights,
+                       maximum_nights,
+                       scores_rating,
+                       discount_rate,
+                       cleaning_fee,
+                       temp.price_discounted,
+                       temp.service_tax,
+                       TRUNCATE(price+ service_tax + service_tax *
+                            (SELECT accommodation_tax
+                            FROM    fee_policy) + cleaning_fee, 2) as price_per_night,
+                       TRUNCATE(price_discounted + service_tax + service_tax *
+                            (SELECT accommodation_tax
+                            FROM    fee_policy) + cleaning_fee, 2) as price_per_night_discounted
+               FROM    accommodation a1
+               LEFT OUTER JOIN
+               (SELECT id,
+                       TRUNCATE((price - price * discount_rate), 2) as price_discounted,
+                       TRUNCATE((price - price * discount_rate) * (1 - ((price - price * discount_rate) -
+                            (SELECT MIN(price)
+                            FROM accommodation)) /
+                            (SELECT MAX(price) - MIN(price)
+                            FROM accommodation)) *
+                            (SELECT service_max
+                            FROM fee_policy), 2) as service_tax
+               FROM    accommodation) temp
+               ON a1.id = temp.id
+        <where>
+               minimum_nights <![CDATA[<=]]> #{period}
+               AND maximum_nights >= #{period}
+            <if test="people != 0">
+               AND     maximum_capacity >= #{people}
+            </if>
+            <if test="priceMin != 0">
+               AND     TRUNCATE(price_discounted + service_tax + service_tax *
+                            (SELECT accommodation_tax
+                            FROM fee_policy) + cleaning_fee, 2) * ${exchangeRate} >= #{priceMin}
+            </if>
+            <if test="priceMin != 0">
+               AND     TRUNCATE(price_discounted + service_tax + service_tax *
+                            (SELECT accommodation_tax
+                            FROM fee_policy) + cleaning_fee, 2) * ${exchangeRate} <![CDATA[<=]]> #{priceMax}
+            </if>
+        </where>
+               LIMIT   20
+               OFFSET  #{itemsOffset}) a2
+               ON i.accommodation = a2.accommodation_id
+               LEFT OUTER JOIN city c ON a2.city = c.id;
+    </select>
+    <resultMap id="accommodationResult" type="Accommodation">
         <id property="id" column="accommodation_id"/>
         <result property="name" column="accommodation_name"/>
         <result property="isSuperHost" column="is_super_host"/>
-        <result property="latitude" column="latitude"/>
-        <result property="longitude" column="longitude"/>
-        <result property="maximumCapacity" column="maximum_capacity"/>
-        <result property="minimumNights" column="minimum_nights"/>
-        <result property="maximumNights" column="maximum_nights"/>
         <result property="scoresRating" column="scores_rating"/>
-        <result property="price" column="price"/>
-        <result property="discountRate" column="discount_rate"/>
-        <result property="cleaningFee" column="cleaning_fee"/>
-        
-        <association property="city" javaType="com.codesquad.airbnb.domain.model.City">
+        <result property="maximumCapacity" column="maximum_capacity"/>
+
+        <association property="city" javaType="City">
             <id property="id" column="city_id"/>
             <result property="name" column="city_name"/>
             <result property="country" column="city_country"/>
         </association>
-        <collection property="images" ofType="com.codesquad.airbnb.domain.model.Image">
-            <id property="id" column="image_id"/>
-            <result property="url" column="image_url"/>
-            <result property="accommodation" column="image_accommodation"/>
+
+        <association property="coordinates" javaType="Coordinates">
+            <result property="latitude" column="latitude"/>
+            <result property="longitude" column="longitude"/>
+        </association>
+
+        <association property="charge" javaType="Charge">
+            <result property="pricePerNight" column="price_per_night"/>
+            <result property="pricePerNightDiscounted" column="price_per_night_discounted"/>
+            <result property="cleaningFee" column="cleaning_fee"/>
+            <result property="serviceTax" column="service_tax"/>
+            <result property="totalPricePerNight" column="price_per_night_discounted"/>
+        </association>
+
+
+        <collection property="images" ofType="String">
+            <result column="image_url"/>
         </collection>
     </resultMap>
 </mapper>
