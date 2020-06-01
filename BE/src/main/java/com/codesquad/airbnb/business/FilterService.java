@@ -2,7 +2,6 @@ package com.codesquad.airbnb.business;
 
 import com.codesquad.airbnb.dao.AccommodationDAO;
 import com.codesquad.airbnb.domain.dto.AccommodationDTO;
-import com.codesquad.airbnb.domain.model.Accommodation;
 import com.codesquad.airbnb.domain.model.Filter;
 import com.codesquad.airbnb.util.CurrencyConvertor;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -30,7 +28,7 @@ public class FilterService {
         Map<String, Object> parameters = createParameters(filter);
         Map<String, Object> result = new HashMap<>();
 
-        result.put("accommodations", findUsingFilter(parameters)
+        result.put("accommodations", accommodationDAO.findUsingFilter(parameters)
                 .stream()
                 .map(model -> new AccommodationDTO.Builder(model.getId())
                         .name(model.getName())
@@ -46,11 +44,6 @@ public class FilterService {
         result.put("total", accommodationDAO.countOfFilterResult(parameters));
 
         return result;
-    }
-
-    // 테스트 코드를 위해서 메소드로 분리
-    public List<Accommodation> findUsingFilter(Map<String, Object> parameters) {
-        return accommodationDAO.findUsingFilter(parameters);
     }
 
     private Map<String, Object> createParameters(Filter filter) {
