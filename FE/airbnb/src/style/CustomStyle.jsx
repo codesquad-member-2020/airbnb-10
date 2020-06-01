@@ -32,7 +32,7 @@ export const CountButton = styled.button`
 `;
 
 export const ResetButton = styled.button`
-  outline: none;
+  /* outline: none; */
   text-decoration: underline;
   font-weight: bold;
   cursor: pointer;
@@ -63,6 +63,7 @@ export const DefaultLayout = css`
 export const ButtonsArea = styled.div`
   ${DefaultLayout};
   justify-content: space-between;
+  width: 100%;
 `;
 
 export const DateWarp = styled.div`

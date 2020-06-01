@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PersonnelTabColumn from "./PersonnelTabColumn.jsx";
+import ModalButtons from "../ModalButtons.jsx";
 
 import styled from "styled-components";
-import {
-  Button,
-  ToggleWrap,
-  SaveButton,
-  ResetButton,
-} from "../../../style/CustomStyle.jsx";
+import { Button, ToggleWrap } from "../../../style/CustomStyle.jsx";
 
 import {
   increaseAdultCount,
@@ -21,20 +17,13 @@ import {
 } from "../../../modules/personnel.js";
 
 const Personnel = () => {
-  const [isClick, setIsClick] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleContainer = useRef();
   const dispatch = useDispatch();
 
   const { adultCount, childCount, babyCount, totalCount } = useSelector(
     (state) => state.personnelReducer,
   );
-
-  const clickPersonBtn = () => {
-    if (!isClick) {
-      setIsClick(true);
-    } else {
-      setIsClick(false);
-    }
-  };
 
   const judgeCurrentPersonnel = () => {
     if (totalCount > MIN_COUNT) {
@@ -44,14 +33,28 @@ const Personnel = () => {
     }
   };
 
-  const resetSelectPersonnel = () => {
+  const onClickHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const onClickOutsideHandler = () => {
+    if (isOpen && !toggleContainer.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
+
+  const onClickResetHandler = () => {
     dispatch(resetCount());
   };
 
+  useEffect(() => {
+    window.addEventListener("click", onClickOutsideHandler);
+  });
+
   return (
-    <PersonnelWrap>
-      <Button onClick={clickPersonBtn}>{judgeCurrentPersonnel()}</Button>
-      {isClick && (
+    <PersonnelWrap ref={toggleContainer}>
+      <Button onClick={onClickHandler}>{judgeCurrentPersonnel()}</Button>
+      {isOpen && (
         <PersonnelModalWrap>
           <PersonnelTabColumn
             count={adultCount}
@@ -74,10 +77,12 @@ const Personnel = () => {
             personnelType="유아"
             personnelScope="2세 미만"
           />
-          <BottomArea>
-            <ResetButton onClick={resetSelectPersonnel}>지우기</ResetButton>
-            <SaveButton>저장</SaveButton>
-          </BottomArea>
+
+          <ModalButtons
+            resetHandler={onClickResetHandler}
+            width="85"
+            height="20"
+          />
         </PersonnelModalWrap>
       )}
     </PersonnelWrap>
@@ -99,14 +104,6 @@ const PersonnelModalWrap = styled(ToggleWrap)`
   align-items: center;
   width: 400px;
   height: 350px;
-`;
-
-const BottomArea = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 85%;
-  height: 20%;
 `;
 
 export default Personnel;

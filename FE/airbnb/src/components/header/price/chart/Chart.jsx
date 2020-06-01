@@ -14,9 +14,15 @@ const defaultProps = {
   chartBarUnit: null,
   chartBarCount: null,
   chartDatas: null,
-  chartBarIncreaseUnit: CHART_POINT,
   chartBarWidthPercent: CHART_BAR_WIDTH,
+  chartBarIncreaseUnit: CHART_POINT,
+  chartWidth: CHART_WIDTH,
+  chartHeight: CHART_HEIGHT,
+  chartGauge: false,
 };
+
+//  100 % chartBarIncreaseUnit === 0 Add Conditional Expression
+//  If the height value is over 100, add a conditional expression that no longer adds height.
 
 const Chart = ({
   chartBarUnit,
@@ -24,6 +30,11 @@ const Chart = ({
   chartDatas,
   chartBarWidthPercent,
   chartBarIncreaseUnit,
+  chartWidth,
+  chartHeight,
+  chartGauge,
+  chartGaugeStart,
+  chartGaugeEnd,
 }) => {
   const calculationWidth = (widthPercent, count) => {
     return widthPercent / count;
@@ -31,6 +42,15 @@ const Chart = ({
 
   const calculationChartDataLocate = (chartBarUnit, chartData) => {
     return Math.floor(chartData / chartBarUnit);
+  };
+
+  const calculationGaugeWidth = (type) => {
+    const percentUnit = (chartBarUnit * chartBarCount) / 100;
+    if (type === "start") {
+      return chartGaugeStart / percentUnit;
+    } else if (type === "end") {
+      return 100 - chartGaugeEnd / percentUnit;
+    }
   };
 
   const createChartBar = (chartBarCount) => {
@@ -43,9 +63,10 @@ const Chart = ({
     for (let i = 0; i < chartBarCount; i++) {
       const chartBar = (
         <ChartBar
-          dataScope={chartBarUnit * multiplicationCount}
           height={0}
           width={widthValue}
+          count={0}
+          dataScope={chartBarUnit * multiplicationCount}
           chartBarIncreaseUnit={chartBarIncreaseUnit}
           key={i}
         />
@@ -73,13 +94,15 @@ const Chart = ({
       const dataScope = chartBars[position].props.dataScope;
       const height = chartBars[position].props.height;
       const width = chartBars[position].props.width;
+      const count = chartBars[position].props.count + 1;
       const keyValue = chartBars[position].key;
 
       chartBars[position] = (
         <ChartBar
-          dataScope={dataScope}
           height={height + chartBarIncreaseUnit}
           width={width}
+          count={count}
+          dataScope={dataScope}
           chartBarIncreaseUnit={chartBarIncreaseUnit}
           key={keyValue}
         />
@@ -89,7 +112,20 @@ const Chart = ({
     return chartBars;
   };
 
-  return <ChartWrap>{analyseChartData(chartDatas)}</ChartWrap>;
+  return (
+    <ChartWrap
+      chartWidth={chartWidth !== CHART_WIDTH ? chartWidth : CHART_WIDTH}
+      chartHeight={chartHeight !== CHART_HEIGHT ? chartHeight : CHART_HEIGHT}
+    >
+      {chartGauge && (
+        <ChartRangeWrap>
+          <GaugeStart width={calculationGaugeWidth("start")} />
+          <GaugeEnd width={calculationGaugeWidth("end")} />
+        </ChartRangeWrap>
+      )}
+      {analyseChartData(chartDatas)}
+    </ChartWrap>
+  );
 };
 
 Chart.propTypes = {
@@ -98,17 +134,45 @@ Chart.propTypes = {
   chartDatas: PropTypes.arrayOf(PropTypes.number),
   chartBarWidthPercent: PropTypes.number,
   chartBarIncreaseUnit: PropTypes.number,
+  chartWidth: PropTypes.number,
+  chartHeight: PropTypes.number,
+  chartGauge: PropTypes.bool,
+  chartGaugeStart: PropTypes.number,
+  chartGaugeEnd: PropTypes.number,
 };
 Chart.defaultProps = defaultProps;
 
 const ChartWrap = styled.div`
-  width: ${(props) =>
-    props.chartWidth ? `${props.chartWidth}%` : `${CHART_WIDTH}%`};
+  position: relative;
+  width: ${(props) => `${props.chartWidth}%`};
+  height: ${(props) => `${props.chartHeight}px`};
   display: flex;
   align-items: flex-end;
   justify-content: space-around;
   border-bottom: 3px solid var(--gray-1);
   opacity: 0.7;
+`;
+
+const ChartRangeWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+`;
+
+const GaugeStart = styled.div`
+  background: rgba(255, 255, 255, 0.8);
+  width: ${(props) => props.width && `${props.width}%`};
+  z-index: 1;
+`;
+
+const GaugeEnd = styled.div`
+  background: rgba(255, 255, 255, 0.8);
+  width: ${(props) => props.width && `${props.width}%`};
+  z-index: 1;
 `;
 
 export default Chart;

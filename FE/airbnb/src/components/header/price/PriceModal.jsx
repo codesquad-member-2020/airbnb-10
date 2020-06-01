@@ -7,27 +7,61 @@ import Chart from "./chart/Chart.jsx";
 import styled from "styled-components";
 import { ToggleWrap } from "../../../style/CustomStyle.jsx";
 
-const PriceModal = ({ priceValues, minPrice, maxPrice, resetHandler }) => {
+import { resetPrices } from "../../../modules/price.js";
+import { useDispatch, useSelector } from "react-redux";
+
+const PriceModal = () => {
+  const dispatch = useDispatch();
+  const { priceValues } = useSelector((state) => state.priceReducer);
+  const [minPrice, maxPrice] = priceValues;
+
+  const onClickResetHandler = () => {
+    dispatch(resetPrices());
+  };
+
   return (
     <PriceModalWrap>
       <Chart
         chartBarUnit={PRICE_UNIT}
         chartBarCount={CHART_COUNT}
         chartDatas={CHART_DATAS}
+        chartBarIncreaseUnit={2}
         chartBarWidthPercent={90}
-        chartBarIncreaseUnit={10}
-        chartWidth={50}
+        chartWidth={100}
+        chartHeight={150}
+        chartGauge
+        chartGaugeStart={minPrice}
+        chartGaugeEnd={maxPrice}
       />
-      <PriceRange priceValues={priceValues}></PriceRange>
-      <PriceBoxes minPrice={minPrice} maxPrice={maxPrice} />
-      <ModalButtons resetHandler={resetHandler} />
+      <PriceRange />
+      <PriceBoxes />
+      <ModalButtons resetHandler={onClickResetHandler} />
     </PriceModalWrap>
   );
 };
 
 const PRICE_UNIT = 50000;
 const CHART_COUNT = 20;
-const CHART_DATAS = [500000, 500000, 500000, 500000, 500000];
+const CHART_DATAS = [
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  50000,
+  100000,
+  150000,
+  200000,
+  250000,
+  300000,
+  350000,
+  400000,
+];
 
 const PriceModalWrap = styled(ToggleWrap)`
   position: absolute;

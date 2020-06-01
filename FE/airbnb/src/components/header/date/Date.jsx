@@ -16,7 +16,7 @@ import {
 
 import { DateWarp } from "../../../style/CustomStyle.jsx";
 
-import CalendarButtons from "./CalendarButtons.jsx";
+import ModalButtons from "../ModalButtons.jsx";
 
 const Date = () => {
   const { startDate, endDate } = useSelector((state) => state.dateReducer);
@@ -41,12 +41,7 @@ const Date = () => {
   };
 
   const CalendarButtonsTab = () => {
-    return (
-      <CalendarButtons
-        resetHandler={onClickResetHandler}
-        saveHandler={onClickSaveHandler}
-      />
-    );
+    return <ModalButtons resetHandler={onClickResetHandler} />;
   };
 
   return (

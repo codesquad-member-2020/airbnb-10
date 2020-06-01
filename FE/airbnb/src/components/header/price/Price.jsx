@@ -1,38 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PriceModal from "./PriceModal.jsx";
 
 import styled from "styled-components";
 import { Button } from "../../../style/CustomStyle.jsx";
 
-import { useDispatch, useSelector } from "react-redux";
-import { resetPrices } from "../../../modules/price.js";
-
 const Price = () => {
-  const [isClicked, setClicked] = useState(false);
-  const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleContainer = useRef();
 
-  const { priceValues } = useSelector((state) => state.priceReducer);
-  const [minPrice, maxPrice] = priceValues;
-
-  const onClickPriceBtn = () => {
-    setClicked(!isClicked);
+  const onClickHandler = () => {
+    setIsOpen(!isOpen);
   };
 
-  const resetBtnHandler = () => {
-    dispatch(resetPrices());
+  const onClickOutsideHandler = () => {
+    if (isOpen && !toggleContainer.current.contains(event.target)) {
+      setIsOpen(false);
+    }
   };
+
+  useEffect(() => {
+    window.addEventListener("click", onClickOutsideHandler);
+  });
 
   return (
-    <PriceWrap>
-      <Button onClick={onClickPriceBtn}>금액</Button>
-      {isClicked && (
-        <PriceModal
-          priceValues={priceValues}
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-          resetHandler={resetBtnHandler}
-        />
-      )}
+    <PriceWrap ref={toggleContainer}>
+      <Button onClick={onClickHandler}>금액</Button>
+      {isOpen && <PriceModal />}
     </PriceWrap>
   );
 };
