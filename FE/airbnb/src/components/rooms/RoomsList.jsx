@@ -65,7 +65,7 @@ const RoomsList = ({ roomsData }) => {
             <span>총요금 </span>
             <TotalPrice total>₩{getCurrency(totalPrice)}</TotalPrice>
           </div>
-          <ReservationBtn onClick={}>예약</ReservationBtn>
+          <ReservationBtn>예약</ReservationBtn>
         </ContentRowBothEnds>
       </RoomsContent>
     </RoomsWrap>
