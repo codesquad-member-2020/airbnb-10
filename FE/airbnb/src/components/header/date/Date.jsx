@@ -6,6 +6,7 @@ import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import "moment";
 import "moment/locale/ko";
+import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -36,8 +37,8 @@ const Date = () => {
     dispatch(setResetDate());
   };
 
-  const onClickSaveHandler = () => {
-    console.log("fetching.........");
+  const onClickDatePickerInputHandler = () => {
+    setFocusedInput("startDate");
   };
 
   const CalendarButtonsTab = () => {
@@ -61,10 +62,21 @@ const Date = () => {
           calendarInfoPosition="bottom"
           renderCalendarInfo={CalendarButtonsTab}
           keepOpenOnDateSelect
+          autoFocus
         />
+        <DatePickerInputWrap onClick={onClickDatePickerInputHandler} />
       </DateWarp>
     </div>
   );
 };
+
+const DatePickerInputWrap = styled.div`
+  position: absolute;
+  width: 96%;
+  height: 100%;
+  top: 4%;
+  border-radius: 10px;
+  cursor: pointer;
+`;
 
 export default Date;
