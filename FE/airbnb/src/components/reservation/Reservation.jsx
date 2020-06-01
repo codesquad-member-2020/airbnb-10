@@ -10,11 +10,15 @@ const Reservation = () => {
 
 const ReservationWrap = styled.div`
   display: ${(props) => (props.isClicked ? "block" : "none")};
-  z-index: 1;
   position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  min-height: 360px;
   width: 300px;
-  height: 500px;
-  background-color: red;
+  z-index: 1;
+  background-color: var(--white);
 `;
 
 export default Reservation;
