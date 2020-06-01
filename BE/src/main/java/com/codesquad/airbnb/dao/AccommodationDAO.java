@@ -5,7 +5,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,18 +16,11 @@ public class AccommodationDAO {
     @Autowired
     private SqlSession sqlSession;
 
-    public List<Accommodation> findUsingFilter(int people,
-                                               int priceMin, int priceMax,
-                                               float exchangeRate,
-                                               long period,
-                                               int itemsOffset) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("people", people);
-        parameters.put("priceMin", priceMin);
-        parameters.put("priceMax", priceMax);
-        parameters.put("exchangeRate", exchangeRate);
-        parameters.put("period", period);
-        parameters.put("itemsOffset", itemsOffset);
+    public List<Accommodation> findUsingFilter(Map<String, Object> parameters) {
         return sqlSession.selectList(NAMESPACE + "findUsingFilter", parameters);
+    }
+
+    public int countOfFilterResult(Map<String, Object> parameters) {
+        return sqlSession.selectOne(NAMESPACE + "countOfFilterResult", parameters);
     }
 }
