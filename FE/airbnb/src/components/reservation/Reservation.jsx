@@ -1,13 +1,22 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { closeReservation } from "../../modules/reservation.js";
 
 import styled from "styled-components";
 
 const Reservation = () => {
+  const dispatch = useDispatch();
   const { isClicked } = useSelector((state) => state.reservationReducer);
+
+  const onClickCloseBtn = () => {
+    dispatch(closeReservation());
+  };
+
   return (
     <>
-      <ReservationWrap isClicked={isClicked}>123</ReservationWrap>
+      <ReservationWrap isClicked={isClicked}>
+        <CloseBtn onClick={onClickCloseBtn}>X</CloseBtn>
+      </ReservationWrap>
       {isClicked && <ModalShadow />}
     </>
   );
@@ -24,6 +33,12 @@ const ReservationWrap = styled.div`
   width: 300px;
   z-index: 1;
   background-color: var(--white);
+`;
+
+const CloseBtn = styled.button`
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
 `;
 
 const ModalShadow = styled.div`
