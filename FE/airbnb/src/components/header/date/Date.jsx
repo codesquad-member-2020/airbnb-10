@@ -5,7 +5,6 @@ import { DateRangePicker } from "react-dates";
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
 import "moment";
-import "moment/locale/ko";
 import styled from "styled-components";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -62,7 +61,6 @@ const Date = () => {
           calendarInfoPosition="bottom"
           renderCalendarInfo={CalendarButtonsTab}
           keepOpenOnDateSelect
-          autoFocus
         />
         <DatePickerInputWrap onClick={onClickDatePickerInputHandler} />
       </DateWarp>
