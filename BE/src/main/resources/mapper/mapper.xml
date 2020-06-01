@@ -159,4 +159,37 @@
             <result column="image_url"/>
         </collection>
     </resultMap>
+    <select id="countOfFilterResult" resultType="int">
+        SELECT  COUNT(price)
+        FROM    accommodation a
+        LEFT OUTER JOIN
+        (SELECT id,
+                TRUNCATE((price - price * discount_rate), 2) as price_discounted,
+                TRUNCATE((price - price * discount_rate) * (1 - ((price - price * discount_rate) -
+        (SELECT MIN(price)
+        FROM    accommodation)) /
+        (SELECT MAX(price) - MIN(price)
+        FROM    accommodation)) *
+        (SELECT service_max
+        FROM    fee_policy), 2) as service_tax
+        FROM    accommodation) temp
+        ON a.id = temp.id
+        <where>
+            minimum_nights <![CDATA[<=]]> #{period}
+            AND maximum_nights >= #{period}
+            <if test="people != 0">
+                AND     maximum_capacity >= #{people}
+            </if>
+            <if test="priceMin != 0">
+                AND     TRUNCATE(price_discounted + service_tax + service_tax *
+                (SELECT accommodation_tax
+                FROM fee_policy) + cleaning_fee, 2) * ${exchangeRate} >= #{priceMin}
+            </if>
+            <if test="priceMin != 0">
+                AND     TRUNCATE(price_discounted + service_tax + service_tax *
+                (SELECT accommodation_tax
+                FROM fee_policy) + cleaning_fee, 2) * ${exchangeRate} <![CDATA[<=]]> #{priceMax}
+            </if>
+        </where>
+    </select>
 </mapper>

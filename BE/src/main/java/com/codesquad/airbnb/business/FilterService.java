@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,8 +24,13 @@ public class FilterService {
         this.accommodationDAO = accommodationDAO;
     }
 
-    public List<AccommodationDTO> getAccommodations(Filter filter) {
-        return findUsingFilter(filter)
+    public Map<String, Object> getAccommodations(Filter filter) {
+        log.debug("period: {}", filter.getPeriod());
+
+        Map<String, Object> parameters = createParameters(filter);
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("accommodations", findUsingFilter(parameters)
                 .stream()
                 .map(model -> new AccommodationDTO.Builder(model.getId())
                         .name(model.getName())
@@ -34,16 +41,26 @@ public class FilterService {
                         .city(model.getCity().getName())
                         .scoresRating(model.getScoresRating())
                         .images(model.getImages())
-                        .build()).collect(Collectors.toList());
+                        .build()).collect(Collectors.toList()));
+
+        result.put("total", accommodationDAO.countOfFilterResult(parameters));
+
+        return result;
     }
 
-    public List<Accommodation> findUsingFilter(Filter filter) {
-        log.debug("period: {}", filter.getPeriod());
-        return accommodationDAO.findUsingFilter(filter.getPeople(),
-                filter.getPriceMin(),
-                filter.getPriceMax(),
-                CurrencyConvertor.EXCHANGE_RATE_FROM_USD_TO_KRW,
-                filter.getPeriod(),
-                filter.getItemsOffset());
+    // 테스트 코드를 위해서 메소드로 분리
+    public List<Accommodation> findUsingFilter(Map<String, Object> parameters) {
+        return accommodationDAO.findUsingFilter(parameters);
+    }
+
+    private Map<String, Object> createParameters(Filter filter) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("people", filter.getPeople());
+        parameters.put("priceMin", filter.getPriceMin());
+        parameters.put("priceMax", filter.getPriceMax());
+        parameters.put("exchangeRate", CurrencyConvertor.EXCHANGE_RATE_FROM_USD_TO_KRW);
+        parameters.put("period", filter.getPeriod());
+        parameters.put("itemsOffset", filter.getItemsOffset());
+        return parameters;
     }
 }
