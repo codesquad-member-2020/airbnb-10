@@ -1,4 +1,8 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { openReservation } from "../../modules/reservation.js";
+
+import Reservation from "../reservation/Reservation.jsx";
 
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
@@ -6,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 const RoomsList = ({ roomsData }) => {
-  console.log(roomsData);
   const {
     images,
     isSuperHost,
@@ -17,6 +20,8 @@ const RoomsList = ({ roomsData }) => {
     pricePerNightDiscounted,
     totalPrice,
   } = roomsData;
+
+  const dispatch = useDispatch();
 
   const getCurrency = (stringNum) => {
     return parseInt(stringNum).toLocaleString();
@@ -39,36 +44,43 @@ const RoomsList = ({ roomsData }) => {
     );
   };
 
+  const onClickReservation = () => {
+    dispatch(openReservation());
+  };
+
   return (
-    <RoomsWrap>
-      <ImageArea>
-        <img src={images[1]} alt="숙소이미지" />
-        {/* 수정하기 */}
-      </ImageArea>
-      <RoomsContent>
-        <ContentRowBothEnds>
-          <div>
-            {isSuperHost && <SuperHost>슈퍼호스트</SuperHost>}
-            <span>{city}</span>
-          </div>
-          {scoresRating && scoreRender()}
-        </ContentRowBothEnds>
-        <ContentRow>
-          <Title>{name}</Title>
-        </ContentRow>
-        <ContentRow>
-          {pricePerNight !== pricePerNightDiscounted && originalPriceRender()}
-          <TotalPrice>₩{getCurrency(pricePerNightDiscounted)}</TotalPrice>
-        </ContentRow>
-        <ContentRowBothEnds>
-          <div>
-            <span>총요금 </span>
-            <TotalPrice total>₩{getCurrency(totalPrice)}</TotalPrice>
-          </div>
-          <ReservationBtn>예약</ReservationBtn>
-        </ContentRowBothEnds>
-      </RoomsContent>
-    </RoomsWrap>
+    <>
+      <RoomsWrap>
+        <ImageArea>
+          <img src={images[1]} alt="숙소이미지" />
+          {/* 수정하기 */}
+        </ImageArea>
+        <RoomsContent>
+          <ContentRowBothEnds>
+            <div>
+              {isSuperHost && <SuperHost>슈퍼호스트</SuperHost>}
+              <span>{city}</span>
+            </div>
+            {scoresRating && scoreRender()}
+          </ContentRowBothEnds>
+          <ContentRow>
+            <Title>{name}</Title>
+          </ContentRow>
+          <ContentRow>
+            {pricePerNight !== pricePerNightDiscounted && originalPriceRender()}
+            <TotalPrice>₩{getCurrency(pricePerNightDiscounted)}</TotalPrice>
+          </ContentRow>
+          <ContentRowBothEnds>
+            <div>
+              <span>총요금 </span>
+              <TotalPrice total>₩{getCurrency(totalPrice)}</TotalPrice>
+            </div>
+            <ReservationBtn onClick={onClickReservation}>예약</ReservationBtn>
+          </ContentRowBothEnds>
+        </RoomsContent>
+      </RoomsWrap>
+      <Reservation />
+    </>
   );
 };
 
