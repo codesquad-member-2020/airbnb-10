@@ -1,5 +1,6 @@
 package com.codesquad.airbnb.dao;
 
+import com.codesquad.airbnb.domain.dto.AccommodationDTO;
 import com.codesquad.airbnb.domain.model.Accommodation;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,9 @@ public class AccommodationDAO {
 
     public int countOfFilterResult(Map<String, Object> parameters) {
         return sqlSession.selectOne(NAMESPACE + "countOfFilterResult", parameters);
+    }
+
+    public Accommodation findAccommodationChargeInfoById(Map<String, Object> parameters) {
+        return sqlSession.selectOne(NAMESPACE + "findAccommodationChargeInfoById", parameters);
     }
 }
