@@ -16,9 +16,10 @@ import { useHistory } from "react-router";
 const DEFAULT_PERSONNEL_COUNT = 1;
 
 const ModalButtons = ({ resetHandler, width, height }) => {
-  const store = useSelector((store) => store);
+  const { personnelReducer, dateReducer, priceReducer } = useSelector(
+    (store) => store,
+  );
   const dispatch = useDispatch();
-  const { personnelReducer, dateReducer, priceReducer } = store;
 
   const { startDate, endDate } = dateReducer; // Date
   const { adultCount, childCount, babyCount, totalCount } = personnelReducer; // Personnel
