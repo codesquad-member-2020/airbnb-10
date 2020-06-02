@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import ChartBar from "./ChartBar.jsx";
 import PropTypes from "prop-types";
@@ -19,10 +19,9 @@ const defaultProps = {
   chartWidth: CHART_WIDTH,
   chartHeight: CHART_HEIGHT,
   chartGauge: false,
+  chartGaugeStart: null,
+  chartGaugeEnd: null,
 };
-
-//  100 % chartBarIncreaseUnit === 0 Add Conditional Expression
-//  If the height value is over 100, add a conditional expression that no longer adds height.
 
 const Chart = ({
   chartBarUnit,
@@ -106,6 +105,23 @@ const Chart = ({
 
     return chartBars;
   };
+
+  const checkEssentialPropValue = () => {
+    if (!chartBarUnit || !chartBarCount || !chartDatas) {
+      throw Error(
+        "ChartBarUnit, ChartBarCount, ChartDatas are essential props. Please check the props.",
+      );
+    } else if (chartBarIncreaseUnit && 100 % chartBarIncreaseUnit !== 0) {
+      console.error(
+        "The chartBarIncreaseUnit must be divided by 100 and the rest must be 0 to draw the exact graph.",
+      );
+    }
+  };
+
+  useEffect(() => {
+    checkEssentialPropValue();
+    console.log("안녕");
+  }, []);
 
   return (
     <ChartWrap
