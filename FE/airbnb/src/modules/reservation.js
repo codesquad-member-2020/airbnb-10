@@ -14,10 +14,10 @@ export const closeReservation = () => {
   };
 };
 
-export const fetchReservation = (reservationData) => {
+export const fetchReservation = ({ content }) => {
   return {
     type: RESERVATION_FETCH,
-    reservationData,
+    reservationData: content,
   };
 };
 

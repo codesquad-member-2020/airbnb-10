@@ -20,8 +20,6 @@ const Reservation = () => {
     dispatch(closeReservation());
   };
 
-  // useFetch(url, fetchReservation);
-
   return (
     <>
       <ReservationWrap isClicked={isClicked}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   openReservation,
   fetchReservation,
@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import useFetch from "../../hooks/useFetch.jsx";
+import useFetch, { fetchData } from "../../hooks/useFetch.jsx";
 
 const RoomsList = ({ roomsData }) => {
   const {
@@ -48,22 +48,14 @@ const RoomsList = ({ roomsData }) => {
     );
   };
 
-  const state = useSelector((state) => state);
-
-  const fetchReservationData = async () => {
-    const response = await fetch(url);
-    const initialData = await response.json();
-    console.log(initialData);
-    dispatch(fetchReservation(initialData));
-    console.log(state);
+  const fetchReservationData = () => {
+    fetchData(url).then((data) => dispatch(fetchReservation(data)));
   };
 
   const onClickReservation = () => {
     dispatch(openReservation());
     fetchReservationData();
   };
-
-  // useFetch(url, fetchReservation, dispatch, openReservation);
 
   return (
     <>
