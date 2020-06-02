@@ -19,18 +19,18 @@ public class AccommodationDTO {
     private int pricePerNightDiscounted;
 
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private int priceDuringPeriod;
+    private long priceDuringPeriod;
 
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int cleaningFee;
 
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private int serviceTax;
+    private long serviceTax;
 
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    private int accommodationTax;
+    private long accommodationTax;
 
-    private int totalPrice;
+    private long totalPrice;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Boolean isSuperHost;
@@ -60,6 +60,34 @@ public class AccommodationDTO {
         this.images = builder.images;
     }
 
+    public int getPricePerNight() {
+        return pricePerNight;
+    }
+
+    public int getPricePerNightDiscounted() {
+        return pricePerNightDiscounted;
+    }
+
+    public long getPriceDuringPeriod() {
+        return priceDuringPeriod;
+    }
+
+    public int getCleaningFee() {
+        return cleaningFee;
+    }
+
+    public long getServiceTax() {
+        return serviceTax;
+    }
+
+    public long getAccommodationTax() {
+        return accommodationTax;
+    }
+
+    public long getTotalPrice() {
+        return totalPrice;
+    }
+
     public static class Builder {
 
         private Integer id;
@@ -70,15 +98,15 @@ public class AccommodationDTO {
 
         private int pricePerNightDiscounted;
 
-        private int priceDuringPeriod;
+        private long priceDuringPeriod;
 
         private int cleaningFee;
 
-        private int serviceTax;
+        private long serviceTax;
 
-        private int accommodationTax;
+        private long accommodationTax;
 
-        private int totalPrice;
+        private long totalPrice;
 
         private Boolean isSuperHost;
 
@@ -107,7 +135,7 @@ public class AccommodationDTO {
             return this;
         }
 
-        public Builder priceDuringPeriod(int priceDuringPeriod) {
+        public Builder priceDuringPeriod(long priceDuringPeriod) {
             this.priceDuringPeriod = priceDuringPeriod;
             return this;
         }
@@ -117,17 +145,17 @@ public class AccommodationDTO {
             return this;
         }
 
-        public Builder serviceTax(int serviceTax) {
+        public Builder serviceTax(long serviceTax) {
             this.serviceTax = serviceTax;
             return this;
         }
 
-        public Builder accommodationTax(int accommodationTax) {
+        public Builder accommodationTax(long accommodationTax) {
             this.accommodationTax = accommodationTax;
             return this;
         }
 
-        public Builder totalPrice(int totalPrice) {
+        public Builder totalPrice(long totalPrice) {
             this.totalPrice = totalPrice;
             return this;
         }
