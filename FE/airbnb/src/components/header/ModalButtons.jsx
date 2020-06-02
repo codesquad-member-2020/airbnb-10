@@ -11,6 +11,8 @@ import moment from "moment";
 
 import { setStartDate, setEndDate } from "../../modules/date.js";
 
+import { useHistory } from "react-router";
+
 const DEFAULT_PERSONNEL_COUNT = 1;
 
 const ModalButtons = ({ resetHandler, width, height }) => {
@@ -22,6 +24,8 @@ const ModalButtons = ({ resetHandler, width, height }) => {
   const { adultCount, childCount, babyCount, totalCount } = personnelReducer; // Personnel
   const { priceValues } = priceReducer; // Price
   const [minPrice, maxPrice] = priceValues;
+
+  const history = useHistory();
 
   const setCheckDateQueryString = () => {
     if (!startDate && !endDate) {
@@ -36,8 +40,9 @@ const ModalButtons = ({ resetHandler, width, height }) => {
 
       return `checkIn=${checkInDate}&checkOut=${checkOutDate}&`;
     } else if (startDate && !endDate) {
-      const checkOutMoment = moment(checkInDateFormat);
-      const checkOutDate = checkOutDate.format("YYYY-MM-DD");
+      const checkInDate = startDate.format("YYYY-MM-DD");
+      const checkOutMoment = moment(checkInDate);
+      const checkOutDate = checkOutMoment.format("YYYY-MM-DD");
 
       dispatch(setEndDate(checkOutMoment.add("days", 1)));
 
@@ -62,28 +67,23 @@ const ModalButtons = ({ resetHandler, width, height }) => {
     }
   };
 
-  const setRequestURL = () => {
-    const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
-
+  const createQueryString = () => {
     const checkDateQueryString = setCheckDateQueryString();
     const personnelQueryString = setPersonnelQueryString();
     const minPriceQueryString = `priceMin=${minPrice}&`;
     const maxPriceQueryString = `priceMax=${maxPrice}`;
 
-    const requestURL =
-      ROOMS_DB_HOST +
+    const queryString =
       checkDateQueryString +
       personnelQueryString +
       minPriceQueryString +
       maxPriceQueryString;
 
-    return requestURL;
+    return queryString;
   };
 
   const saveHandler = () => {
-    fetch(setRequestURL())
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    history.push(`/rooms?${createQueryString()}`);
   };
 
   return (
