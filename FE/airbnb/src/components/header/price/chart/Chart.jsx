@@ -120,7 +120,6 @@ const Chart = ({
 
   useEffect(() => {
     checkEssentialPropValue();
-    console.log("안녕");
   }, []);
 
   return (
