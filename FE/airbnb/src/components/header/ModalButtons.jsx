@@ -81,7 +81,9 @@ const ModalButtons = ({ resetHandler, width, height }) => {
   };
 
   const saveHandler = () => {
-    console.log(setRequestURL());
+    fetch(setRequestURL())
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   return (
