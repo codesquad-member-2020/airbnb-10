@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class MockBookController {
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getReservationInformation(@PathVariable Integer id, Filter filter) {
+    public ResponseEntity<ApiResponse> getReservationInfo(@PathVariable Integer id, Filter filter) {
         AccommodationDTO accommodation = new AccommodationDTO.Builder(1)
                 .pricePerNight(158868)
                 .pricePerNightDiscounted(136627)
