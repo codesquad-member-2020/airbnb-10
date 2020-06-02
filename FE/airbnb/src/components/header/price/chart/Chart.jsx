@@ -84,14 +84,17 @@ const Chart = ({
       }
 
       const dataScope = chartBars[position].props.dataScope;
-      const height = chartBars[position].props.height;
+      const height =
+        chartBars[position].props.height >= 100
+          ? chartBars[position].props.height
+          : chartBars[position].props.height + chartBarIncreaseUnit;
       const width = chartBars[position].props.width;
       const count = chartBars[position].props.count + 1;
       const keyValue = chartBars[position].key;
 
       chartBars[position] = (
         <ChartBar
-          height={height + chartBarIncreaseUnit}
+          height={height}
           width={width}
           count={count}
           dataScope={dataScope}
