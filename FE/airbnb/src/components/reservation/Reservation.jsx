@@ -1,16 +1,26 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { closeReservation } from "../../modules/reservation.js";
+import { useSelector, useDispatch, useEffect } from "react-redux";
+import {
+  closeReservation,
+  fetchReservation,
+} from "../../modules/reservation.js";
+import useFetch from "../../hooks/useFetch.jsx";
 
 import styled from "styled-components";
 
 const Reservation = () => {
+  const url = `http://15.165.117.230/api/mock/rooms/1?checkIn=2020-05-26&checkOut=2020-05-27`;
+
   const dispatch = useDispatch();
-  const { isClicked } = useSelector((state) => state.reservationReducer);
+  const { isClicked, content } = useSelector(
+    (state) => state.reservationReducer,
+  );
 
   const onClickCloseBtn = () => {
     dispatch(closeReservation());
   };
+
+  // useFetch(url, fetchReservation);
 
   return (
     <>
@@ -36,6 +46,8 @@ const ReservationWrap = styled.div`
 `;
 
 const CloseBtn = styled.button`
+  position: absolute;
+  right: 20px;
   font-weight: bold;
   cursor: pointer;
   outline: none;

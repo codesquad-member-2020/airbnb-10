@@ -1,13 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { openReservation } from "../../modules/reservation.js";
-
+import { useDispatch, useSelector } from "react-redux";
+import {
+  openReservation,
+  fetchReservation,
+} from "../../modules/reservation.js";
 import Reservation from "../reservation/Reservation.jsx";
 
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import useFetch from "../../hooks/useFetch.jsx";
 
 const RoomsList = ({ roomsData }) => {
   const {
@@ -22,6 +25,7 @@ const RoomsList = ({ roomsData }) => {
   } = roomsData;
 
   const dispatch = useDispatch();
+  const url = `http://15.165.117.230/api/mock/rooms/1?checkIn=2020-05-26&checkOut=2020-05-27`;
 
   const getCurrency = (stringNum) => {
     return parseInt(stringNum).toLocaleString();
@@ -44,9 +48,22 @@ const RoomsList = ({ roomsData }) => {
     );
   };
 
+  const state = useSelector((state) => state);
+
+  const fetchReservationData = async () => {
+    const response = await fetch(url);
+    const initialData = await response.json();
+    console.log(initialData);
+    dispatch(fetchReservation(initialData));
+    console.log(state);
+  };
+
   const onClickReservation = () => {
     dispatch(openReservation());
+    fetchReservationData();
   };
+
+  // useFetch(url, fetchReservation, dispatch, openReservation);
 
   return (
     <>
