@@ -1,5 +1,6 @@
 package com.codesquad.airbnb.domain.model;
 
+import java.io.FileOutputStream;
 import java.util.List;
 
 public class Accommodation {
@@ -52,19 +53,46 @@ public class Accommodation {
         return coordinates;
     }
 
-    public float getPricePerNight() {
-        return charge.getPricePerNight();
-    }
-
-    public float getPricePerNightDiscounted() {
-        return charge.getPricePerNightDiscounted();
-    }
-
-    public float getTotalPrice() {
-        return charge.getTotalPricePerNight();
-    }
-
     public List<String> getImages() {
         return images;
+    }
+
+    public int getOriginalPricePerNight() {
+        return charge.getOriginalPrice();
+    }
+
+    public int getDiscountedPricePerNight() {
+        return charge.getDiscountedPrice();
+    }
+
+    public long getServiceTax(Filter filter) {
+        return charge.getServiceTax() * filter.getPeriod();
+    }
+
+    public long getAccommodationTax(Filter filter, float accommodationTaxRate) {
+        long serviceTax = getServiceTax(filter);
+        return (int)(serviceTax * accommodationTaxRate);
+    }
+
+    public int getCleaningFee() {
+        return charge.getCleaningFee();
+    }
+
+    public long getPriceDuringPeriod(Filter filter) {
+        return charge.getDiscountedPrice() * filter.getPeriod();
+    }
+
+    public long getTotalPrice(Filter filter, float accommodationTaxRate) {
+        return getPriceDuringPeriod(filter) + charge.getCleaningFee() + getServiceTax(filter) + getAccommodationTax(filter, accommodationTaxRate);
+    }
+
+    public int getPricePerNight(float accommodationTaxRate) {
+        int serviceTax = charge.getServiceTax();
+        return charge.getOriginalPrice() + charge.getCleaningFee() + serviceTax + (int)(serviceTax * accommodationTaxRate);
+    }
+
+    public int getPricePerNightDiscounted(float accommodationTaxRate) {
+        int serviceTax = charge.getServiceTax();
+        return charge.getDiscountedPrice() + charge.getCleaningFee() + serviceTax + (int)(serviceTax * accommodationTaxRate);
     }
 }

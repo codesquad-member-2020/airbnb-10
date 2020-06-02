@@ -2,35 +2,29 @@ package com.codesquad.airbnb.domain.model;
 
 public class Charge {
 
-    private float pricePerNight;
+    private int originalPrice;
 
-    private float pricePerNightDiscounted;
+    private int discountedPrice;
 
-    private float cleaningFee;
+    private int cleaningFee;
 
-    private float serviceTax;
-
-    private float totalPricePerNight;
+    private int serviceTax;
 
     public Charge() {}
 
-    public float getPricePerNight() {
-        return pricePerNight;
+    public int getOriginalPrice() {
+        return originalPrice;
     }
 
-    public float getPricePerNightDiscounted() {
-        return pricePerNightDiscounted;
+    public int getDiscountedPrice() {
+        return discountedPrice;
     }
 
-    public float getCleaningFee() {
+    public int getCleaningFee() {
         return cleaningFee;
     }
 
-    public float getServiceTax() {
+    public int getServiceTax() {
         return serviceTax;
-    }
-
-    public float getTotalPricePerNight() {
-        return totalPricePerNight;
     }
 }
