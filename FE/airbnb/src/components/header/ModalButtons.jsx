@@ -11,17 +11,19 @@ import moment from "moment";
 
 import { setStartDate, setEndDate } from "../../modules/date.js";
 
+const DEFAULT_PERSONNEL_COUNT = 1;
+
 const ModalButtons = ({ resetHandler, width, height }) => {
   const store = useSelector((store) => store);
   const dispatch = useDispatch();
   const { personnelReducer, dateReducer, priceReducer } = store;
 
   const { startDate, endDate } = dateReducer; // Date
-  const { adultCount, childCount, babyCount } = personnelReducer; // Personnel
+  const { adultCount, childCount, babyCount, totalCount } = personnelReducer; // Personnel
   const { priceValues } = priceReducer; // Price
   const [minPrice, maxPrice] = priceValues;
 
-  const setCheckDateQueryParameter = () => {
+  const setCheckDateQueryString = () => {
     if (!startDate && !endDate) {
       const checkInMoment = moment();
       const checkOutMoment = moment().add("days", 1);
@@ -42,23 +44,45 @@ const ModalButtons = ({ resetHandler, width, height }) => {
       return `checkIn=${checkInDate}&checkOut=${checkOutDate}&`;
     } else if (startDate && endDate) {
       const checkInDate = startDate.format("YYYY-MM-DD");
-      const checkOutDate = startDate.format("YYYY-MM-DD");
+      const checkOutDate = endDate.format("YYYY-MM-DD");
 
       return `checkIn=${checkInDate}&checkOut=${checkOutDate}&`;
     }
   };
 
-  const setResponseURL = () => {
-    const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
+  const setPersonnelQueryString = () => {
+    if (totalCount === 0) {
+      return `adults=${DEFAULT_PERSONNEL_COUNT}&`;
+    } else {
+      const adults = adultCount ? `adults=${adultCount}&` : "";
+      const children = childCount ? `children=${childCount}&` : "";
+      const infants = babyCount ? `infants=${babyCount}&` : "";
 
-    const adults = adultCount ? `adults=${adultCount}&` : "";
-    const children = childCount ? `children=${childCount}&` : "";
-    const infants = babyCount ? `infants=${babyCount}&` : "";
-
-    return ROOMS_DB_HOST + adults + children + infants;
+      return adults + children + infants;
+    }
   };
 
-  const saveHandler = () => {};
+  const setRequestURL = () => {
+    const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
+
+    const checkDateQueryString = setCheckDateQueryString();
+    const personnelQueryString = setPersonnelQueryString();
+    const minPriceQueryString = `priceMin=${minPrice}&`;
+    const maxPriceQueryString = `priceMax=${maxPrice}`;
+
+    const requestURL =
+      ROOMS_DB_HOST +
+      checkDateQueryString +
+      personnelQueryString +
+      minPriceQueryString +
+      maxPriceQueryString;
+
+    return requestURL;
+  };
+
+  const saveHandler = () => {
+    console.log(setRequestURL());
+  };
 
   return (
     <CustomButtonsArea width={width} height={height}>
