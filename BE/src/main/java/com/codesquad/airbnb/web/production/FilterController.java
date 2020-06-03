@@ -28,6 +28,6 @@ public class FilterController {
         if (result.hasErrors()) {
             return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL, CustomValidatorUtils.getErrorMessage(result)), HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS, filterService.getAccommodations(filter)), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS, filterService.getFilteringResult(filter)), HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import com.codesquad.airbnb.common.DAOUtils;
 import com.codesquad.airbnb.dao.AccommodationDAO;
 import com.codesquad.airbnb.dao.FeePolicyMapper;
 import com.codesquad.airbnb.domain.dto.AccommodationDTO;
+import com.codesquad.airbnb.domain.dto.FeeFilterDTO;
 import com.codesquad.airbnb.domain.model.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class FilterService {
         this.feePolicyMapper = feePolicyMapper;
     }
 
-    public Map<String, Object> getAccommodations(Filter filter) {
+    public Map<String, Object> getFilteringResult(Filter filter) {
         log.debug("period: {}", filter.getPeriod());
 
         Map<String, Object> parameters = DAOUtils.createParameters(filter);
@@ -49,6 +50,15 @@ public class FilterService {
 
         result.put("total", accommodationDAO.countOfFilterResult(parameters));
 
+        result.put("fee", createFeeFilter(parameters));
+
         return result;
+    }
+
+    private FeeFilterDTO createFeeFilter(Map<String, Object> parameters) {
+        Map<String, Integer> fee = accommodationDAO.findMinAndMaxOfFee(parameters);
+        return new FeeFilterDTO(fee.get("min"),
+                fee.get("max"),
+                accommodationDAO.findFeeUsingFilter(parameters));
     }
 }
