@@ -55,18 +55,20 @@ const Chart = ({
   const createChartBar = (chartBarCount) => {
     const widthValue = calculationWidth(chartBarWidthPercent, chartBarCount);
 
-    const chartBars = Array.from({ length: 20 }, (v, i) => i).map((el) => {
-      return (
-        <ChartBar
-          height={0}
-          width={widthValue}
-          count={0}
-          dataScope={chartBarUnit * (el + 1)}
-          chartBarIncreaseUnit={chartBarIncreaseUnit}
-          key={el}
-        />
-      );
-    });
+    const chartBars = Array.from({ length: chartBarCount }, (v, i) => i).map(
+      (el) => {
+        return (
+          <ChartBar
+            height={0}
+            width={widthValue}
+            count={0}
+            dataScope={chartBarUnit * (el + 1)}
+            chartBarIncreaseUnit={chartBarIncreaseUnit}
+            key={el}
+          />
+        );
+      },
+    );
 
     return chartBars;
   };

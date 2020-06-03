@@ -56,6 +56,7 @@ export const useRoomsFetch = (actionFunc, searchQuery) => {
   const fetchRooms = async () => {
     const response = await fetch(requsetUrl);
     const data = await response.json();
+
     dispatch(actionFunc(data));
   };
 };
