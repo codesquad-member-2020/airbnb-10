@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { closeReservation } from "../../modules/reservation.js";
@@ -12,7 +12,8 @@ import { fetchData } from "../../hooks/useFetch.jsx";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
-const Reservation = () => {
+const Reservation = memo(() => {
+  console.log(9);
   const dispatch = useDispatch();
   const {
     isClicked,
@@ -28,7 +29,6 @@ const Reservation = () => {
 
   const { startDate, endDate } = useSelector((state) => state.dateReducer);
   const { totalCount } = useSelector((state) => state.personnelReducer);
-  console.log(totalCount, "total");
 
   const [selectedPersonnel, setSelectedPersonnel] = useState(1);
 
@@ -50,22 +50,16 @@ const Reservation = () => {
     );
   };
 
-  const selectOptionRender = (selectedPersonnel) => {
+  const selectOptionRender = () => {
     const MAX_PERSONNEL = 8;
 
     const optionHtml = Array(MAX_PERSONNEL)
       .fill()
       .map((_, index) => {
         const personnel = index + 1;
-        if (personnel === selectedPersonnel) {
-          return (
-            <option key={personnel} selected value={`게스트 ${personnel}명`}>
-              게스트 {personnel}명
-            </option>
-          );
-        }
+
         return (
-          <option key={personnel} value={`게스트 ${personnel}명`}>
+          <option key={personnel} value={personnel}>
             게스트 {personnel}명
           </option>
         );
@@ -75,7 +69,7 @@ const Reservation = () => {
   };
 
   useEffect(() => {
-    if (totalCount) setSelectedPersonnel(totalCount);
+    setSelectedPersonnel(totalCount);
   }, [totalCount]);
 
   return (
@@ -93,7 +87,7 @@ const Reservation = () => {
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>
-          <select>{selectOptionRender(selectedPersonnel)}</select>
+          <select value={selectedPersonnel}>{selectOptionRender()}</select>
         </RowBox>
         <PriceRow>
           <span>
@@ -123,7 +117,7 @@ const Reservation = () => {
       {isClicked && <ModalShadow />}
     </>
   );
-};
+});
 
 const ReservationWrap = styled.div`
   display: ${(props) => (props.isClicked ? "block" : "none")};
