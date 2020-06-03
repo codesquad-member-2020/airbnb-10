@@ -30,7 +30,7 @@ public class MockBookController {
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<ApiResponse> bookRoom(@PathVariable Integer id, Filter filter, BindingResult result) {
+    public ResponseEntity<ApiResponse> booking(@PathVariable Integer id, Filter filter, BindingResult result) {
         new FilterValidator().validate(filter, result);
         if (result.hasErrors()) {
             return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL, CustomValidatorUtils.getErrorMessage(result)), HttpStatus.FORBIDDEN);
