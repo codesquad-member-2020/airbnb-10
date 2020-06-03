@@ -1,8 +1,8 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import useFetch from "../../hooks/useFetch.jsx";
-import { getCurrency } from "../../util/util.js";
+import { getCurrency, getFormatedDate } from "../../util/util.js";
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,7 +11,10 @@ import { fetchData } from "../../hooks/useFetch.jsx";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
+import moment from "moment";
+
 const Reservation = memo(({ setOpenReservation }) => {
+  const selecRef = useRef();
   console.log(9);
   const {
     isClicked,
@@ -31,12 +34,21 @@ const Reservation = memo(({ setOpenReservation }) => {
 
   const [selectedPersonnel, setSelectedPersonnel] = useState(1);
 
-  const formatedStartDate = startDate.format("YYYY-MM-DD");
-  const formatedEndDatee = endDate.format("YYYY-MM-DD");
-  console.log(formatedStartDate);
+  let formatedStartDate;
+  let formatedEndDatee;
+  let period = 1;
 
-  const period = endDate.diff(startDate, "days");
-  // const period = endDate.diff(startDate, "days");
+  if (!startDate) {
+    const today = moment();
+    const tomorrow = moment().add("days", 1);
+
+    formatedStartDate = today.format("YYYY.MM.DD");
+    formatedEndDatee = tomorrow.format("YYYY.MM.DD");
+  } else {
+    formatedStartDate = startDate.format("YYYY.MM.DD");
+    formatedEndDatee = endDate.format("YYYY.MM.DD");
+    period = endDate.diff(startDate, "days");
+  }
 
   const onClickCloseBtn = () => {
     setOpenReservation(false);
@@ -72,11 +84,13 @@ const Reservation = memo(({ setOpenReservation }) => {
   };
 
   useEffect(() => {
-    onChangeSelect();
+    setSelectedPersonnel(totalCount);
   }, [totalCount]);
 
   const onChangeSelect = () => {
+    // setSelectedPersonnel(selecRef.current.value);
     setSelectedPersonnel(totalCount);
+    //fetch요청
   };
 
   return (
@@ -90,11 +104,17 @@ const Reservation = memo(({ setOpenReservation }) => {
         {scoresRating && scoreRender()}
         <DateRowBox>
           <Title>날짜</Title>
-          <div>{/* <span>{startDate}</span>→<span>{endDate}</span> */}</div>
+          <div>
+            <span>{formatedStartDate}</span>→<span>{formatedEndDatee}</span>
+          </div>
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>
-          <select onChange={onChangeSelect} value={selectedPersonnel}>
+          <select
+            onChange={onChangeSelect}
+            value={selectedPersonnel}
+            ref={selecRef}
+          >
             {selectOptionRender()}
           </select>
         </RowBox>
@@ -178,19 +198,23 @@ const RowBox = styled(Row)`
     text-align: center;
     margin-top: 10px;
     width: 100%;
-    height: 37px;
-    line-height: 37px;
+    height: 42px;
+    line-height: 42px;
     border: 1px solid var(--gray-1);
   }
   & select {
     padding-left: 10px;
-    height: 42px;
   }
 `;
 
 const DateRowBox = styled(RowBox)`
   padding-top: 20px;
   border-top: 1px solid var(--gray-1);
+  & div {
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+  }
 `;
 
 const Title = styled.span`
@@ -200,6 +224,7 @@ const Title = styled.span`
 
 const ScoreIcon = styled.span`
   color: var(--mainColor);
+  margin-right: 5px;
 `;
 
 const PricePerNight = styled.span`
@@ -209,7 +234,7 @@ const PricePerNight = styled.span`
 
 const LongReservationBtn = styled(ReservationBtn)`
   width: 100%;
-  height: 40px;
+  height: 45px;
 `;
 
 const Message = styled(Row)`

@@ -12,8 +12,8 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../hooks/useFetch.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
-const RoomsList = memo(({ roomsData }) => {
-  console.log(1);
+const RoomsList = memo(({ roomsData, location }) => {
+  console.log(location);
   const {
     id,
     images,
@@ -59,9 +59,12 @@ const RoomsList = memo(({ roomsData }) => {
     const today = getDate(0);
     const tomorrow = getDate(1);
     let reservationUrl = url + id;
-    if (!startDate) reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}`;
-    if (adultCount)
-      reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}&adults=${adultCount}&children=${childCount}`;
+    const search = location.search;
+    if (!search) {
+      reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}`;
+      console.log(reservationUrl, "url");
+    }
+    // const params = new URLSearchParams(search);
     // return url + id;
     return reservationUrl;
   };
