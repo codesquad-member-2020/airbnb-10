@@ -17,6 +17,7 @@ const Reservation = memo(({ setOpenReservation }) => {
     isClicked,
     content: {
       pricePerNightDiscounted,
+      priceDuringPeriod,
       cleaningFee,
       serviceTax,
       accommodationTax,
@@ -97,7 +98,7 @@ const Reservation = memo(({ setOpenReservation }) => {
           <span>
             ₩{getCurrency(pricePerNightDiscounted)} x {}박
           </span>
-          <span></span>
+          <span>{getCurrency(priceDuringPeriod)}</span>
         </PriceRow>
         {cleaningFee && (
           <PriceRow>
@@ -159,7 +160,7 @@ const PriceRow = styled(Row)`
 
 const ScoreRow = styled(Row)`
   font-size: 13px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 `;
 const TotalRow = styled(PriceRow)`
   font-weight: bold;
@@ -179,6 +180,7 @@ const RowBox = styled(Row)`
   }
   & select {
     padding-left: 10px;
+    height: 42px;
   }
 `;
 
