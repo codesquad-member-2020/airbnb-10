@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { closeReservation } from "../../modules/reservation.js";
@@ -26,7 +26,14 @@ const Reservation = () => {
     scoresRating,
   } = useSelector((state) => state.reservationReducer);
 
-  // const { startDate, endDate } = useSelector((state) => state.dateReducer);
+  const { startDate, endDate } = useSelector((state) => state.dateReducer);
+  const { totalCount } = useSelector((state) => state.personnelReducer);
+  console.log(totalCount, "total");
+
+  const [selectedPersonnel, setSelectedPersonnel] = useState(1);
+
+  // const a = startDate.format("YYYY-MM-DD");
+  // console.log(a);
 
   const onClickCloseBtn = () => {
     dispatch(closeReservation());
@@ -43,13 +50,20 @@ const Reservation = () => {
     );
   };
 
-  const selectOptionRender = () => {
+  const selectOptionRender = (selectedPersonnel) => {
     const MAX_PERSONNEL = 8;
 
     const optionHtml = Array(MAX_PERSONNEL)
       .fill()
       .map((_, index) => {
         const personnel = index + 1;
+        if (personnel === selectedPersonnel) {
+          return (
+            <option key={personnel} selected value={`게스트 ${personnel}명`}>
+              게스트 {personnel}명
+            </option>
+          );
+        }
         return (
           <option key={personnel} value={`게스트 ${personnel}명`}>
             게스트 {personnel}명
@@ -59,6 +73,10 @@ const Reservation = () => {
 
     return optionHtml;
   };
+
+  useEffect(() => {
+    if (totalCount) setSelectedPersonnel(totalCount);
+  }, [totalCount]);
 
   return (
     <>
@@ -75,7 +93,7 @@ const Reservation = () => {
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>
-          <select>{selectOptionRender()}</select>
+          <select>{selectOptionRender(selectedPersonnel)}</select>
         </RowBox>
         <PriceRow>
           <span>
