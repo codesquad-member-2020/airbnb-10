@@ -43,7 +43,7 @@ const ModalButtons = ({ resetHandler, width, height }) => {
     } else if (startDate && !endDate) {
       const checkInDate = startDate.format("YYYY-MM-DD");
       const checkOutMoment = moment(checkInDate);
-      const checkOutDate = checkOutMoment.format("YYYY-MM-DD");
+      const checkOutDate = checkOutMoment.add("days", 1).format("YYYY-MM-DD");
 
       dispatch(setEndDate(checkOutMoment.add("days", 1)));
 
