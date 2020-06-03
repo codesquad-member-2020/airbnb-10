@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   openReservation,
   fetchReservation,
@@ -26,8 +26,6 @@ const RoomsList = ({ roomsData }) => {
   } = roomsData;
 
   const dispatch = useDispatch();
-  const { state } = useSelector((state) => state.roomsListReducer);
-  console.log(state);
   const url = `http://15.165.117.230/api/mock/rooms/{id}?checkIn=2020-05-26&checkOut=2020-05-27`;
 
   const getCurrency = (stringNum) => {
@@ -60,13 +58,10 @@ const RoomsList = ({ roomsData }) => {
   };
 
   const onClickReservation = ({ target: { id } }) => {
-    console.log(id);
     dispatch(openReservation());
     const reservationUrl = getUrl(id);
     fetchReservationData(reservationUrl);
   };
-
-  console.log(ReservationBtn);
 
   return (
     <>
