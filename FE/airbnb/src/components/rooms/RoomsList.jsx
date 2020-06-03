@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 import {
   openReservation,
@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../hooks/useFetch.jsx";
 
-const RoomsList = ({ roomsData }) => {
+const RoomsList = memo(({ roomsData }) => {
   const {
     id,
     images,
@@ -101,13 +101,14 @@ const RoomsList = ({ roomsData }) => {
       <Reservation />
     </>
   );
-};
+});
 
 const RoomsWrap = styled.div`
-  margin: 0 10px;
+  margin: 0 10px 20px;
   padding: 20px 13px 0;
-  width: 26%;
+  width: 21%;
   min-width: 300px;
+
   box-shadow: var(--box-shadow);
   border-radius: 8px;
   transition: all 0.2s ease-in-out;

@@ -15,6 +15,7 @@ const Reservation = () => {
   );
 
   const { pricePerNightDiscounted } = content;
+  console.log(content, 1);
 
   const onClickCloseBtn = () => {
     dispatch(closeReservation());
@@ -25,10 +26,9 @@ const Reservation = () => {
       <ReservationWrap isClicked={isClicked}>
         <CloseBtn onClick={onClickCloseBtn}>X</CloseBtn>
         <div>
-          <PricePerNight>₩{pricePerNightDiscounted}</PricePerNight>{" "}
+          <PricePerNight>₩{pricePerNightDiscounted}</PricePerNight>
           <span>/박</span>
         </div>
-
         <div>
           <span>{scoresRating}</span>
           <FontAwesomeIcon icon={faStar} />

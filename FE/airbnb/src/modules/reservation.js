@@ -14,10 +14,10 @@ export const closeReservation = () => {
   };
 };
 
-export const fetchReservation = (content, scoresRating) => {
+export const fetchReservation = (reservationData, scoresRating) => {
   return {
     type: RESERVATION_FETCH,
-    reservationData: content,
+    reservationData: reservationData.content,
     scoresRating,
   };
 };
