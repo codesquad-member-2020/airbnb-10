@@ -7,16 +7,24 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../hooks/useFetch.jsx";
+import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
 const Reservation = () => {
   const dispatch = useDispatch();
-  const { isClicked, content, scoresRating } = useSelector(
-    (state) => state.reservationReducer,
-  );
+  const {
+    isClicked,
+    content: {
+      pricePerNightDiscounted,
+      cleaningFee,
+      serviceTax,
+      accommodationTax,
+      totalPrice,
+    },
+    scoresRating,
+  } = useSelector((state) => state.reservationReducer);
 
   const { startDate, endDate } = useSelector((state) => state.dateReducer);
 
-  const { pricePerNightDiscounted } = content;
   console.log(startDate);
 
   const onClickCloseBtn = () => {
@@ -64,9 +72,30 @@ const Reservation = () => {
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>
-
           <select>{selectOptionRender()}</select>
         </RowBox>
+        <PriceRow>
+          <span>
+            ₩{pricePerNightDiscounted} x {}박
+          </span>
+          <span></span>
+        </PriceRow>
+        <PriceRow>
+          <span>청소비</span>
+          <span>₩{cleaningFee}</span>
+        </PriceRow>
+        <PriceRow>
+          <span>서비스 수수료</span>
+          <span>₩{serviceTax}</span>
+        </PriceRow>
+        <PriceRow>
+          <span>숙박세와 수수료</span>
+          <span>₩{accommodationTax}</span>
+        </PriceRow>
+        <TotalRow>
+          <span>합계</span>
+          <span>₩{totalPrice}</span>
+        </TotalRow>
       </ReservationWrap>
       {isClicked && <ModalShadow />}
     </>
@@ -98,9 +127,20 @@ const Row = styled.div`
   margin: 10px 0;
 `;
 
+const PriceRow = styled(Row)`
+  ${DefaultLayout}
+  justify-content:space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--gray-1);
+  font-size: 15px;
+`;
+
 const ScoreRow = styled(Row)`
   font-size: 13px;
   padding-bottom: 10px;
+`;
+const TotalRow = styled(PriceRow)`
+  font-weight: bold;
 `;
 
 const RowBox = styled(Row)`
