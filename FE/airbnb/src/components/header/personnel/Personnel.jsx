@@ -7,12 +7,8 @@ import styled from "styled-components";
 import { Button, ToggleWrap } from "../../../style/CustomStyle.jsx";
 
 import {
-  increaseAdultCount,
-  decreaseAdultCount,
-  increaseChildCount,
-  decreaseChildCount,
-  increaseBabyCount,
-  decreaseBabyCount,
+  increaseCount,
+  decreaseCount,
   resetCount,
 } from "../../../modules/personnel.js";
 
@@ -58,24 +54,27 @@ const Personnel = () => {
         <PersonnelModalWrap>
           <PersonnelTabColumn
             count={adultCount}
-            onIncrease={increaseAdultCount}
-            onDecrease={decreaseAdultCount}
+            onIncrease={increaseCount}
+            onDecrease={decreaseCount}
             personnelType="성인"
             personnelScope="만 13세 이상"
+            storeKey="adultCount"
           />
           <PersonnelTabColumn
             count={childCount}
-            onIncrease={increaseChildCount}
-            onDecrease={decreaseChildCount}
+            onIncrease={increaseCount}
+            onDecrease={decreaseCount}
             personnelType="어린이"
             personnelScope="2 ~ 12세"
+            storeKey="childCount"
           />
           <PersonnelTabColumn
             count={babyCount}
-            onIncrease={increaseBabyCount}
-            onDecrease={decreaseBabyCount}
+            onIncrease={increaseCount}
+            onDecrease={decreaseCount}
             personnelType="유아"
             personnelScope="2세 미만"
+            storeKey="babyCount"
           />
 
           <ModalButtons

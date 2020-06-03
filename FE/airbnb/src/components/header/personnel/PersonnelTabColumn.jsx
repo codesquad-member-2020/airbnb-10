@@ -10,6 +10,7 @@ const PersonnelTabColumn = ({
   onDecrease,
   personnelType,
   personnelScope,
+  storeKey,
 }) => {
   const dispatch = useDispatch();
 
@@ -17,14 +18,14 @@ const PersonnelTabColumn = ({
     if (count === MAX_COUNT) {
       return;
     }
-    dispatch(actionFunc());
+    dispatch(actionFunc(storeKey));
   };
 
   const onDecreaseCount = (actionFunc) => {
     if (count <= MIN_COUNT) {
       return;
     }
-    dispatch(actionFunc());
+    dispatch(actionFunc(storeKey));
   };
 
   return (
