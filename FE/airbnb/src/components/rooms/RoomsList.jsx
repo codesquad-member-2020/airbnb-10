@@ -1,10 +1,7 @@
-import React, { memo } from "react";
-import { useDispatch } from "react-redux";
+import React, { memo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import {
-  openReservation,
-  fetchReservation,
-} from "../../modules/reservation.js";
+import { fetchReservation } from "../../modules/reservation.js";
 import Reservation from "../reservation/Reservation.jsx";
 import { getCurrency } from "../../util/util.js";
 
@@ -28,6 +25,8 @@ const RoomsList = memo(({ roomsData }) => {
     pricePerNightDiscounted,
     totalPrice,
   } = roomsData;
+
+  const [openReservation, setOpenReservation] = useState(false);
 
   const dispatch = useDispatch();
   const url = process.env.REACT_APP_ROOMS_DB_HOST;
@@ -60,7 +59,9 @@ const RoomsList = memo(({ roomsData }) => {
   };
 
   const onClickReservation = ({ target: { id } }) => {
-    dispatch(openReservation());
+    console.log("open", id);
+    // dispatch(openReservation());
+    setOpenReservation(true);
     const reservationUrl = getUrl(id);
     fetchReservationData(reservationUrl);
   };
@@ -98,7 +99,9 @@ const RoomsList = memo(({ roomsData }) => {
           </ContentRowBothEnds>
         </RoomsContent>
       </RoomsWrap>
-      <Reservation />
+      {openReservation && (
+        <Reservation setOpenReservation={setOpenReservation} />
+      )}
     </>
   );
 });

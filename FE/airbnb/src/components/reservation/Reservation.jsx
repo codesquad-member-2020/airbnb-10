@@ -1,7 +1,6 @@
 import React, { useState, useEffect, memo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { closeReservation } from "../../modules/reservation.js";
 import useFetch from "../../hooks/useFetch.jsx";
 import { getCurrency } from "../../util/util.js";
 
@@ -12,9 +11,8 @@ import { fetchData } from "../../hooks/useFetch.jsx";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
-const Reservation = memo(() => {
+const Reservation = memo(({ setOpenReservation }) => {
   console.log(9);
-  const dispatch = useDispatch();
   const {
     isClicked,
     content: {
@@ -36,7 +34,7 @@ const Reservation = memo(() => {
   // console.log(a);
 
   const onClickCloseBtn = () => {
-    dispatch(closeReservation());
+    setOpenReservation(false);
   };
 
   const scoreRender = () => {
@@ -114,13 +112,12 @@ const Reservation = memo(() => {
         <LongReservationBtn>예약하기</LongReservationBtn>
         <Message>예약 확정 전에는 요금이 청구되지 않습니다</Message>
       </ReservationWrap>
-      {isClicked && <ModalShadow />}
+      <ModalShadow />
     </>
   );
 });
 
 const ReservationWrap = styled.div`
-  display: ${(props) => (props.isClicked ? "block" : "none")};
   position: absolute;
   left: 50%;
   top: 50%;
@@ -215,7 +212,7 @@ const ModalShadow = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: rgba(0, 0, 0, 0.8);
 `;
 
 export default Reservation;
