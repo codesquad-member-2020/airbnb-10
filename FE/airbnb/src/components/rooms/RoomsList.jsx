@@ -1,13 +1,21 @@
-import React from "react";
+import React, { memo } from "react";
+import { useDispatch } from "react-redux";
+import {
+  openReservation,
+  fetchReservation,
+} from "../../modules/reservation.js";
+import Reservation from "../reservation/Reservation.jsx";
 
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { fetchData } from "../../hooks/useFetch.jsx";
+import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
-const RoomsList = ({ roomsData }) => {
-  console.log(roomsData);
+const RoomsList = memo(({ roomsData }) => {
   const {
+    id,
     images,
     isSuperHost,
     city,
@@ -17,6 +25,9 @@ const RoomsList = ({ roomsData }) => {
     pricePerNightDiscounted,
     totalPrice,
   } = roomsData;
+
+  const dispatch = useDispatch();
+  const url = `http://15.165.117.230/api/mock/rooms/{id}?checkIn=2020-05-26&checkOut=2020-05-27`;
 
   const getCurrency = (stringNum) => {
     return parseInt(stringNum).toLocaleString();
@@ -39,44 +50,66 @@ const RoomsList = ({ roomsData }) => {
     );
   };
 
+  const getUrl = (id) => {
+    return url.replace("{id}", id);
+  };
+
+  const fetchReservationData = (reservationUrl) => {
+    fetchData(reservationUrl).then((data) =>
+      dispatch(fetchReservation(data, scoresRating)),
+    );
+  };
+
+  const onClickReservation = ({ target: { id } }) => {
+    dispatch(openReservation());
+    const reservationUrl = getUrl(id);
+    fetchReservationData(reservationUrl);
+  };
+
   return (
-    <RoomsWrap>
-      <ImageArea>
-        <img src={images[1]} alt="숙소이미지" />
-        {/* 수정하기 */}
-      </ImageArea>
-      <RoomsContent>
-        <ContentRowBothEnds>
-          <div>
-            {isSuperHost && <SuperHost>슈퍼호스트</SuperHost>}
-            <span>{city}</span>
-          </div>
-          {scoresRating && scoreRender()}
-        </ContentRowBothEnds>
-        <ContentRow>
-          <Title>{name}</Title>
-        </ContentRow>
-        <ContentRow>
-          {pricePerNight !== pricePerNightDiscounted && originalPriceRender()}
-          <TotalPrice>₩{getCurrency(pricePerNightDiscounted)}</TotalPrice>
-        </ContentRow>
-        <ContentRowBothEnds>
-          <div>
-            <span>총요금 </span>
-            <TotalPrice total>₩{getCurrency(totalPrice)}</TotalPrice>
-          </div>
-          <ReservationBtn>예약</ReservationBtn>
-        </ContentRowBothEnds>
-      </RoomsContent>
-    </RoomsWrap>
+    <>
+      <RoomsWrap>
+        <ImageArea>
+          <img src={images[1]} alt="숙소이미지" />
+          {/* 수정하기 */}
+        </ImageArea>
+        <RoomsContent>
+          <ContentRowBothEnds>
+            <div>
+              {isSuperHost && <SuperHost>슈퍼호스트</SuperHost>}
+              <span>{city}</span>
+            </div>
+            {scoresRating && scoreRender()}
+          </ContentRowBothEnds>
+          <ContentRow>
+            <Title>{name}</Title>
+          </ContentRow>
+          <ContentRow>
+            {pricePerNight !== pricePerNightDiscounted && originalPriceRender()}
+            <TotalPrice>₩{getCurrency(pricePerNightDiscounted)}</TotalPrice>
+          </ContentRow>
+          <ContentRowBothEnds>
+            <div>
+              <span>총요금 </span>
+              <TotalPrice total>₩{getCurrency(totalPrice)}</TotalPrice>
+            </div>
+            <ReservationBtn id={id} onClick={onClickReservation}>
+              예약
+            </ReservationBtn>
+          </ContentRowBothEnds>
+        </RoomsContent>
+      </RoomsWrap>
+      <Reservation />
+    </>
   );
-};
+});
 
 const RoomsWrap = styled.div`
-  margin: 0 10px;
+  margin: 0 10px 20px;
   padding: 20px 13px 0;
-  width: 26%;
+  width: 21%;
   min-width: 300px;
+
   box-shadow: var(--box-shadow);
   border-radius: 8px;
   transition: all 0.2s ease-in-out;
@@ -142,17 +175,6 @@ const TotalPrice = styled.strong`
   color: ${(props) => (props.total ? `var(--gray-2)` : `var(--black)`)};
   font-weight: bold;
   font-size: 16px;
-`;
-
-const ReservationBtn = styled.button`
-  width: 75px;
-  height: 35px;
-  border-radius: 10px;
-  color: var(--white);
-  font-weight: bold;
-  background-color: var(--mainColor);
-  outline: none;
-  cursor: pointer;
 `;
 
 export default RoomsList;

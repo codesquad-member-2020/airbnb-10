@@ -1,6 +1,9 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
-const useFetch = (url, actionFunc, dispatch) => {
+const useFetch = (url, actionFunc) => {
+  const dispatch = useDispatch();
+
   const initialFetch = async () => {
     try {
       const response = await fetch(url);
@@ -10,9 +13,16 @@ const useFetch = (url, actionFunc, dispatch) => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     initialFetch();
   }, []);
+};
+
+export const fetchData = async (url) => {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
 };
 
 export default useFetch;
