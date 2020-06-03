@@ -19,7 +19,9 @@ const useUpdateStore = (dispatch, parsedQueryString) => {
   adults && dispatch(setPersonnelCount("adultCount", Number(adults)));
   children && dispatch(setPersonnelCount("childCount", Number(children)));
   infants && dispatch(setPersonnelCount("babyCount", Number(infants)));
-  priceMin && priceMax && dispatch(setPrices([priceMin, priceMax]));
+  priceMin &&
+    priceMax &&
+    dispatch(setPrices([Number(priceMin), Number(priceMax)]));
 };
 
 export default useUpdateStore;
