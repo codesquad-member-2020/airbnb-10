@@ -13,7 +13,6 @@ import { fetchData } from "../../hooks/useFetch.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
 const RoomsList = memo(({ roomsData }) => {
-  console.log(1);
   const {
     id,
     images,
@@ -34,7 +33,6 @@ const RoomsList = memo(({ roomsData }) => {
     (state) => state.personnelReducer,
   );
   // // const a = startDate.format("YYYY-MM-DD");
-  console.log(startDate);
 
   const url = process.env.REACT_APP_RESERVATION_DB_HOST;
 
