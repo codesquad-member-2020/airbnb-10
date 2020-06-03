@@ -27,6 +27,12 @@ export const decreaseCount = (personnelType) => {
   };
 };
 
+export const resetCount = () => {
+  return {
+    type: RESET,
+  };
+};
+
 const initialValue = {
   adultCount: 0,
   childCount: 0,
