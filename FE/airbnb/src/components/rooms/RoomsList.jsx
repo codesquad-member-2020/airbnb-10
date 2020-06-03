@@ -54,7 +54,9 @@ const RoomsList = ({ roomsData }) => {
   };
 
   const fetchReservationData = (reservationUrl) => {
-    fetchData(reservationUrl).then((data) => dispatch(fetchReservation(data)));
+    fetchData(reservationUrl).then((data) =>
+      dispatch(fetchReservation(data, scoresRating)),
+    );
   };
 
   const onClickReservation = ({ target: { id } }) => {

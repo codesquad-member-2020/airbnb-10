@@ -14,10 +14,11 @@ export const closeReservation = () => {
   };
 };
 
-export const fetchReservation = ({ content }) => {
+export const fetchReservation = (content, scoresRating) => {
   return {
     type: RESERVATION_FETCH,
     reservationData: content,
+    scoresRating,
   };
 };
 
@@ -32,6 +33,7 @@ const initialValue = {
     accommodationTax: null,
     totalPrice: null,
   },
+  scoresRating: null,
 };
 
 const reservationReducer = (state = initialValue, action) => {
@@ -41,7 +43,11 @@ const reservationReducer = (state = initialValue, action) => {
     case CLOSE:
       return { ...state, isClicked: false };
     case RESERVATION_FETCH:
-      return { ...state, content: action.reservationData };
+      return {
+        ...state,
+        content: action.reservationData,
+        scoresRating: action.scoresRating,
+      };
     default:
       return state;
   }

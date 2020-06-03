@@ -10,13 +10,11 @@ import { fetchData } from "../../hooks/useFetch.jsx";
 
 const Reservation = () => {
   const dispatch = useDispatch();
-  const { isClicked, content } = useSelector(
+  const { isClicked, content, scoresRating } = useSelector(
     (state) => state.reservationReducer,
   );
 
   const { pricePerNightDiscounted } = content;
-
-  console.log(content);
 
   const onClickCloseBtn = () => {
     dispatch(closeReservation());
@@ -30,7 +28,9 @@ const Reservation = () => {
           <PricePerNight>₩{pricePerNightDiscounted}</PricePerNight>{" "}
           <span>/박</span>
         </div>
+
         <div>
+          <span>{scoresRating}</span>
           <FontAwesomeIcon icon={faStar} />
         </div>
       </ReservationWrap>
