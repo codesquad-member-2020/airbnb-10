@@ -1,10 +1,9 @@
-import React, { memo } from "react";
-import { useDispatch } from "react-redux";
-import {
-  openReservation,
-  fetchReservation,
-} from "../../modules/reservation.js";
+import React, { memo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { fetchReservation } from "../../modules/reservation.js";
 import Reservation from "../reservation/Reservation.jsx";
+import { getCurrency, getDate } from "../../util/util.js";
 
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
@@ -14,6 +13,7 @@ import { fetchData } from "../../hooks/useFetch.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
 const RoomsList = memo(({ roomsData }) => {
+  console.log(1);
   const {
     id,
     images,
@@ -26,12 +26,17 @@ const RoomsList = memo(({ roomsData }) => {
     totalPrice,
   } = roomsData;
 
-  const dispatch = useDispatch();
-  const url = `http://15.165.117.230/api/mock/rooms/{id}?checkIn=2020-05-26&checkOut=2020-05-27`;
+  const [openReservation, setOpenReservation] = useState(false);
 
-  const getCurrency = (stringNum) => {
-    return parseInt(stringNum).toLocaleString();
-  };
+  const dispatch = useDispatch();
+  const { startDate, endDate } = useSelector((state) => state.dateReducer);
+  const { adultCount, childCount } = useSelector(
+    (state) => state.personnelReducer,
+  );
+  // // const a = startDate.format("YYYY-MM-DD");
+  console.log(startDate);
+
+  const url = process.env.REACT_APP_RESERVATION_DB_HOST;
 
   const scoreRender = () => {
     return (
@@ -51,7 +56,14 @@ const RoomsList = memo(({ roomsData }) => {
   };
 
   const getUrl = (id) => {
-    return url.replace("{id}", id);
+    const today = getDate(0);
+    const tomorrow = getDate(1);
+    let reservationUrl = url + id;
+    if (!startDate) reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}`;
+    if (adultCount)
+      reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}&adults=${adultCount}&children=${childCount}`;
+    // return url + id;
+    return reservationUrl;
   };
 
   const fetchReservationData = (reservationUrl) => {
@@ -61,8 +73,9 @@ const RoomsList = memo(({ roomsData }) => {
   };
 
   const onClickReservation = ({ target: { id } }) => {
-    dispatch(openReservation());
+    setOpenReservation(true);
     const reservationUrl = getUrl(id);
+    console.log(reservationUrl);
     fetchReservationData(reservationUrl);
   };
 
@@ -99,7 +112,9 @@ const RoomsList = memo(({ roomsData }) => {
           </ContentRowBothEnds>
         </RoomsContent>
       </RoomsWrap>
-      <Reservation />
+      {openReservation && (
+        <Reservation setOpenReservation={setOpenReservation} />
+      )}
     </>
   );
 });
