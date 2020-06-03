@@ -29,12 +29,6 @@ const RoomsList = memo(({ roomsData, location }) => {
   const [openReservation, setOpenReservation] = useState(false);
 
   const dispatch = useDispatch();
-  const { startDate, endDate } = useSelector((state) => state.dateReducer);
-  const { adultCount, childCount } = useSelector(
-    (state) => state.personnelReducer,
-  );
-  // // const a = startDate.format("YYYY-MM-DD");
-  console.log(startDate);
 
   const url = process.env.REACT_APP_RESERVATION_DB_HOST;
 
@@ -58,14 +52,12 @@ const RoomsList = memo(({ roomsData, location }) => {
   const getUrl = (id) => {
     const today = getDate(0);
     const tomorrow = getDate(1);
-    let reservationUrl = url + id;
     const search = location.search;
-    if (!search) {
-      reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}`;
-      console.log(reservationUrl, "url");
-    }
-    // const params = new URLSearchParams(search);
-    // return url + id;
+    let reservationUrl = url + id;
+
+    if (!search) reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}`;
+    else reservationUrl += search;
+
     return reservationUrl;
   };
 
@@ -76,9 +68,9 @@ const RoomsList = memo(({ roomsData, location }) => {
   };
 
   const onClickReservation = ({ target: { id } }) => {
-    setOpenReservation(true);
     const reservationUrl = getUrl(id);
-    console.log(reservationUrl);
+
+    setOpenReservation(true);
     fetchReservationData(reservationUrl);
   };
 
