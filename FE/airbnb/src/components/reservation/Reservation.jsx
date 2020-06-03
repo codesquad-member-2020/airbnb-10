@@ -67,9 +67,7 @@ const Reservation = () => {
         {scoresRating && scoreRender()}
         <DateRowBox>
           <Title>날짜</Title>
-          <div>
-            <span>{startDate}</span>→<span>{endDate}</span>
-          </div>
+          <div>{/* <span>{startDate}</span>→<span>{endDate}</span> */}</div>
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>
