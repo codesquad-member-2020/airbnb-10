@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   openReservation,
   fetchReservation,
@@ -10,10 +10,11 @@ import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import useFetch, { fetchData } from "../../hooks/useFetch.jsx";
+import { fetchData } from "../../hooks/useFetch.jsx";
 
 const RoomsList = ({ roomsData }) => {
   const {
+    id,
     images,
     isSuperHost,
     city,
@@ -25,7 +26,9 @@ const RoomsList = ({ roomsData }) => {
   } = roomsData;
 
   const dispatch = useDispatch();
-  const url = `http://15.165.117.230/api/mock/rooms/1?checkIn=2020-05-26&checkOut=2020-05-27`;
+  const { state } = useSelector((state) => state.roomsListReducer);
+  console.log(state);
+  const url = `http://15.165.117.230/api/mock/rooms/{id}?checkIn=2020-05-26&checkOut=2020-05-27`;
 
   const getCurrency = (stringNum) => {
     return parseInt(stringNum).toLocaleString();
@@ -48,14 +51,22 @@ const RoomsList = ({ roomsData }) => {
     );
   };
 
-  const fetchReservationData = () => {
-    fetchData(url).then((data) => dispatch(fetchReservation(data)));
+  const getUrl = (id) => {
+    return url.replace("{id}", id);
   };
 
-  const onClickReservation = () => {
-    dispatch(openReservation());
-    fetchReservationData();
+  const fetchReservationData = (reservationUrl) => {
+    fetchData(reservationUrl).then((data) => dispatch(fetchReservation(data)));
   };
+
+  const onClickReservation = ({ target: { id } }) => {
+    console.log(id);
+    dispatch(openReservation());
+    const reservationUrl = getUrl(id);
+    fetchReservationData(reservationUrl);
+  };
+
+  console.log(ReservationBtn);
 
   return (
     <>
@@ -84,7 +95,9 @@ const RoomsList = ({ roomsData }) => {
               <span>총요금 </span>
               <TotalPrice total>₩{getCurrency(totalPrice)}</TotalPrice>
             </div>
-            <ReservationBtn onClick={onClickReservation}>예약</ReservationBtn>
+            <ReservationBtn id={id} onClick={onClickReservation}>
+              예약
+            </ReservationBtn>
           </ContentRowBothEnds>
         </RoomsContent>
       </RoomsWrap>
