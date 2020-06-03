@@ -67,8 +67,12 @@ const Reservation = memo(({ setOpenReservation }) => {
   };
 
   useEffect(() => {
-    setSelectedPersonnel(totalCount);
+    onChangeSelect();
   }, [totalCount]);
+
+  const onChangeSelect = () => {
+    setSelectedPersonnel(totalCount);
+  };
 
   return (
     <>
@@ -85,7 +89,9 @@ const Reservation = memo(({ setOpenReservation }) => {
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>
-          <select value={selectedPersonnel}>{selectOptionRender()}</select>
+          <select onChange={onChangeSelect} value={selectedPersonnel}>
+            {selectOptionRender()}
+          </select>
         </RowBox>
         <PriceRow>
           <span>
@@ -93,10 +99,12 @@ const Reservation = memo(({ setOpenReservation }) => {
           </span>
           <span></span>
         </PriceRow>
-        <PriceRow>
-          <span>청소비</span>
-          <span>₩{getCurrency(cleaningFee)}</span>
-        </PriceRow>
+        {cleaningFee && (
+          <PriceRow>
+            <span>청소비</span>
+            <span>₩{getCurrency(cleaningFee)}</span>
+          </PriceRow>
+        )}
         <PriceRow>
           <span>서비스 수수료</span>
           <span>₩{getCurrency(serviceTax)}</span>

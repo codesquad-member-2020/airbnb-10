@@ -33,4 +33,11 @@ export const getCurrency = (stringNum) => {
   return parseInt(stringNum).toLocaleString();
 };
 
+export const getInitialUrl = () => {
+  const today = getDate(0);
+  const tomorrow = getDate(1);
+  const initialUrl = `${process.env.REACT_APP_ROOMS_DB_HOST}checkIn=${today}&checkOut=${tomorrow}`;
+  return initialUrl;
+};
+
 export default _;
