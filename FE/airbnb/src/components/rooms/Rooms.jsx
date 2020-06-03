@@ -1,5 +1,9 @@
 import React, { useEffect, useState, memo } from "react";
-import useFetch, { fetchData } from "../../hooks/useFetch.jsx";
+import useFetch, {
+  fetchData,
+  TEST_ROOMS_FETCH,
+  useRoomsFetch,
+} from "../../hooks/useFetch.jsx";
 import { fetchInitialData } from "../../modules/roomsList.js";
 import { useDispatch, useSelector } from "react-redux";
 import RoomsList from "./RoomsList.jsx";
@@ -7,35 +11,11 @@ import RoomsList from "./RoomsList.jsx";
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
-import { mock } from "../../mock.js";
+const Rooms = ({ location }) => {
+  const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
 
-const getDate = (date) => {
-  const today = new Date();
-  today.setDate(today.getDate() + date);
-
-  let day = today.getDate();
-  let month = today.getMonth() + 1;
-  const year = today.getFullYear();
-
-  return `${year}-${month}-${day}`;
-};
-
-const getInitialUrl = () => {
-  const today = getDate(0);
-  const tomorrow = getDate(1);
-  const initialUrl = `http://15.165.117.230/api/mock/rooms?checkIn=${today}&checkOut=${tomorrow}`;
-  return initialUrl;
-};
-
-const Rooms = memo(() => {
-  console.log(2);
   const [totalCount, setTotalCount] = useState(null);
   const dispatch = useDispatch();
-
-  useFetch(getInitialUrl(), fetchInitialData);
-  // useEffect(() => {
-  //   dispatch(fetchInitialData(mock));
-  // }, []);
 
   const {
     content: { total, accommodations },
@@ -44,6 +24,8 @@ const Rooms = memo(() => {
   useEffect(() => {
     setTotalCount(total);
   }, [total]);
+
+  useRoomsFetch(fetchInitialData, location.search);
 
   return (
     <RoomsWrap>
@@ -57,7 +39,7 @@ const Rooms = memo(() => {
       </RoomsListWrap>
     </RoomsWrap>
   );
-});
+};
 
 const RoomsWrap = styled.div`
   margin: 40px 30px;
