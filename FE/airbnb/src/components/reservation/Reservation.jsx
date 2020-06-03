@@ -14,8 +14,10 @@ const Reservation = () => {
     (state) => state.reservationReducer,
   );
 
+  const { startDate, endDate } = useSelector((state) => state.dateReducer);
+
   const { pricePerNightDiscounted } = content;
-  console.log(content, 1);
+  console.log(startDate);
 
   const onClickCloseBtn = () => {
     dispatch(closeReservation());
@@ -32,6 +34,19 @@ const Reservation = () => {
     );
   };
 
+  const selectOptionRender = () => {
+    const optionHtml = Array(8)
+      .fill()
+      .map((_, index) => {
+        const personnel = index + 1;
+        return (
+          <option value={`게스트 ${personnel}명`}>게스트 {personnel}명</option>
+        );
+      });
+
+    return optionHtml;
+  };
+
   return (
     <>
       <ReservationWrap isClicked={isClicked}>
@@ -41,6 +56,17 @@ const Reservation = () => {
           <span>/박</span>
         </Row>
         {scoresRating && scoreRender()}
+        <DateRowBox>
+          <Title>날짜</Title>
+          <div>
+            <span>{startDate}</span>→<span>{endDate}</span>
+          </div>
+        </DateRowBox>
+        <RowBox>
+          <Title>인원</Title>
+
+          <select>{selectOptionRender()}</select>
+        </RowBox>
       </ReservationWrap>
       {isClicked && <ModalShadow />}
     </>
@@ -73,9 +99,34 @@ const Row = styled.div`
 `;
 
 const ScoreRow = styled(Row)`
-  /* padding-bottom: 20px; */
-  /* border-bottom: 1px solid var(--gray-1); */
   font-size: 13px;
+  padding-bottom: 10px;
+`;
+
+const RowBox = styled(Row)`
+  font-size: 13px;
+  & select,
+  div {
+    text-align: center;
+    margin-top: 10px;
+    width: 100%;
+    height: 37px;
+    line-height: 37px;
+    border: 1px solid var(--gray-1);
+  }
+  & select {
+    padding-left: 10px;
+  }
+`;
+
+const DateRowBox = styled(RowBox)`
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-1);
+`;
+
+const Title = styled.span`
+  font-weight: bold;
+  font-size: 15px;
 `;
 
 const ScoreIcon = styled.span`
