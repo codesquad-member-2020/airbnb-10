@@ -18,4 +18,15 @@ const _ = {
   },
 };
 
+export const getDate = (date) => {
+  const today = new Date();
+  today.setDate(today.getDate() + date);
+
+  let day = today.getDate();
+  let month = today.getMonth() + 1;
+  const year = today.getFullYear();
+
+  return `${year}-${month}-${day}`;
+};
+
 export default _;

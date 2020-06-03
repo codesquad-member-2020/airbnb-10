@@ -24,7 +24,7 @@ const Reservation = () => {
     scoresRating,
   } = useSelector((state) => state.reservationReducer);
 
-  const { startDate, endDate } = useSelector((state) => state.dateReducer);
+  // const { startDate, endDate } = useSelector((state) => state.dateReducer);
 
   const onClickCloseBtn = () => {
     dispatch(closeReservation());
@@ -49,7 +49,9 @@ const Reservation = () => {
       .map((_, index) => {
         const personnel = index + 1;
         return (
-          <option value={`게스트 ${personnel}명`}>게스트 {personnel}명</option>
+          <option key={personnel} value={`게스트 ${personnel}명`}>
+            게스트 {personnel}명
+          </option>
         );
       });
 
@@ -67,9 +69,7 @@ const Reservation = () => {
         {scoresRating && scoreRender()}
         <DateRowBox>
           <Title>날짜</Title>
-          <div>
-            <span>{startDate}</span>→<span>{endDate}</span>
-          </div>
+          <div>{/* <span>{startDate}</span>→<span>{endDate}</span> */}</div>
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>

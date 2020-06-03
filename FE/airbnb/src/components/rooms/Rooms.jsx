@@ -7,18 +7,7 @@ import RoomsList from "./RoomsList.jsx";
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
-import { mock } from "../../mock.js";
-
-const getDate = (date) => {
-  const today = new Date();
-  today.setDate(today.getDate() + date);
-
-  let day = today.getDate();
-  let month = today.getMonth() + 1;
-  const year = today.getFullYear();
-
-  return `${year}-${month}-${day}`;
-};
+import { getDate } from "../../util/util.js";
 
 const getInitialUrl = () => {
   const today = getDate(0);
@@ -51,7 +40,7 @@ const Rooms = memo(() => {
         <div>{totalCount}개 이상의 숙소</div>
       </Title>
       <RoomsListWrap>
-        {accommodations.map((roomsData, i) => (
+        {accommodations.map((roomsData) => (
           <RoomsList key={roomsData.id} roomsData={roomsData} />
         ))}
       </RoomsListWrap>
