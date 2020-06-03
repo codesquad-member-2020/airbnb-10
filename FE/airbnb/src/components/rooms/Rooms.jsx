@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch, { fetchData } from "../../hooks/useFetch.jsx";
 import { fetchInitialData } from "../../modules/roomsList.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +16,7 @@ const getInitialUrl = () => {
   return initialUrl;
 };
 
-const Rooms = memo(() => {
+const Rooms = () => {
   console.log(2);
   const [totalCount, setTotalCount] = useState(null);
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const Rooms = memo(() => {
       </RoomsListWrap>
     </RoomsWrap>
   );
-});
+};
 
 const RoomsWrap = styled.div`
   margin: 40px 30px;

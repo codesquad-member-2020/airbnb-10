@@ -16,6 +16,7 @@ import { fetchData } from "../../hooks/useFetch.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
 const RoomsList = memo(({ roomsData }) => {
+  console.log(1);
   const {
     id,
     images,
