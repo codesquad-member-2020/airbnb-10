@@ -2,18 +2,6 @@ const OPEN = "OPEN";
 const CLOSE = "CLOSE";
 const RESERVATION_FETCH = "RESERVATION_FETCH";
 
-export const openReservation = () => {
-  return {
-    type: OPEN,
-  };
-};
-
-export const closeReservation = () => {
-  return {
-    type: CLOSE,
-  };
-};
-
 export const fetchReservation = (reservationData, scoresRating) => {
   return {
     type: RESERVATION_FETCH,

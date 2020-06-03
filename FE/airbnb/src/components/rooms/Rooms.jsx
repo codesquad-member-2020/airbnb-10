@@ -1,11 +1,7 @@
 import React, { useEffect, useState, memo } from "react";
-import useFetch, {
-  fetchData,
-  TEST_ROOMS_FETCH,
-  useRoomsFetch,
-} from "../../hooks/useFetch.jsx";
+import useFetch, { useRoomsFetch } from "../../hooks/useFetch.jsx";
 import { fetchInitialData } from "../../modules/roomsList.js";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import RoomsList from "./RoomsList.jsx";
 
 import styled from "styled-components";
@@ -15,7 +11,13 @@ const Rooms = ({ location }) => {
   const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
 
   const [totalCount, setTotalCount] = useState(null);
-  const dispatch = useDispatch();
+
+  const getInitialUrl = () => {
+    const today = getDate(0);
+    const tomorrow = getDate(1);
+    const initialUrl = `${process.env.REACT_APP_ROOMS_DB_HOST}checkIn=${today}&checkOut=${tomorrow}`;
+    return initialUrl;
+  };
 
   const {
     content: { total, accommodations },
@@ -33,7 +35,7 @@ const Rooms = ({ location }) => {
         <div>{totalCount}개 이상의 숙소</div>
       </Title>
       <RoomsListWrap>
-        {accommodations.map((roomsData, i) => (
+        {accommodations.map((roomsData) => (
           <RoomsList key={roomsData.id} roomsData={roomsData} />
         ))}
       </RoomsListWrap>
