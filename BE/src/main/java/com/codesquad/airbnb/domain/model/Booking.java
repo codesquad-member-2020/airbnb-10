@@ -6,15 +6,22 @@ public class Booking {
 
     private Integer id;
 
+    private Integer user;
+
     private Integer accommodation;
 
     private LocalDate checkIn;
 
     private LocalDate checkOut;
 
-    public Booking(Integer accommodation, LocalDate checkIn, LocalDate checkOut) {
+    public Booking(User user, Integer accommodation, Filter filter) {
+        this.user = user.getId();
         this.accommodation = accommodation;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
+        this.checkIn = filter.getCheckIn();
+        this.checkOut = filter.getCheckOut();
+    }
+
+    public Integer getId() {
+        return id;
     }
 }
