@@ -45,8 +45,8 @@ public class AccommodationDAOTest {
 //        filter.setPriceMin(100000);
 //        filter.setPriceMax(200000);
         // 3. 인원 조건
-        filter.setAdults(5);
-//        filter.setChildren(3);
+        filter.setAdults(3);
+        filter.setChildren(2);
         // 4. 페이징
 //        filter.setItemsOffset(200);
 
@@ -85,7 +85,7 @@ public class AccommodationDAOTest {
         int total = accommodationDAO.countOfFilterResult(parameters);
 
         // then
-        assertThat(total).isEqualTo(100);
+        assertThat(total).isEqualTo(38);
     }
 
     @Test
@@ -157,6 +157,7 @@ public class AccommodationDAOTest {
                 }
             }
         }
+        assertThat(feeList.size()).isEqualTo(39);
 //        assertThat(accommodations.size()).isEqualTo(feeList.size());
     }
 
