@@ -21,18 +21,26 @@ const Reservation = () => {
     dispatch(closeReservation());
   };
 
+  const scoreRender = () => {
+    return (
+      <ScoreRow>
+        <ScoreIcon>
+          <FontAwesomeIcon icon={faStar} />
+        </ScoreIcon>
+        <span>{scoresRating}</span>
+      </ScoreRow>
+    );
+  };
+
   return (
     <>
       <ReservationWrap isClicked={isClicked}>
         <CloseBtn onClick={onClickCloseBtn}>X</CloseBtn>
-        <div>
+        <Row>
           <PricePerNight>₩{pricePerNightDiscounted}</PricePerNight>
           <span>/박</span>
-        </div>
-        <div>
-          <span>{scoresRating}</span>
-          <FontAwesomeIcon icon={faStar} />
-        </div>
+        </Row>
+        {scoresRating && scoreRender()}
       </ReservationWrap>
       {isClicked && <ModalShadow />}
     </>
@@ -58,6 +66,20 @@ const CloseBtn = styled.button`
   font-weight: bold;
   cursor: pointer;
   outline: none;
+`;
+
+const Row = styled.div`
+  margin: 10px 0;
+`;
+
+const ScoreRow = styled(Row)`
+  /* padding-bottom: 20px; */
+  /* border-bottom: 1px solid var(--gray-1); */
+  font-size: 13px;
+`;
+
+const ScoreIcon = styled.span`
+  color: var(--mainColor);
 `;
 
 const PricePerNight = styled.span`
