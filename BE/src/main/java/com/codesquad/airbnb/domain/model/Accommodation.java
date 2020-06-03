@@ -1,7 +1,7 @@
 package com.codesquad.airbnb.domain.model;
 
-import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Objects;
 
 public class Accommodation {
 
@@ -19,7 +19,7 @@ public class Accommodation {
 
     private Coordinates coordinates;
 
-    private Charge charge;
+    private Fee fee;
 
     private List<String> images;
 
@@ -58,15 +58,15 @@ public class Accommodation {
     }
 
     public int getOriginalPricePerNight() {
-        return charge.getOriginalPrice();
+        return fee.getOriginalPrice();
     }
 
     public int getDiscountedPricePerNight() {
-        return charge.getDiscountedPrice();
+        return fee.getDiscountedPrice();
     }
 
     public long getServiceTax(Filter filter) {
-        return charge.getServiceTax() * filter.getPeriod();
+        return fee.getServiceTax() * filter.getPeriod();
     }
 
     public long getAccommodationTax(Filter filter, float accommodationTaxRate) {
@@ -75,24 +75,24 @@ public class Accommodation {
     }
 
     public int getCleaningFee() {
-        return charge.getCleaningFee();
+        return fee.getCleaningFee();
     }
 
     public long getPriceDuringPeriod(Filter filter) {
-        return charge.getDiscountedPrice() * filter.getPeriod();
+        return fee.getDiscountedPrice() * filter.getPeriod();
     }
 
     public long getTotalPrice(Filter filter, float accommodationTaxRate) {
-        return getPriceDuringPeriod(filter) + charge.getCleaningFee() + getServiceTax(filter) + getAccommodationTax(filter, accommodationTaxRate);
+        return getPriceDuringPeriod(filter) + fee.getCleaningFee() + getServiceTax(filter) + getAccommodationTax(filter, accommodationTaxRate);
     }
 
     public int getPricePerNight(float accommodationTaxRate) {
-        int serviceTax = charge.getServiceTax();
-        return charge.getOriginalPrice() + charge.getCleaningFee() + serviceTax + (int)(serviceTax * accommodationTaxRate);
+        int serviceTax = fee.getServiceTax();
+        return fee.getOriginalPrice() + fee.getCleaningFee() + serviceTax + (int)(serviceTax * accommodationTaxRate);
     }
 
     public int getPricePerNightDiscounted(float accommodationTaxRate) {
-        int serviceTax = charge.getServiceTax();
-        return charge.getDiscountedPrice() + charge.getCleaningFee() + serviceTax + (int)(serviceTax * accommodationTaxRate);
+        int serviceTax = fee.getServiceTax();
+        return fee.getDiscountedPrice() + fee.getCleaningFee() + serviceTax + (int)(serviceTax * accommodationTaxRate);
     }
 }
