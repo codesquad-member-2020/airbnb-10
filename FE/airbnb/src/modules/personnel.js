@@ -8,7 +8,29 @@ const CHILD_DECREASE = "person/CHILD_DECREASE";
 const BABY_INCREASE = "person/BABY_INCREASE";
 const BABY_DECREASE = "person/BABY_DECREASE";
 
+const SET_COUNT = "person/SET_COUNT";
+
 const RESET = "person/RESET";
+
+export const setPersonnelCount = (personnelType, personnelCount) => {
+  return {
+    type: SET_COUNT,
+    personnelType,
+    personnelCount,
+  };
+};
+
+const judgePersonnelCount = (state, personnelType, personnelCount) => {
+  const returnObj = { ...state };
+  if (personnelType !== "babyCount") {
+    returnObj["totalCount"] = state.totalCount + personnelCount;
+    returnObj[personnelType] = personnelCount;
+    return returnObj;
+  } else {
+    returnObj[personnelType] = personnelCount;
+    return returnObj;
+  }
+};
 
 export const increaseAdultCount = () => {
   return {
@@ -73,6 +95,13 @@ const personnelReducer = (state = initialValue, action) => {
 
     case BABY_DECREASE:
       return setDecreaseCount("babyCount", state);
+
+    case SET_COUNT:
+      return judgePersonnelCount(
+        state,
+        action.personnelType,
+        action.personnelCount,
+      );
 
     case RESET:
       return { adultCount: 0, childCount: 0, babyCount: 0, totalCount: 0 };
