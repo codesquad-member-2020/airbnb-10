@@ -1,10 +1,12 @@
 import React, { memo } from "react";
 import { useDispatch } from "react-redux";
+
 import {
   openReservation,
   fetchReservation,
 } from "../../modules/reservation.js";
 import Reservation from "../reservation/Reservation.jsx";
+import { getCurrency } from "../../util/util.js";
 
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
@@ -28,10 +30,6 @@ const RoomsList = memo(({ roomsData }) => {
 
   const dispatch = useDispatch();
   const url = `http://15.165.117.230/api/mock/rooms/{id}?checkIn=2020-05-26&checkOut=2020-05-27`;
-
-  const getCurrency = (stringNum) => {
-    return parseInt(stringNum).toLocaleString();
-  };
 
   const scoreRender = () => {
     return (

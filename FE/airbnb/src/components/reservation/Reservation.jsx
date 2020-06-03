@@ -1,7 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { closeReservation } from "../../modules/reservation.js";
 import useFetch from "../../hooks/useFetch.jsx";
+import { getCurrency } from "../../util/util.js";
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -63,7 +65,7 @@ const Reservation = () => {
       <ReservationWrap isClicked={isClicked}>
         <CloseBtn onClick={onClickCloseBtn}>X</CloseBtn>
         <Row>
-          <PricePerNight>₩{pricePerNightDiscounted}</PricePerNight>
+          <PricePerNight>₩{getCurrency(pricePerNightDiscounted)}</PricePerNight>
           <span>/박</span>
         </Row>
         {scoresRating && scoreRender()}
@@ -77,25 +79,25 @@ const Reservation = () => {
         </RowBox>
         <PriceRow>
           <span>
-            ₩{pricePerNightDiscounted} x {}박
+            ₩{getCurrency(pricePerNightDiscounted)} x {}박
           </span>
           <span></span>
         </PriceRow>
         <PriceRow>
           <span>청소비</span>
-          <span>₩{cleaningFee}</span>
+          <span>₩{getCurrency(cleaningFee)}</span>
         </PriceRow>
         <PriceRow>
           <span>서비스 수수료</span>
-          <span>₩{serviceTax}</span>
+          <span>₩{getCurrency(serviceTax)}</span>
         </PriceRow>
         <PriceRow>
           <span>숙박세와 수수료</span>
-          <span>₩{accommodationTax}</span>
+          <span>₩{getCurrency(accommodationTax)}</span>
         </PriceRow>
         <TotalRow>
           <span>합계</span>
-          <span>₩{totalPrice}</span>
+          <span>₩{getCurrency(totalPrice)}</span>
         </TotalRow>
         <LongReservationBtn>예약하기</LongReservationBtn>
         <Message>예약 확정 전에는 요금이 청구되지 않습니다</Message>
@@ -111,7 +113,7 @@ const ReservationWrap = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px 40px;
+  padding: 20px 45px;
   min-height: 360px;
   width: 300px;
   z-index: 1;
@@ -127,13 +129,13 @@ const CloseBtn = styled.button`
 `;
 
 const Row = styled.div`
-  margin: 10px 0;
+  margin: 15px 0;
 `;
 
 const PriceRow = styled(Row)`
   ${DefaultLayout}
   justify-content:space-between;
-  padding: 10px 0;
+  padding: 0px 0 15px;
   border-bottom: 1px solid var(--gray-1);
   font-size: 15px;
 `;
@@ -188,7 +190,7 @@ const LongReservationBtn = styled(ReservationBtn)`
 `;
 
 const Message = styled(Row)`
-  padding: 10px 0 15px;
+  padding: 10px 0 13px;
   text-align: center;
   font-weight: bold;
   font-size: 16px;

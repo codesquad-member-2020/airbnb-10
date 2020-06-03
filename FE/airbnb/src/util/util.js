@@ -29,4 +29,8 @@ export const getDate = (date) => {
   return `${year}-${month}-${day}`;
 };
 
+export const getCurrency = (stringNum) => {
+  return parseInt(stringNum).toLocaleString();
+};
+
 export default _;
