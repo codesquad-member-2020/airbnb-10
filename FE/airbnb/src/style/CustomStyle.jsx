@@ -55,6 +55,17 @@ export const ToggleWrap = styled.div`
   box-shadow: var(--box-shadow);
 `;
 
+export const ReservationBtn = styled.button`
+  width: 75px;
+  height: 35px;
+  border-radius: 8px;
+  color: var(--white);
+  font-weight: bold;
+  background-color: var(--mainColor);
+  outline: none;
+  cursor: pointer;
+`;
+
 export const DefaultLayout = css`
   display: flex;
   align-items: center;

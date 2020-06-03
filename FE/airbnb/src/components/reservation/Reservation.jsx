@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../hooks/useFetch.jsx";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
+import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
 const Reservation = () => {
   const dispatch = useDispatch();
@@ -96,6 +97,8 @@ const Reservation = () => {
           <span>합계</span>
           <span>₩{totalPrice}</span>
         </TotalRow>
+        <LongReservationBtn>예약하기</LongReservationBtn>
+        <Message>예약 확정 전에는 요금이 청구되지 않습니다</Message>
       </ReservationWrap>
       {isClicked && <ModalShadow />}
     </>
@@ -108,7 +111,7 @@ const ReservationWrap = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  padding: 20px;
+  padding: 20px 40px;
   min-height: 360px;
   width: 300px;
   z-index: 1;
@@ -141,6 +144,7 @@ const ScoreRow = styled(Row)`
 `;
 const TotalRow = styled(PriceRow)`
   font-weight: bold;
+  border-bottom: none;
 `;
 
 const RowBox = styled(Row)`
@@ -176,6 +180,19 @@ const ScoreIcon = styled.span`
 const PricePerNight = styled.span`
   font-weight: bold;
   font-size: 20px;
+`;
+
+const LongReservationBtn = styled(ReservationBtn)`
+  width: 100%;
+  height: 40px;
+`;
+
+const Message = styled(Row)`
+  padding: 10px 0 15px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  color: #555;
 `;
 
 const ModalShadow = styled.div`

@@ -11,6 +11,7 @@ import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../hooks/useFetch.jsx";
+import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
 const RoomsList = memo(({ roomsData }) => {
   const {
@@ -174,17 +175,6 @@ const TotalPrice = styled.strong`
   color: ${(props) => (props.total ? `var(--gray-2)` : `var(--black)`)};
   font-weight: bold;
   font-size: 16px;
-`;
-
-const ReservationBtn = styled.button`
-  width: 75px;
-  height: 35px;
-  border-radius: 10px;
-  color: var(--white);
-  font-weight: bold;
-  background-color: var(--mainColor);
-  outline: none;
-  cursor: pointer;
 `;
 
 export default RoomsList;
