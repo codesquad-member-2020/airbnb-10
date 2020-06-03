@@ -26,8 +26,6 @@ const Reservation = () => {
 
   const { startDate, endDate } = useSelector((state) => state.dateReducer);
 
-  console.log(startDate);
-
   const onClickCloseBtn = () => {
     dispatch(closeReservation());
   };
@@ -44,7 +42,9 @@ const Reservation = () => {
   };
 
   const selectOptionRender = () => {
-    const optionHtml = Array(8)
+    const MAX_PERSONNEL = 8;
+
+    const optionHtml = Array(MAX_PERSONNEL)
       .fill()
       .map((_, index) => {
         const personnel = index + 1;
