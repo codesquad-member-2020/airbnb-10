@@ -29,7 +29,7 @@ const RoomsList = memo(({ roomsData }) => {
   } = roomsData;
 
   const dispatch = useDispatch();
-  const url = `http://15.165.117.230/api/mock/rooms/{id}?checkIn=2020-05-26&checkOut=2020-05-27`;
+  const url = process.env.REACT_APP_ROOMS_DB_HOST;
 
   const scoreRender = () => {
     return (
@@ -49,7 +49,7 @@ const RoomsList = memo(({ roomsData }) => {
   };
 
   const getUrl = (id) => {
-    return url.replace("{id}", id);
+    return url + id;
   };
 
   const fetchReservationData = (reservationUrl) => {

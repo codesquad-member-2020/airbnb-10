@@ -12,7 +12,7 @@ import { getDate } from "../../util/util.js";
 const getInitialUrl = () => {
   const today = getDate(0);
   const tomorrow = getDate(1);
-  const initialUrl = `http://15.165.117.230/api/mock/rooms?checkIn=${today}&checkOut=${tomorrow}`;
+  const initialUrl = `${process.env.REACT_APP_ROOMS_DB_HOST}checkIn=${today}&checkOut=${tomorrow}`;
   return initialUrl;
 };
 
