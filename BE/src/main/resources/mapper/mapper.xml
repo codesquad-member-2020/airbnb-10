@@ -43,34 +43,35 @@
                        TRUNCATE(cleaning_fee * ${exchangeRate}, 0) AS cleaning_fee_exchanged,
                        TRUNCATE((price - price * discount_rate) * (1 - ((price - price * discount_rate) -
                             (SELECT MIN(price)
-                            FROM accommodation)) /
+                            FROM    accommodation)) /
                             (SELECT MAX(price) - MIN(price)
-                            FROM accommodation)) *
+                            FROM    accommodation)) *
                             (SELECT service_max
-                            FROM fee_policy) * ${exchangeRate}, 0) AS service_tax_exchanged
+                            FROM    fee_policy) * ${exchangeRate}, 0) AS service_tax_exchanged
                FROM    accommodation) temp
                ON a1.id = temp.id
         <where>
                minimum_nights <![CDATA[<=]]> #{period}
                AND maximum_nights >= #{period}
             <if test="people != 0">
-               AND     maximum_capacity >= #{people}
+               AND maximum_capacity >= #{people}
             </if>
             <if test="priceMin != 0">
-               AND     TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
-                            (SELECT accommodation_tax
-                            FROM fee_policy) + cleaning_fee_exchanged, 0)  >= #{priceMin}
+               AND TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
+                        (SELECT accommodation_tax
+                        FROM    fee_policy) + cleaning_fee_exchanged, 0)  >= #{priceMin}
             </if>
             <if test="priceMin != 0">
-               AND     TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
-                            (SELECT accommodation_tax
-                            FROM fee_policy) + cleaning_fee_exchanged, 0) <![CDATA[<=]]> #{priceMax}
+               AND TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
+                        (SELECT accommodation_tax
+                        FROM    fee_policy) + cleaning_fee_exchanged, 0) <![CDATA[<=]]> #{priceMax}
             </if>
         </where>
                LIMIT   20
                OFFSET  #{itemsOffset}) a2
                ON i.accommodation = a2.accommodation_id
-               LEFT OUTER JOIN city c ON a2.city = c.id;
+               LEFT OUTER JOIN city c
+               ON a2.city = c.id;
     </select>
     <resultMap id="accommodation" type="Accommodation">
         <id property="id" column="accommodation_id"/>
@@ -90,7 +91,7 @@
             <result property="longitude" column="longitude"/>
         </association>
 
-        <association property="charge" javaType="Charge">
+        <association property="fee" javaType="Fee">
             <result property="originalPrice" column="price_exchanged"/>
             <result property="discountedPrice" column="price_discounted_exchanged"/>
             <result property="cleaningFee" column="cleaning_fee_exchanged"/>
@@ -109,29 +110,29 @@
         (SELECT id,
                 TRUNCATE((price - price * discount_rate), 2) AS price_discounted,
                 TRUNCATE((price - price * discount_rate) * (1 - ((price - price * discount_rate) -
-                (SELECT MIN(price)
-                FROM    accommodation)) /
-                (SELECT MAX(price) - MIN(price)
-                FROM    accommodation)) *
-                (SELECT service_max
-                FROM    fee_policy), 2) AS service_tax
+                    (SELECT MIN(price)
+                    FROM    accommodation)) /
+                    (SELECT MAX(price) - MIN(price)
+                    FROM    accommodation)) *
+                    (SELECT service_max
+                    FROM    fee_policy), 2) AS service_tax
         FROM    accommodation) temp
         ON a.id = temp.id
         <where>
             minimum_nights <![CDATA[<=]]> #{period}
             AND maximum_nights >= #{period}
             <if test="people != 0">
-                AND     maximum_capacity >= #{people}
+                AND maximum_capacity >= #{people}
             </if>
             <if test="priceMin != 0">
-                AND     TRUNCATE((price_discounted + service_tax + service_tax *
-                (SELECT accommodation_tax
-                FROM fee_policy) + cleaning_fee) * ${exchangeRate}, 0) >= #{priceMin}
+                AND TRUNCATE((price_discounted + service_tax + service_tax *
+                        (SELECT accommodation_tax
+                        FROM    fee_policy) + cleaning_fee) * ${exchangeRate}, 0) >= #{priceMin}
             </if>
             <if test="priceMin != 0">
-                AND     TRUNCATE((price_discounted + service_tax + service_tax *
-            (SELECT accommodation_tax
-            FROM fee_policy) + cleaning_fee) * ${exchangeRate}, 0) <![CDATA[<=]]> #{priceMax}
+                AND TRUNCATE((price_discounted + service_tax + service_tax *
+                        (SELECT accommodation_tax
+                        FROM fee_policy) + cleaning_fee) * ${exchangeRate}, 0) <![CDATA[<=]]> #{priceMax}
         </if>
         </where>
     </select>
@@ -147,23 +148,96 @@
                        TRUNCATE((price - price * discount_rate) * ${exchangeRate}, 0) AS price_discounted_exchanged,
                        TRUNCATE(cleaning_fee * ${exchangeRate}, 0) AS cleaning_fee_exchanged,
                        TRUNCATE((price - price * discount_rate) * (1 - ((price - price * discount_rate) -
-                       (SELECT MIN(price)
-                       FROM accommodation)) /
-                       (SELECT MAX(price) - MIN(price)
-                       FROM accommodation)) *
-                       (SELECT service_max
-                       FROM fee_policy) * ${exchangeRate}, 0) AS service_tax_exchanged
-               FROM accommodation) AS temp
+                            (SELECT MIN(price)
+                            FROM    accommodation)) /
+                            (SELECT MAX(price) - MIN(price)
+                            FROM    accommodation)) *
+                            (SELECT service_max
+                            FROM    fee_policy) * ${exchangeRate}, 0) AS service_tax_exchanged
+               FROM    accommodation) AS temp
         WHERE temp.id = a.id
         AND a.id = #{id};
     </select>
     <resultMap id="chargeOfAccommodation" type="Accommodation">
         <id property="id" column="id"/>
-        <association property="charge" javaType="Charge">
+        <association property="fee" javaType="Fee">
             <result property="originalPrice" column="price_original_exchanged"/>
             <result property="discountedPrice" column="price_discounted_exchanged"/>
             <result property="cleaningFee" column="cleaning_fee_exchanged"/>
             <result property="serviceTax" column="service_tax_exchanged"/>
         </association>
+    </resultMap>
+    
+    <select id="findFeeUsingFilterForTest" resultMap="test">
+        SELECT id,
+               TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
+               (SELECT accommodation_tax
+                FROM   fee_policy) + cleaning_fee_exchanged, 0) AS price_total
+        FROM   (SELECT id,
+                       TRUNCATE((price - price * discount_rate) * ${exchangeRate}, 0) AS price_discounted_exchanged,
+                       TRUNCATE(cleaning_fee * ${exchangeRate}, 0) AS cleaning_fee_exchanged,
+                       TRUNCATE((price - price * discount_rate) * (1 - ((price - price * discount_rate) -
+                            (SELECT MIN(price)
+                            FROM    accommodation)) /
+                            (SELECT MAX(price) - MIN(price)
+                            FROM    accommodation)) *
+                            (SELECT service_max
+                            FROM    fee_policy) * ${exchangeRate}, 0) AS service_tax_exchanged,
+                       minimum_nights,
+                       maximum_nights,
+                       maximum_capacity
+                       FROM accommodation) AS a
+        WHERE   minimum_nights <![CDATA[<=]]> #{period}
+        AND     maximum_nights >= #{period}
+        AND     maximum_capacity >= #{people};
+    </select>
+    <resultMap id="test" type="HashMap">
+        <result property="id" column="id"/>
+        <result property="price" column="price_total" javaType="int"/>
+    </resultMap>
+
+    <select id="findFeeUsingFilter" resultType="int">
+        SELECT TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
+                    (SELECT accommodation_tax
+                    FROM    fee_policy) + cleaning_fee_exchanged, 0) AS price_total
+        FROM   (SELECT TRUNCATE((price - price * discount_rate) * ${exchangeRate}, 0) AS price_discounted_exchanged,
+                       TRUNCATE(cleaning_fee * ${exchangeRate}, 0) AS cleaning_fee_exchanged,
+                       TRUNCATE((price - price * discount_rate) * (1 - ((price - price * discount_rate) -
+                            (SELECT MIN(price)
+                            FROM    accommodation)) /
+                            (SELECT MAX(price) - MIN(price)
+                            FROM    accommodation)) *
+                            (SELECT service_max
+                            FROM    fee_policy) * ${exchangeRate}, 0) AS service_tax_exchanged,
+                       minimum_nights,
+                       maximum_nights,
+                       maximum_capacity
+                FROM    accommodation) AS a
+        WHERE   minimum_nights <![CDATA[<=]]> #{period}
+          AND   maximum_nights >= #{period}
+          AND   maximum_capacity >= #{people};
+    </select>
+
+    <select id="findMinAndMaxOfFee" resultMap="minAndMax">
+        SELECT MIN(TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
+                    (SELECT accommodation_tax
+                    FROM    fee_policy) + cleaning_fee_exchanged, 0)) AS min,
+               MAX(TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
+                    (SELECT accommodation_tax
+                    FROM    fee_policy) + cleaning_fee_exchanged, 0)) AS max
+        FROM   (SELECT TRUNCATE((price - price * discount_rate) * ${exchangeRate}, 0) AS price_discounted_exchanged,
+                       TRUNCATE(cleaning_fee * ${exchangeRate}, 0) AS cleaning_fee_exchanged,
+                       TRUNCATE((price - price * discount_rate) * (1 - ((price - price * discount_rate) -
+                            (SELECT MIN(price)
+                            FROM    accommodation)) /
+                            (SELECT MAX(price) - MIN(price)
+                            FROM    accommodation)) *
+                            (SELECT service_max
+                            FROM    fee_policy) * ${exchangeRate}, 0) AS service_tax_exchanged
+               FROM    accommodation) AS a;
+    </select>
+    <resultMap id="minAndMax" type="HashMap">
+        <result property="min" column="min" javaType="int"/>
+        <result property="max" column="max" javaType="int"/>
     </resultMap>
 </mapper>
