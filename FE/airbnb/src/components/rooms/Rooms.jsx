@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import useFetch from "../../hooks/useFetch.jsx";
+import React, { useEffect, useState, memo } from "react";
+import useFetch, { useRoomsFetch } from "../../hooks/useFetch.jsx";
 import { fetchInitialData } from "../../modules/roomsList.js";
 import { useSelector } from "react-redux";
 import RoomsList from "./RoomsList.jsx";
@@ -7,10 +7,9 @@ import RoomsList from "./RoomsList.jsx";
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
-import { getDate } from "../../util/util.js";
+const Rooms = ({ location }) => {
+  const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
 
-const Rooms = () => {
-  console.log(2);
   const [totalCount, setTotalCount] = useState(null);
 
   const getInitialUrl = () => {
@@ -20,8 +19,6 @@ const Rooms = () => {
     return initialUrl;
   };
 
-  useFetch(getInitialUrl(), fetchInitialData);
-
   const {
     content: { total, accommodations },
   } = useSelector((state) => state.roomsListReducer);
@@ -29,6 +26,8 @@ const Rooms = () => {
   useEffect(() => {
     setTotalCount(total);
   }, [total]);
+
+  useRoomsFetch(fetchInitialData, location.search);
 
   return (
     <RoomsWrap>

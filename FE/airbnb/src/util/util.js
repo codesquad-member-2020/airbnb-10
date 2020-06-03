@@ -16,6 +16,15 @@ const _ = {
 
     return `${year}-${month}-${day}`;
   },
+  createInitialRequsetURL: () => {
+    const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
+    console.log(ROOMS_DB_HOST);
+    const requsetURL =
+      ROOMS_DB_HOST +
+      `?checkIn=${_.getCurrentDate()}&checkOut=${_.getTomorrowDate()}&adults=1&priceMin=0&priceMax=500000`;
+
+    return requsetURL;
+  },
 };
 
 export const getDate = (date) => {

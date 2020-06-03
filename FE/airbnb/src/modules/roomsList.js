@@ -27,6 +27,12 @@ const initialValue = {
         ],
       },
     ],
+    fee: {
+      average: null,
+      feelist: [],
+      maximum: null,
+      minMum: null,
+    },
   },
 };
 

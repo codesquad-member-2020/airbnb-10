@@ -42,10 +42,12 @@ const ModalButtons = ({ resetHandler, width, height }) => {
       return `checkIn=${checkInDate}&checkOut=${checkOutDate}&`;
     } else if (startDate && !endDate) {
       const checkInDate = startDate.format("YYYY-MM-DD");
-      const checkOutMoment = moment(checkInDate);
-      const checkOutDate = checkOutMoment.add("days", 1).format("YYYY-MM-DD");
+      const CheckInMoment = moment(checkInDate);
 
-      dispatch(setEndDate(checkOutMoment.add("days", 1)));
+      const checkOutMoment = CheckInMoment.add("days", 1);
+      const checkOutDate = checkOutMoment.format("YYYY-MM-DD");
+
+      dispatch(setEndDate(checkOutMoment));
 
       return `checkIn=${checkInDate}&checkOut=${checkOutDate}&`;
     } else if (startDate && endDate) {
