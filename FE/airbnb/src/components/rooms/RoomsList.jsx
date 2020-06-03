@@ -149,6 +149,7 @@ const ContentRowBothEnds = styled(ContentRow)`
 `;
 
 const ImageArea = styled.div`
+  height: 220px;
   & img {
     width: 100%;
     height: 100%;

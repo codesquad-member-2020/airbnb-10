@@ -31,8 +31,12 @@ const Reservation = memo(({ setOpenReservation }) => {
 
   const [selectedPersonnel, setSelectedPersonnel] = useState(1);
 
-  // const a = startDate.format("YYYY-MM-DD");
-  // console.log(a);
+  const formatedStartDate = startDate.format("YYYY-MM-DD");
+  const formatedEndDatee = endDate.format("YYYY-MM-DD");
+  console.log(formatedStartDate);
+
+  const period = endDate.diff(startDate, "days");
+  // const period = endDate.diff(startDate, "days");
 
   const onClickCloseBtn = () => {
     setOpenReservation(false);
@@ -96,9 +100,9 @@ const Reservation = memo(({ setOpenReservation }) => {
         </RowBox>
         <PriceRow>
           <span>
-            ₩{getCurrency(pricePerNightDiscounted)} x {}박
+            ₩{getCurrency(pricePerNightDiscounted)} x {period}박
           </span>
-          <span>{getCurrency(priceDuringPeriod)}</span>
+          <span>₩{getCurrency(priceDuringPeriod)}</span>
         </PriceRow>
         {cleaningFee && (
           <PriceRow>
