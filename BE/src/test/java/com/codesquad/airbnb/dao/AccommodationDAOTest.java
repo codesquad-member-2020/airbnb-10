@@ -42,13 +42,13 @@ public class AccommodationDAOTest {
         filter.setCheckIn(LocalDate.parse("2020-05-23"));
         filter.setCheckOut(LocalDate.parse("2020-05-24"));
         // 2. 요금 조건
-        filter.setPriceMin(100000);
-        filter.setPriceMax(200000);
+//        filter.setPriceMin(100000);
+//        filter.setPriceMax(200000);
         // 3. 인원 조건
-        filter.setAdults(4);
-        filter.setChildren(3);
+        filter.setAdults(5);
+//        filter.setChildren(3);
         // 4. 페이징
-        filter.setItemsOffset(0);
+//        filter.setItemsOffset(200);
 
         parameters = new HashMap<>();
         parameters.put("people", filter.getPeople());
@@ -63,7 +63,6 @@ public class AccommodationDAOTest {
 
     @Test
     public void 숙소_필터링() {
-
         // when
         List<Accommodation> accommodations = accommodationDAO.findUsingFilter(parameters);
 
@@ -71,12 +70,13 @@ public class AccommodationDAOTest {
         assertThat(accommodations).isNotNull();
         // 최소 요금 검사
         assertThat(accommodations).allMatch(a -> (a.getPricePerNightDiscounted(accommodationTaxRate)) >= filter.getPriceMin());
-        // 최대 요금 검사
-        assertThat(accommodations).allMatch(a -> (a.getPricePerNightDiscounted(accommodationTaxRate)) <= filter.getPriceMax());
+        if (filter.getPriceMax() != 0) {
+            assertThat(accommodations).allMatch(a -> (a.getPricePerNightDiscounted(accommodationTaxRate)) <= filter.getPriceMax());
+        }
         // 인원 검사
         assertThat(accommodations).allMatch(a -> a.getMaximumCapacity() >= filter.getPeople());
         // 페이징 검사
-        assertThat(accommodations.size()).isEqualTo(2);
+        assertThat(accommodations.size()).isEqualTo(12);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class AccommodationDAOTest {
         int total = accommodationDAO.countOfFilterResult(parameters);
 
         // then
-        assertThat(total).isEqualTo(2);
+        assertThat(total).isEqualTo(100);
     }
 
     @Test
@@ -110,13 +110,6 @@ public class AccommodationDAOTest {
     @Test
     public void 숙소_필터링과_예약_모달창_비교() {
         // given
-        filter = new Filter();
-        // 1. 날짜 조건
-        filter.setCheckIn(LocalDate.parse("2020-05-23"));
-        filter.setCheckOut(LocalDate.parse("2020-05-25"));
-        // 2. 페이징
-        filter.setItemsOffset(0);
-
         parameters = new HashMap<>();
         parameters.put("people", filter.getPeople());
         parameters.put("priceMin", filter.getPriceMin());
@@ -124,6 +117,7 @@ public class AccommodationDAOTest {
         parameters.put("exchangeRate", CurrencyConvertor.EXCHANGE_RATE_FROM_USD_TO_KRW);
         parameters.put("period", filter.getPeriod());
         parameters.put("itemsOffset", filter.getItemsOffset());
+
         // when
         List<Accommodation> accommodations = accommodationDAO.findUsingFilter(parameters);
         Integer id = 1;
@@ -133,7 +127,7 @@ public class AccommodationDAOTest {
         // then
         Accommodation accommodationFiltered = null;
         for (Accommodation a : accommodations) {
-            if (a.getId() == id) {
+            if (a.getId().equals(id)) {
                 accommodationFiltered = a;
             }
         }
@@ -146,5 +140,33 @@ public class AccommodationDAOTest {
         assertThat(accommodationForBooking.getOriginalPricePerNight()).isEqualTo(accommodationFiltered.getOriginalPricePerNight());
         assertThat(accommodationForBooking.getDiscountedPricePerNight()).isEqualTo(accommodationFiltered.getDiscountedPricePerNight());
         assertThat(accommodationForBooking.getTotalPrice(filter, accommodationTaxRate)).isEqualTo(accommodationFiltered.getTotalPrice(filter, accommodationTaxRate));
+    }
+
+    @Test
+    public void 숙소_요금_리스트_비교() {
+        // when
+        List<Accommodation> accommodations = accommodationDAO.findUsingFilter(parameters);
+        List<Map<String, Integer>> feeList = accommodationDAO.findFeeUsingFilterTest(parameters);
+
+        // then
+        for (Accommodation a : accommodations) {
+            for (Map<String, Integer> result : feeList) {
+                if (a.getId().equals(result.get("id"))) {
+                    log.debug("filter list id: {}, price: {} / price list id: {}, price: {}", a.getId(), a.getPricePerNightDiscounted(accommodationTaxRate), result.get("id"), result.get("price"));
+                    assertThat(a.getPricePerNightDiscounted(accommodationTaxRate)).isEqualTo(result.get("price"));
+                }
+            }
+        }
+//        assertThat(accommodations.size()).isEqualTo(feeList.size());
+    }
+
+    @Test
+    public void 최소_최대_금액() {
+        // when
+        Map<String, Integer> prices = accommodationDAO.findMinAndMaxOfFee(parameters);
+
+        // then
+        assertThat(prices.get("min")).isEqualTo(26446);
+        assertThat(prices.get("max")).isEqualTo(3940928);
     }
 }
