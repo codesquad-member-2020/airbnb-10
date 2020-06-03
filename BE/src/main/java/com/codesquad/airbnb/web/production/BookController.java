@@ -1,7 +1,6 @@
 package com.codesquad.airbnb.web.production;
 
 import com.codesquad.airbnb.business.BookService;
-import com.codesquad.airbnb.domain.dto.AccommodationDTO;
 import com.codesquad.airbnb.domain.model.Filter;
 import com.codesquad.airbnb.web.response.ApiResponse;
 import org.springframework.http.HttpStatus;
