@@ -4,12 +4,19 @@ import { closeReservation } from "../../modules/reservation.js";
 import useFetch from "../../hooks/useFetch.jsx";
 
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { fetchData } from "../../hooks/useFetch.jsx";
 
 const Reservation = () => {
   const dispatch = useDispatch();
   const { isClicked, content } = useSelector(
     (state) => state.reservationReducer,
   );
+
+  const { pricePerNightDiscounted } = content;
+
+  console.log(content);
 
   const onClickCloseBtn = () => {
     dispatch(closeReservation());
@@ -19,6 +26,13 @@ const Reservation = () => {
     <>
       <ReservationWrap isClicked={isClicked}>
         <CloseBtn onClick={onClickCloseBtn}>X</CloseBtn>
+        <div>
+          <PricePerNight>₩{pricePerNightDiscounted}</PricePerNight>{" "}
+          <span>/박</span>
+        </div>
+        <div>
+          <FontAwesomeIcon icon={faStar} />
+        </div>
       </ReservationWrap>
       {isClicked && <ModalShadow />}
     </>
@@ -44,6 +58,11 @@ const CloseBtn = styled.button`
   font-weight: bold;
   cursor: pointer;
   outline: none;
+`;
+
+const PricePerNight = styled.span`
+  font-weight: bold;
+  font-size: 20px;
 `;
 
 const ModalShadow = styled.div`
