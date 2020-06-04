@@ -53,6 +53,7 @@ export const ToggleWrap = styled.div`
   border-radius: 5%;
   border: 1px solid var(--gray-1);
   box-shadow: var(--box-shadow);
+  z-index: 1;
 `;
 
 export const ReservationBtn = styled.button`
