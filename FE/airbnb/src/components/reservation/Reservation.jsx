@@ -13,7 +13,7 @@ import moment from "moment";
 
 const Reservation = memo(({ setOpenReservation }) => {
   const selecRef = useRef();
-  const currentTop = window.pageYOffset + window.screen.height / 2;
+  const currentTop = window.pageYOffset + window.innerHeight / 2;
   const {
     isClicked,
     content: {

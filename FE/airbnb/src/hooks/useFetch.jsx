@@ -5,6 +5,12 @@ import querystring from "query-string";
 import _ from "../util/util.js";
 import useUpdateStore from "./useUpdateStore.jsx";
 
+import {
+  fetchInitialData,
+  fetchAccommodationsData,
+} from "../modules/roomsList.js";
+import { updateActive } from "../modules/pagination.js";
+
 const useFetch = (url, actionFunc) => {
   const dispatch = useDispatch();
 
@@ -29,9 +35,13 @@ export const fetchData = async (url) => {
   return data;
 };
 
-export const useRoomsFetch = (actionFunc, searchQuery) => {
+export const useRoomsFetch = (searchQuery) => {
   const dispatch = useDispatch();
-  const { startDate } = useSelector((state) => state.dateReducer);
+  const {
+    dateReducer: { startDate },
+    paginationReducer: { paginationActive },
+  } = useSelector((state) => state);
+
   const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
 
   let requsetUrl = null;
@@ -51,17 +61,22 @@ export const useRoomsFetch = (actionFunc, searchQuery) => {
     }
   };
 
-  useEffect(() => {
-    setRequsetQueryString();
-    fetchRooms();
-  }, [searchQuery]);
-
   const fetchRooms = async () => {
     const response = await fetch(requsetUrl);
     const data = await response.json();
 
-    dispatch(actionFunc(data));
+    if (!paginationActive) {
+      dispatch(fetchInitialData(data));
+    } else {
+      dispatch(updateActive(false));
+      dispatch(fetchAccommodationsData(data));
+    }
   };
+
+  useEffect(() => {
+    setRequsetQueryString();
+    fetchRooms();
+  }, [searchQuery]);
 };
 
 export default useFetch;

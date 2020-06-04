@@ -1,5 +1,5 @@
 const INITIAL_FETCH = "roomsList/INITIAL_FETCH";
-const PAGINATION_FETCH = "roomsList/PAGINATION_FETCH";
+const ACCOMMODATIONS_FETCH = "roomsList/PAGINATION_FETCH";
 
 export const fetchInitialData = (initialData) => {
   return {
@@ -8,9 +8,9 @@ export const fetchInitialData = (initialData) => {
   };
 };
 
-export const fetchPaginationDate = (data) => {
+export const fetchAccommodationsData = (data) => {
   return {
-    type: PAGINATION_FETCH,
+    type: ACCOMMODATIONS_FETCH,
     accommodations: data.content.accommodations,
   };
 };
@@ -47,7 +47,7 @@ const roomsListReducer = (state = initialValue, action) => {
   switch (action.type) {
     case INITIAL_FETCH:
       return { ...state, content: action.initialData };
-    case PAGINATION_FETCH:
+    case ACCOMMODATIONS_FETCH:
       return {
         ...state,
         content: { ...state.content, accommodations: action.accommodations },
