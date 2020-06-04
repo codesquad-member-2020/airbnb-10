@@ -26,10 +26,6 @@ const initialValue = {
 
 const reservationReducer = (state = initialValue, action) => {
   switch (action.type) {
-    case OPEN:
-      return { ...state, isClicked: true };
-    case CLOSE:
-      return { ...state, isClicked: false };
     case RESERVATION_FETCH:
       return {
         ...state,
