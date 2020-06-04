@@ -4,9 +4,8 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const PaginationBtn = ({ name, className, onClickHandler }) => {
-  const { currentPage } = useSelector((state) => state.paginationReducer);
   return (
-    <PaginationBtnWrap currentPage={currentPage}>
+    <PaginationBtnWrap>
       <button className={className} onClick={onClickHandler}>
         {name}
       </button>

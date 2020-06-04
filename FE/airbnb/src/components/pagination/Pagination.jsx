@@ -50,11 +50,11 @@ const Pagination = ({ location }) => {
   let pageNumbers = totalPageNumbers.slice(startPage, endPage);
   const TOTAL_INDEXES = totalPageNumbers.length;
 
-  useEffect(() => {
-    const search = location.search;
-    const parsed = querystring.parse(search);
-    const pageOffeset = parsed.itemsOffset;
+  const search = location.search;
+  const parsed = querystring.parse(search);
+  const pageOffeset = parsed.itemsOffset;
 
+  useEffect(() => {
     if (pageOffeset) {
       const currentPageNumber = pageOffeset / POST_PER_PAGE + 1;
       const firstDigit = Math.floor(currentPageNumber * 0.1);
@@ -77,11 +77,9 @@ const Pagination = ({ location }) => {
   };
 
   const changeQuery = (pageNumber) => {
-    const search = location.search;
-    const parsed = querystring.parse(search);
     const currentOffset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
 
-    if (!parsed.itemsOffset && !search) {
+    if (!pageOffeset && !search) {
       const initialQueryString = _.createInitialQueryString();
       const offsetQueryString = `&itemsOffset=${currentOffset}`;
 
@@ -155,8 +153,6 @@ const Pagination = ({ location }) => {
     const lastIndexOfLastPage = firstIndexOfLastPage + INDEXES_PER_PAGE;
     changePagination(firstIndexOfLastPage, lastIndexOfLastPage);
   };
-
-  console.log(currentPage);
 
   const pageNumbersRender = () => {
     return pageNumbers.map((pageNumber) => (
