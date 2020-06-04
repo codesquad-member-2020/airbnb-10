@@ -63,11 +63,9 @@ const Pagination = ({ location }) => {
       const initialQueryString = _.createInitialQueryString();
       const offsetQueryString = `&itemsOffset=${currentOffset}`;
 
-      _.moveToScrollStartPoint();
       history.push(`/rooms${initialQueryString + offsetQueryString}`);
     } else {
       parsed["itemsOffset"] = currentOffset;
-      _.moveToScrollStartPoint();
       history.push(`/rooms?${querystring.stringify(parsed)}`);
     }
   };
@@ -125,6 +123,8 @@ const Pagination = ({ location }) => {
     const lastIndexOfLastPage = firstIndexOfLastPage + 10;
     changePagination(firstIndexOfLastPage, lastIndexOfLastPage);
   };
+
+  console.log(currentPage);
 
   const pageNumbersRender = () => {
     return pageNumbers.map((pageNumber) => (
