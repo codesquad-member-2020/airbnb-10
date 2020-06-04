@@ -134,7 +134,7 @@ const RoomsContent = styled.div`
 
 const ContentRow = styled.span`
   ${DefaultLayout}
-  margin: 14px 0;
+  margin: 12px 0;
 `;
 
 const ContentRowBothEnds = styled(ContentRow)`
@@ -154,7 +154,6 @@ const Title = styled.span`
   font-size: 17px;
   white-space: nowrap;
   overflow: hidden;
-  height: 22px;
   text-overflow: ellipsis;
 `;
 

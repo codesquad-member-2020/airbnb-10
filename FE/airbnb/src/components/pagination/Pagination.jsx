@@ -24,7 +24,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Pagination = ({ location }) => {
+const Pagination = memo(({ location }) => {
   const POST_PER_PAGE = 20;
   const INDEXES_PER_PAGE = 10;
 
@@ -58,10 +58,11 @@ const Pagination = ({ location }) => {
     if (pageOffeset) {
       const currentPageNumber = pageOffeset / POST_PER_PAGE + 1;
       const firstDigit = Math.floor(currentPageNumber * 0.1);
-      let currentStartPage =
+      const currentStartPage =
         currentPageNumber % INDEXES_PER_PAGE === 0
           ? currentPageNumber - INDEXES_PER_PAGE
           : parseInt(firstDigit + "0");
+
       const currentEndPage = currentStartPage + INDEXES_PER_PAGE;
 
       changePagination(currentStartPage, currentEndPage);
@@ -183,7 +184,7 @@ const Pagination = ({ location }) => {
       </ul>
     </PaginationWrap>
   );
-};
+});
 
 const PaginationWrap = styled.div`
   display: flex;
