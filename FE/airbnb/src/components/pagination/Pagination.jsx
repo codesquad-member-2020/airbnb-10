@@ -45,9 +45,11 @@ const Pagination = ({ location }) => {
     if (!parsed.itemsOffset && !search) {
       const initialQueryString = _.createInitialQueryString();
       const offsetQueryString = `&itemsOffset=${currentOffset}`;
+      _.moveToScrollStartPoint();
       history.push(`/rooms${initialQueryString + offsetQueryString}`);
     } else {
       parsed["itemsOffset"] = currentOffset;
+      _.moveToScrollStartPoint();
       history.push(`/rooms?${querystring.stringify(parsed)}`);
     }
   };
