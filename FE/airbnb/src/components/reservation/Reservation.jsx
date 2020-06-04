@@ -1,13 +1,11 @@
 import React, { useState, useEffect, memo, useRef } from "react";
 import { useSelector } from "react-redux";
 
-import useFetch from "../../hooks/useFetch.jsx";
-import { getCurrency, getFormatedDate } from "../../util/util.js";
+import { getCurrency } from "../../util/util.js";
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { fetchData } from "../../hooks/useFetch.jsx";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
@@ -15,7 +13,6 @@ import moment from "moment";
 
 const Reservation = memo(({ setOpenReservation }) => {
   const selecRef = useRef();
-  console.log(9);
   const {
     isClicked,
     content: {

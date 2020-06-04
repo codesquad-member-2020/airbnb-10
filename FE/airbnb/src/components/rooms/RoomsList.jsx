@@ -13,7 +13,6 @@ import { fetchData } from "../../hooks/useFetch.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
 const RoomsList = memo(({ roomsData, location }) => {
-  console.log(location);
   const {
     id,
     images,

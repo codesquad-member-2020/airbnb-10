@@ -1,7 +1,6 @@
 const INITIAL_FETCH = "roomsList/INITIAL_FETCH";
 
 export const fetchInitialData = (initialData) => {
-  console.log(initialData);
   return {
     type: INITIAL_FETCH,
     initialData: initialData.content,
