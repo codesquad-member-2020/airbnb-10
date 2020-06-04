@@ -23,7 +23,7 @@ const Personnel = () => {
 
   const judgeCurrentPersonnel = () => {
     if (totalCount > MIN_COUNT) {
-      return `게스트 ${adultCount + childCount}명,유아 ${babyCount}명 `;
+      return `게스트 ${totalCount}명,유아 ${babyCount}명 `;
     } else {
       return "인원";
     }
