@@ -44,6 +44,8 @@ const Pagination = ({ location }) => {
     .fill()
     .map((_, index) => index + 1);
 
+  console.log(totalPageNumbers, "totalPageNumbers");
+
   let pageNumbers = totalPageNumbers.slice(startPage, endPage);
   const TOTAL_INDEXES = totalPageNumbers.length;
 
@@ -73,7 +75,7 @@ const Pagination = ({ location }) => {
     if (currentPage % INDEXES_PER_PAGE === FIRST_PAGE) {
       const start = startPage - INDEXES_PER_PAGE;
       const end = endPage - INDEXES_PER_PAGE;
-
+      console.log("chagne");
       changePagination(start, end);
     }
     dispatch(updateCurrentPage(currentPage - 1));
@@ -96,6 +98,7 @@ const Pagination = ({ location }) => {
     pageNumbers = totalPageNumbers.slice(start, end);
     setPagination(true);
     dispatch(updateStartEndPage(start, end));
+    console.log(start, end);
   };
 
   const onClickFirst = () => {
@@ -106,10 +109,14 @@ const Pagination = ({ location }) => {
   };
 
   const onClickLast = () => {
-    const firstIndexOfLastPage = Math.floor(total / POST_PER_PAGE);
+    if (currentPage === TOTAL_INDEXES) return;
 
+    const firstIndexOfLastPage =
+      Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) * 10;
     dispatch(updateCurrentPage(TOTAL_INDEXES));
-    changePagination(firstIndexOfLastPage, TOTAL_INDEXES);
+
+    const lastIndexOfLastPage = firstIndexOfLastPage + 10;
+    changePagination(firstIndexOfLastPage, lastIndexOfLastPage);
   };
 
   console.log(currentPage);

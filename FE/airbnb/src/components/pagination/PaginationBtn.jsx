@@ -1,11 +1,20 @@
 import React from "react";
 
+import styled from "styled-components";
+
 const PaginationBtn = ({ name, onClickHandler }) => {
   return (
-    <li>
+    <PaginationBtnWrap>
       <button onClick={onClickHandler}>{name}</button>
-    </li>
+    </PaginationBtnWrap>
   );
 };
+
+const PaginationBtnWrap = styled.li`
+  & button {
+    outline: none;
+    cursor: pointer;
+  }
+`;
 
 export default PaginationBtn;
