@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { useEffect, memo } from "react";
 import { useRoomsFetch } from "../../hooks/useFetch.jsx";
 import { fetchInitialData } from "../../modules/roomsList.js";
 import { useSelector } from "react-redux";
@@ -8,22 +8,16 @@ import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
 const Rooms = ({ location }) => {
-  const [totalCount, setTotalCount] = useState(null);
-
   const {
     content: { total, accommodations },
   } = useSelector((state) => state.roomsListReducer);
-
-  useEffect(() => {
-    setTotalCount(total);
-  }, [total]);
 
   useRoomsFetch(fetchInitialData, location.search);
 
   return (
     <RoomsWrap>
       <Title>
-        <div>{totalCount}개 이상의 숙소</div>
+        <div>{total}개 이상의 숙소</div>
       </Title>
       <RoomsListWrap>
         {accommodations.map((roomsData) => (
