@@ -12,8 +12,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../hooks/useFetch.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
-const RoomsList = memo(({ roomsData }) => {
-  console.log(1);
+const RoomsList = memo(({ roomsData, location }) => {
   const {
     id,
     images,
@@ -29,12 +28,6 @@ const RoomsList = memo(({ roomsData }) => {
   const [openReservation, setOpenReservation] = useState(false);
 
   const dispatch = useDispatch();
-  const { startDate, endDate } = useSelector((state) => state.dateReducer);
-  const { adultCount, childCount } = useSelector(
-    (state) => state.personnelReducer,
-  );
-  // // const a = startDate.format("YYYY-MM-DD");
-  console.log(startDate);
 
   const url = process.env.REACT_APP_RESERVATION_DB_HOST;
 
@@ -58,11 +51,12 @@ const RoomsList = memo(({ roomsData }) => {
   const getUrl = (id) => {
     const today = getDate(0);
     const tomorrow = getDate(1);
+    const search = location.search;
     let reservationUrl = url + id;
-    if (!startDate) reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}`;
-    if (adultCount)
-      reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}&adults=${adultCount}&children=${childCount}`;
-    // return url + id;
+
+    if (!search) reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}`;
+    else reservationUrl += search;
+
     return reservationUrl;
   };
 
@@ -73,9 +67,9 @@ const RoomsList = memo(({ roomsData }) => {
   };
 
   const onClickReservation = ({ target: { id } }) => {
-    setOpenReservation(true);
     const reservationUrl = getUrl(id);
-    console.log(reservationUrl);
+
+    setOpenReservation(true);
     fetchReservationData(reservationUrl);
   };
 
@@ -149,6 +143,7 @@ const ContentRowBothEnds = styled(ContentRow)`
 `;
 
 const ImageArea = styled.div`
+  height: 220px;
   & img {
     width: 100%;
     height: 100%;

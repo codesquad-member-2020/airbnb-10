@@ -1,5 +1,5 @@
 import React, { useEffect, useState, memo } from "react";
-import useFetch, { useRoomsFetch } from "../../hooks/useFetch.jsx";
+import { useRoomsFetch } from "../../hooks/useFetch.jsx";
 import { fetchInitialData } from "../../modules/roomsList.js";
 import { useSelector } from "react-redux";
 import RoomsList from "./RoomsList.jsx";
@@ -8,16 +8,7 @@ import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
 const Rooms = ({ location }) => {
-  const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
-
   const [totalCount, setTotalCount] = useState(null);
-
-  const getInitialUrl = () => {
-    const today = getDate(0);
-    const tomorrow = getDate(1);
-    const initialUrl = `${process.env.REACT_APP_ROOMS_DB_HOST}checkIn=${today}&checkOut=${tomorrow}`;
-    return initialUrl;
-  };
 
   const {
     content: { total, accommodations },
@@ -36,7 +27,11 @@ const Rooms = ({ location }) => {
       </Title>
       <RoomsListWrap>
         {accommodations.map((roomsData) => (
-          <RoomsList key={roomsData.id} roomsData={roomsData} />
+          <RoomsList
+            key={roomsData.id}
+            roomsData={roomsData}
+            location={location}
+          />
         ))}
       </RoomsListWrap>
     </RoomsWrap>

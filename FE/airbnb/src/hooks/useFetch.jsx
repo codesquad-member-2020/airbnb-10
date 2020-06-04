@@ -13,7 +13,6 @@ const useFetch = (url, actionFunc) => {
     try {
       const response = await fetch(url);
       const initialData = await response.json();
-      console.log(initialData);
       dispatch(actionFunc(initialData));
     } catch (error) {
       console.error(error);
@@ -28,7 +27,6 @@ const useFetch = (url, actionFunc) => {
 export const fetchData = async (url) => {
   const response = await fetch(url);
   const data = await response.json();
-  console.log(data, "data");
   return data;
 };
 
