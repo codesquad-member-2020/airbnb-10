@@ -4,7 +4,7 @@ import Login from "./Login.jsx";
 import airbnbLogo from "../../assets/airbnbLogo.jpg";
 import { useHistory } from "react-router";
 
-const Nav = ({ location }) => {
+const Nav = () => {
   const [isLogin, setIsLogin] = useState(false);
   const history = useHistory();
 

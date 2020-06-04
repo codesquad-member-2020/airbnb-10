@@ -1,6 +1,9 @@
 import { setStartDate, setEndDate } from "../modules/date.js";
 import { setPersonnelCount } from "../modules/personnel.js";
 import { setPrices } from "../modules/price.js";
+import { updateCurrentPage } from "../modules/pagination.js";
+
+import _ from "../util/util.js";
 import moment from "moment";
 
 const useUpdateStore = (dispatch, parsedQueryString) => {
@@ -12,6 +15,7 @@ const useUpdateStore = (dispatch, parsedQueryString) => {
     infants,
     priceMin,
     priceMax,
+    OffsetItems,
   } = parsedQueryString;
 
   checkIn && dispatch(setStartDate(moment(checkIn)));
@@ -22,6 +26,8 @@ const useUpdateStore = (dispatch, parsedQueryString) => {
   priceMin &&
     priceMax &&
     dispatch(setPrices([Number(priceMin), Number(priceMax)]));
+  OffsetItems &&
+    dispatch(updateCurrentPage(_.setCurrentPage(Number(OffsetItems))));
 };
 
 export default useUpdateStore;

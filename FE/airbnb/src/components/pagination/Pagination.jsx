@@ -9,7 +9,10 @@ import PaginationBtn from "./PaginationBtn.jsx";
 import {
   updateCurrentPage,
   updateStartEndPage,
+  updateActive,
 } from "../../modules/pagination.js";
+
+import _ from "../../util/util.js";
 
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import styled from "styled-components";
@@ -47,12 +50,26 @@ const Pagination = ({ location }) => {
   let pageNumbers = totalPageNumbers.slice(startPage, endPage);
   const TOTAL_INDEXES = totalPageNumbers.length;
 
-  const onClickPage = (pageNumber) => (event) => {
+  const onClickPage = (pageNumber) => () => {
     scroll(0, 0);
     const search = location.search;
-    let offset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
+    const parsed = querystring.parse(search);
+    const currentOffset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
 
+    dispatch(updateActive(true));
     dispatch(updateCurrentPage(pageNumber));
+
+    if (!parsed.itemsOffset && !search) {
+      const initialQueryString = _.createInitialQueryString();
+      const offsetQueryString = `&itemsOffset=${currentOffset}`;
+
+      _.moveToScrollStartPoint();
+      history.push(`/rooms${initialQueryString + offsetQueryString}`);
+    } else {
+      parsed["itemsOffset"] = currentOffset;
+      _.moveToScrollStartPoint();
+      history.push(`/rooms?${querystring.stringify(parsed)}`);
+    }
   };
 
   const onClickPrev = () => {

@@ -152,7 +152,7 @@ const Reservation = memo(({ setOpenReservation }) => {
 const ReservationWrap = styled.div`
   position: fixed;
   left: 50%;
-  top: 50%;
+  top: ${(props) => props.top && `${props.top}px`};
   transform: translate(-50%, -50%);
   padding: 20px 45px;
   min-height: 360px;
