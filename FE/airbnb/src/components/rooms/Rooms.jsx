@@ -43,9 +43,8 @@ const Title = styled.div`
 
 const RoomsListWrap = styled.div`
   ${DefaultLayout};
-  margin-right: 18px;
+  margin-right: 20px;
   flex-wrap: wrap;
-  /* justify-content: space-between; */
   width: 100%;
 `;
 
