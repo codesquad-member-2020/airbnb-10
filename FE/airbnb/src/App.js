@@ -3,6 +3,7 @@ import React from "react";
 import Nav from "./components/nav/Nav.jsx";
 import Header from "./components/header/Header.jsx";
 import Rooms from "./components/rooms/Rooms.jsx";
+import Pagination from "./components/pagination/Pagination.jsx";
 
 import { GlobalStyle } from "./style/GlobalStyle.jsx";
 import styled from "styled-components";
@@ -16,6 +17,7 @@ const App = () => {
       <Route path="/" component={Nav} />
       <Route path="/" component={Header} />
       <Route patch="/rooms" component={Rooms} />
+      <Route patch="/" component={Pagination} />
     </Wrap>
   );
 };

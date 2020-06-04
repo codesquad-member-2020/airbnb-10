@@ -53,6 +53,7 @@ export const ToggleWrap = styled.div`
   border-radius: 5%;
   border: 1px solid var(--gray-1);
   box-shadow: var(--box-shadow);
+  z-index: 1;
 `;
 
 export const ReservationBtn = styled.button`
@@ -101,6 +102,10 @@ export const DateWarp = styled.div`
   }
   .DateRangePickerInput__showClearDates {
     padding-right: 0px;
+  }
+  .DayPicker__withBorder {
+    padding: 10px;
+    border-radius: 10px;
   }
   .DateRangePickerInput_clearDates {
     padding: 0px;

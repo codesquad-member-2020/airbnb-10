@@ -1,17 +1,19 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+
 import {
   ButtonsArea,
   SaveButton,
   ResetButton,
 } from "../../style/CustomStyle.jsx";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import _ from "../../util/util.js";
 import moment from "moment";
 
-import { setStartDate, setEndDate } from "../../modules/date.js";
+import _ from "../../util/util.js";
 
-import { useHistory } from "react-router";
+import { setStartDate, setEndDate } from "../../modules/date.js";
+import { setPersonnelCount } from "../../modules/personnel.js";
 
 const DEFAULT_PERSONNEL_COUNT = 1;
 
@@ -60,6 +62,7 @@ const ModalButtons = ({ resetHandler, width, height }) => {
 
   const setPersonnelQueryString = () => {
     if (totalCount === 0) {
+      dispatch(setPersonnelCount("adultCount", 1));
       return `adults=${DEFAULT_PERSONNEL_COUNT}&`;
     } else {
       const adults = adultCount ? `adults=${adultCount}&` : "";
