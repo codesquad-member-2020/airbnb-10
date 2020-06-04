@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 
 import querystring from "query-string";
+
+import PaginationBtn from "./PaginationBtn.jsx";
 
 import {
   updateCurrentPage,
@@ -12,11 +14,22 @@ import {
 
 import _ from "../../util/util.js";
 
-const Pagination = ({ location }) => {
+import { DefaultLayout } from "../../style/CustomStyle.jsx";
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+
+const Pagination = memo(({ location }) => {
   const POST_PER_PAGE = 20;
-  const LASE_PAGE = 10;
+  const INDEXES_PER_PAGE = 10;
 
   const url = process.env.REACT_APP_ROOMS_DB_HOST;
+  const [pagination, setPagination] = useState(true);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -30,59 +43,159 @@ const Pagination = ({ location }) => {
 
   const totalPage = Math.ceil(total / POST_PER_PAGE);
 
-  const totalPagenation = Array(totalPage)
+  const totalPageNumbers = Array(totalPage)
     .fill()
     .map((_, index) => index + 1);
 
-  const pagenation = totalPagenation.slice(startPage, endPage);
+  let pageNumbers = totalPageNumbers.slice(startPage, endPage);
+  const TOTAL_INDEXES = totalPageNumbers.length;
+
+  const search = location.search;
+  const parsed = querystring.parse(search);
+  const pageOffeset = parsed.itemsOffset;
+
+  useEffect(() => {
+    if (pageOffeset) {
+      const currentPageNumber = pageOffeset / POST_PER_PAGE + 1;
+      const firstDigit = Math.floor(currentPageNumber * 0.1);
+      const currentStartPage =
+        currentPageNumber % INDEXES_PER_PAGE === 0
+          ? currentPageNumber - INDEXES_PER_PAGE
+          : parseInt(firstDigit + "0");
+
+      const currentEndPage = currentStartPage + INDEXES_PER_PAGE;
+
+      changePagination(currentStartPage, currentEndPage);
+      dispatch(updateCurrentPage(currentPageNumber));
+    }
+  }, []);
 
   const onClickPage = (pageNumber) => () => {
-    const search = location.search;
-    const parsed = querystring.parse(search);
-    let currentOffset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
+    scroll(0, 0);
 
     dispatch(updateActive(true));
     dispatch(updateCurrentPage(pageNumber));
 
-    if (!parsed.itemsOffset && !search) {
+    changeQuery(pageNumber);
+  };
+
+  const changeQuery = (pageNumber) => {
+    const currentOffset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
+
+    if (!pageOffeset && !search) {
       const initialQueryString = _.createInitialQueryString();
       const offsetQueryString = `&itemsOffset=${currentOffset}`;
-      _.moveToScrollStartPoint();
+
       history.push(`/rooms${initialQueryString + offsetQueryString}`);
     } else {
       parsed["itemsOffset"] = currentOffset;
-      _.moveToScrollStartPoint();
       history.push(`/rooms?${querystring.stringify(parsed)}`);
     }
   };
 
-  const onClickPrev = (pageNumber) => () => {
-    // if (currentPage === 1) return;
-    // if (currentPage % LASE_PAGE === 1) {
-    //   const start = startPage - LASE_PAGE;
-    //   const end = endPage - LASE_PAGE;
-    //   dispatch(updateStartEndPage(start, end));
-    // }
-    // dispatch(updateCurrentPage(pageNumber - 1));
-
-    //이전 버튼 구현하기
-    console.log("이전");
+  const updatePageAndQuery = (page) => {
+    dispatch(updateCurrentPage(page));
+    changeQuery(page);
   };
 
+  const ONE_STEP = 1;
+
+  const onClickPrev = () => {
+    if (currentPage === FIRST_PAGE) return;
+
+    const FIRST_PAGE = 1;
+    scroll(0, 0);
+
+    if (currentPage % INDEXES_PER_PAGE === FIRST_PAGE) {
+      const start = startPage - INDEXES_PER_PAGE;
+      const end = endPage - INDEXES_PER_PAGE;
+      changePagination(start, end);
+    }
+
+    updatePageAndQuery(currentPage - ONE_STEP);
+  };
+
+  const onClickNext = () => {
+    if (currentPage === TOTAL_INDEXES) return;
+
+    const CURRENT_LAST_INDEX = 0;
+    scroll(0, 0);
+
+    if (currentPage % INDEXES_PER_PAGE === CURRENT_LAST_INDEX) {
+      const start = startPage + INDEXES_PER_PAGE;
+      const end = endPage + INDEXES_PER_PAGE;
+
+      changePagination(start, end);
+    }
+    updatePageAndQuery(currentPage + ONE_STEP);
+  };
+
+  const changePagination = (start, end) => {
+    pageNumbers = totalPageNumbers.slice(start, end);
+    setPagination(true);
+    dispatch(updateStartEndPage(start, end));
+  };
+
+  const onClickFirst = () => {
+    const FIRST_INDEX = 1;
+    scroll(0, 0);
+
+    updatePageAndQuery(FIRST_INDEX);
+
+    changePagination(0, INDEXES_PER_PAGE);
+  };
+
+  const onClickLast = () => {
+    if (currentPage === TOTAL_INDEXES) return;
+    scroll(0, 0);
+
+    const firstIndexOfLastPage =
+      Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) * INDEXES_PER_PAGE;
+    updatePageAndQuery(TOTAL_INDEXES);
+
+    const lastIndexOfLastPage = firstIndexOfLastPage + INDEXES_PER_PAGE;
+    changePagination(firstIndexOfLastPage, lastIndexOfLastPage);
+  };
+
+  const pageNumbersRender = () => {
+    return pageNumbers.map((pageNumber) => (
+      <PaginationBtn
+        key={pageNumber}
+        name={pageNumber}
+        className={pageNumber === currentPage ? "active-page" : null}
+        onClickHandler={onClickPage(pageNumber)}
+      />
+    ));
+  };
+
+  const prev = <FontAwesomeIcon icon={faChevronLeft} />;
+  const next = <FontAwesomeIcon icon={faChevronRight} />;
+  const first = <FontAwesomeIcon icon={faAngleDoubleLeft} />;
+  const last = <FontAwesomeIcon icon={faAngleDoubleRight} />;
+
   return (
-    <div>
+    <PaginationWrap>
       <ul>
-        <li>
-          <button onClick={onClickPrev()}>이전</button>
-        </li>
-        {pagenation.map((pageNumber) => (
-          <li>
-            <button onClick={onClickPage(pageNumber)}>{pageNumber}</button>
-          </li>
-        ))}
+        <PaginationBtn name={first} onClickHandler={onClickFirst} />
+        <PaginationBtn name={prev} onClickHandler={onClickPrev} />
+        {pagination && pageNumbersRender()}
+        <PaginationBtn name={next} onClickHandler={onClickNext} />
+        <PaginationBtn name={last} onClickHandler={onClickLast} />
       </ul>
-    </div>
+    </PaginationWrap>
   );
-};
+});
+
+const PaginationWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-bottom: 50px;
+  & ul {
+    ${DefaultLayout}
+  }
+  & li {
+    margin: 0 10px;
+  }
+`;
 
 export default Pagination;

@@ -1,5 +1,6 @@
-import React, { memo } from "react";
+import React from "react";
 import { useRoomsFetch } from "../../hooks/useFetch.jsx";
+import { fetchInitialData } from "../../modules/roomsList.js";
 import { useSelector } from "react-redux";
 import RoomsList from "./RoomsList.jsx";
 
@@ -42,8 +43,8 @@ const Title = styled.div`
 
 const RoomsListWrap = styled.div`
   ${DefaultLayout};
+  margin-right: 18px;
   flex-wrap: wrap;
-  justify-content: space-between;
   width: 100%;
 `;
 

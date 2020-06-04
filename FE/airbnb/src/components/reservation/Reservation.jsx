@@ -1,7 +1,8 @@
-import React, { useState, useEffect, memo, useRef } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { useSelector } from "react-redux";
 
 import { getCurrency } from "../../util/util.js";
+import ReservationPrice from "./ReservationPrice.jsx";
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,10 +13,7 @@ import { ReservationBtn } from "../../style/CustomStyle.jsx";
 import moment from "moment";
 
 const Reservation = memo(({ setOpenReservation }) => {
-  const selecRef = useRef();
-  const currentTop = window.pageYOffset + window.innerHeight / 2;
   const {
-    isClicked,
     content: {
       pricePerNightDiscounted,
       priceDuringPeriod,
@@ -86,7 +84,6 @@ const Reservation = memo(({ setOpenReservation }) => {
   }, [totalCount]);
 
   const onChangeSelect = () => {
-    // setSelectedPersonnel(selecRef.current.value);
     setSelectedPersonnel(totalCount);
     //fetch요청
   };
@@ -98,9 +95,23 @@ const Reservation = memo(({ setOpenReservation }) => {
     } else return;
   };
 
+  const priceRender = (title, price) => {
+    return (
+      <PriceRow>
+        <span>{title}</span>
+        <span>₩{getCurrency(price)}</span>
+      </PriceRow>
+    );
+  };
+
+  const getPriceDuringPeriodTitle = () => {
+    const pricePerNight = getCurrency(pricePerNightDiscounted);
+    return `₩${pricePerNight} x ${period}박`;
+  };
+
   return (
     <>
-      <ReservationWrap top={currentTop} isClicked={isClicked}>
+      <ReservationWrap>
         <CloseBtn onClick={onClickCloseBtn}>X</CloseBtn>
         <Row>
           <PricePerNight>₩{getCurrency(pricePerNightDiscounted)}</PricePerNight>
@@ -115,38 +126,22 @@ const Reservation = memo(({ setOpenReservation }) => {
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>
-          <select
-            onChange={onChangeSelect}
-            value={selectedPersonnel}
-            ref={selecRef}
-          >
+          <select onChange={onChangeSelect} value={selectedPersonnel}>
             {selectOptionRender()}
           </select>
         </RowBox>
-        <PriceRow>
-          <span>
-            ₩{getCurrency(pricePerNightDiscounted)} x {period}박
-          </span>
-          <span>₩{getCurrency(priceDuringPeriod)}</span>
-        </PriceRow>
-        {cleaningFee && (
-          <PriceRow>
-            <span>청소비</span>
-            <span>₩{getCurrency(cleaningFee)}</span>
-          </PriceRow>
-        )}
-        <PriceRow>
-          <span>서비스 수수료</span>
-          <span>₩{getCurrency(serviceTax)}</span>
-        </PriceRow>
-        <PriceRow>
-          <span>숙박세와 수수료</span>
-          <span>₩{getCurrency(accommodationTax)}</span>
-        </PriceRow>
-        <TotalRow>
-          <span>합계</span>
-          <span>₩{getCurrency(totalPrice)}</span>
-        </TotalRow>
+        <ReservationPrice
+          title={getPriceDuringPeriodTitle()}
+          price={priceDuringPeriod}
+        />
+        <ReservationPrice title={"청소비"} price={cleaningFee} />
+        <ReservationPrice title={"서비스 수수료"} price={serviceTax} />
+        <ReservationPrice title={"숙박세와 수수료"} price={accommodationTax} />
+        <ReservationPrice
+          title={"합계"}
+          price={totalPrice}
+          className={"total-price"}
+        />
         <LongReservationBtn onClick={onClickReservation}>
           예약하기
         </LongReservationBtn>
@@ -158,9 +153,9 @@ const Reservation = memo(({ setOpenReservation }) => {
 });
 
 const ReservationWrap = styled.div`
-  position: absolute;
+  position: fixed;
   left: 50%;
-  top: ${(props) => props.top && `${props.top}px`};
+  top: 50%;
   transform: translate(-50%, -50%);
   padding: 20px 45px;
   min-height: 360px;
@@ -181,21 +176,9 @@ const Row = styled.div`
   margin: 15px 0;
 `;
 
-const PriceRow = styled(Row)`
-  ${DefaultLayout}
-  justify-content:space-between;
-  padding: 0px 0 15px;
-  border-bottom: 1px solid var(--gray-1);
-  font-size: 15px;
-`;
-
 const ScoreRow = styled(Row)`
   font-size: 13px;
   padding-bottom: 5px;
-`;
-const TotalRow = styled(PriceRow)`
-  font-weight: bold;
-  border-bottom: none;
 `;
 
 const RowBox = styled(Row)`
