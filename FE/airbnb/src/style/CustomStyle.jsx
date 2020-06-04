@@ -103,6 +103,10 @@ export const DateWarp = styled.div`
   .DateRangePickerInput__showClearDates {
     padding-right: 0px;
   }
+  .DayPicker__withBorder {
+    padding: 10px;
+    border-radius: 10px;
+  }
   .DateRangePickerInput_clearDates {
     padding: 0px;
   }
