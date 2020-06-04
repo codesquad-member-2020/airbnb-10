@@ -50,14 +50,36 @@ const Pagination = ({ location }) => {
   let pageNumbers = totalPageNumbers.slice(startPage, endPage);
   const TOTAL_INDEXES = totalPageNumbers.length;
 
-  const onClickPage = (pageNumber) => () => {
-    scroll(0, 0);
+  useEffect(() => {
     const search = location.search;
     const parsed = querystring.parse(search);
-    const currentOffset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
+    const pageOffeset = parsed.itemsOffset;
+
+    if (pageOffeset) {
+      const currentPageNumber = pageOffeset / POST_PER_PAGE + 1;
+      const firstDigit = Math.floor(currentPageNumber * 0.1);
+
+      const currentStartPage = parseInt(firstDigit + "0");
+      const currentEndPage = currentStartPage + POST_PER_PAGE;
+
+      changePagination(currentStartPage, currentEndPage);
+      dispatch(updateCurrentPage(currentPageNumber));
+    }
+  }, []);
+
+  const onClickPage = (pageNumber) => () => {
+    scroll(0, 0);
 
     dispatch(updateActive(true));
     dispatch(updateCurrentPage(pageNumber));
+
+    changeQuery(pageNumber);
+  };
+
+  const changeQuery = (pageNumber) => {
+    const search = location.search;
+    const parsed = querystring.parse(search);
+    const currentOffset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
 
     if (!parsed.itemsOffset && !search) {
       const initialQueryString = _.createInitialQueryString();
@@ -70,6 +92,13 @@ const Pagination = ({ location }) => {
     }
   };
 
+  const updatePageAndQuery = (page) => {
+    dispatch(updateCurrentPage(page));
+    changeQuery(page);
+  };
+
+  const ONE_STEP = 1;
+
   const onClickPrev = () => {
     if (currentPage === FIRST_PAGE) return;
 
@@ -81,7 +110,8 @@ const Pagination = ({ location }) => {
       const end = endPage - INDEXES_PER_PAGE;
       changePagination(start, end);
     }
-    dispatch(updateCurrentPage(currentPage - 1));
+
+    updatePageAndQuery(currentPage - ONE_STEP);
   };
 
   const onClickNext = () => {
@@ -93,9 +123,10 @@ const Pagination = ({ location }) => {
     if (currentPage % INDEXES_PER_PAGE === CURRENT_LAST_INDEX) {
       const start = startPage + INDEXES_PER_PAGE;
       const end = endPage + INDEXES_PER_PAGE;
+
       changePagination(start, end);
     }
-    dispatch(updateCurrentPage(currentPage + 1));
+    updatePageAndQuery(currentPage + ONE_STEP);
   };
 
   const changePagination = (start, end) => {
@@ -108,7 +139,8 @@ const Pagination = ({ location }) => {
     const FIRST_INDEX = 1;
     scroll(0, 0);
 
-    dispatch(updateCurrentPage(FIRST_INDEX));
+    updatePageAndQuery(FIRST_INDEX);
+
     changePagination(0, INDEXES_PER_PAGE);
   };
 
@@ -117,10 +149,10 @@ const Pagination = ({ location }) => {
     scroll(0, 0);
 
     const firstIndexOfLastPage =
-      Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) * 10;
-    dispatch(updateCurrentPage(TOTAL_INDEXES));
+      Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) * INDEXES_PER_PAGE;
+    updatePageAndQuery(TOTAL_INDEXES);
 
-    const lastIndexOfLastPage = firstIndexOfLastPage + 10;
+    const lastIndexOfLastPage = firstIndexOfLastPage + INDEXES_PER_PAGE;
     changePagination(firstIndexOfLastPage, lastIndexOfLastPage);
   };
 
