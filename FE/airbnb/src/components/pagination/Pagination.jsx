@@ -11,6 +11,14 @@ import {
   updateStartEndPage,
 } from "../../modules/pagination.js";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleDoubleLeft,
+  faAngleDoubleRight,
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+
 const Pagination = ({ location }) => {
   const POST_PER_PAGE = 20;
   const INDEXES_PER_PAGE = 10;
@@ -88,14 +96,14 @@ const Pagination = ({ location }) => {
     dispatch(updateStartEndPage(start, end));
   };
 
-  const onClickStart = () => {
+  const onClickFirst = () => {
     const FIRST_INDEX = 1;
 
     dispatch(updateCurrentPage(FIRST_INDEX));
     changePagination(0, INDEXES_PER_PAGE);
   };
 
-  const onClickEnd = () => {
+  const onClickLast = () => {
     const firstIndexOfLastPage = Math.floor(total / POST_PER_PAGE);
 
     dispatch(updateCurrentPage(TOTAL_INDEXES));
@@ -103,21 +111,30 @@ const Pagination = ({ location }) => {
   };
 
   console.log(currentPage);
+
+  const pageNumbersRender = () => {
+    return pageNumbers.map((pageNumber) => (
+      <PaginationBtn
+        key={pageNumber}
+        name={pageNumber}
+        onClickHandler={onClickPage(pageNumber)}
+      />
+    ));
+  };
+
+  const prev = <FontAwesomeIcon icon={faChevronLeft} />;
+  const next = <FontAwesomeIcon icon={faChevronRight} />;
+  const first = <FontAwesomeIcon icon={faAngleDoubleLeft} />;
+  const last = <FontAwesomeIcon icon={faAngleDoubleRight} />;
+
   return (
     <div>
       <ul>
-        <PaginationBtn name={"<<"} onClickHandler={onClickStart} />
-        <PaginationBtn name={"<"} onClickHandler={onClickPrev} />
-        {pagination &&
-          pageNumbers.map((pageNumber) => (
-            <PaginationBtn
-              key={pageNumber}
-              name={pageNumber}
-              onClickHandler={onClickPage(pageNumber)}
-            />
-          ))}
-        <PaginationBtn name={">>"} onClickHandler={onClickNext} />
-        <PaginationBtn name={">"} onClickHandler={onClickEnd} />
+        <PaginationBtn name={first} onClickHandler={onClickFirst} />
+        <PaginationBtn name={prev} onClickHandler={onClickPrev} />
+        {pagination && pageNumbersRender()}
+        <PaginationBtn name={next} onClickHandler={onClickNext} />
+        <PaginationBtn name={last} onClickHandler={onClickLast} />
       </ul>
     </div>
   );
