@@ -13,7 +13,7 @@ import moment from "moment";
 import _ from "../../util/util.js";
 
 import { setStartDate, setEndDate } from "../../modules/date.js";
-import { updateCurrentPage } from "../../modules/pagination.js";
+import { initPagination } from "../../modules/pagination.js";
 import { setPersonnelCount } from "../../modules/personnel.js";
 
 const DEFAULT_PERSONNEL_COUNT = 1;
@@ -91,7 +91,7 @@ const ModalButtons = ({ resetHandler, width, height }) => {
 
   const saveHandler = () => {
     history.push(`/rooms?${createQueryString()}`);
-    dispatch(updateCurrentPage(1));
+    dispatch(initPagination());
   };
 
   return (
