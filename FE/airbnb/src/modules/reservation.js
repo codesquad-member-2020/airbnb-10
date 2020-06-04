@@ -1,6 +1,4 @@
-const OPEN = "OPEN";
-const CLOSE = "CLOSE";
-const RESERVATION_FETCH = "RESERVATION_FETCH";
+const RESERVATION_FETCH = "reservation/RESERVATION_FETCH";
 
 export const fetchReservation = (reservationData, scoresRating) => {
   return {
@@ -26,10 +24,6 @@ const initialValue = {
 
 const reservationReducer = (state = initialValue, action) => {
   switch (action.type) {
-    case OPEN:
-      return { ...state, isClicked: true };
-    case CLOSE:
-      return { ...state, isClicked: false };
     case RESERVATION_FETCH:
       return {
         ...state,
