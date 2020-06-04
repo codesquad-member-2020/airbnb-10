@@ -27,7 +27,7 @@ const paginationReducer = (state = initialValue, action) => {
     case UPDATE_CURRENT_PAGE:
       return {
         ...state,
-        current: action.currentPage,
+        currentPage: action.currentPage,
       };
     case UPDATE_START_END_PAGE:
       return {
