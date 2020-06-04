@@ -9,7 +9,6 @@ export const fetchReservation = (reservationData, scoresRating) => {
 };
 
 const initialValue = {
-  isClicked: false,
   content: {
     id: null,
     pricePerNightDiscounted: null,

@@ -13,7 +13,6 @@ import moment from "moment";
 
 const Reservation = memo(({ setOpenReservation }) => {
   const {
-    isClicked,
     content: {
       pricePerNightDiscounted,
       priceDuringPeriod,
@@ -97,7 +96,7 @@ const Reservation = memo(({ setOpenReservation }) => {
 
   return (
     <>
-      <ReservationWrap isClicked={isClicked}>
+      <ReservationWrap>
         <CloseBtn onClick={onClickCloseBtn}>X</CloseBtn>
         <Row>
           <PricePerNight>₩{getCurrency(pricePerNightDiscounted)}</PricePerNight>
@@ -151,7 +150,7 @@ const Reservation = memo(({ setOpenReservation }) => {
 });
 
 const ReservationWrap = styled.div`
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
