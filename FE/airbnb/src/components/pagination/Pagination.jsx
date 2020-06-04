@@ -54,15 +54,14 @@ const Pagination = ({ location }) => {
   const parsed = querystring.parse(search);
   const pageOffeset = parsed.itemsOffset;
 
-  console.log(pageOffeset);
   useEffect(() => {
     if (pageOffeset) {
       const currentPageNumber = pageOffeset / POST_PER_PAGE + 1;
       const firstDigit = Math.floor(currentPageNumber * 0.1);
-      let currentStartPage = null;
-      currentPageNumber % INDEXES_PER_PAGE === 0
-        ? (currentStartPage = currentPageNumber - INDEXES_PER_PAGE)
-        : (currentStartPage = parseInt(firstDigit + "0"));
+      let currentStartPage =
+        currentPageNumber % INDEXES_PER_PAGE === 0
+          ? currentPageNumber - INDEXES_PER_PAGE
+          : parseInt(firstDigit + "0");
       const currentEndPage = currentStartPage + INDEXES_PER_PAGE;
 
       changePagination(currentStartPage, currentEndPage);
