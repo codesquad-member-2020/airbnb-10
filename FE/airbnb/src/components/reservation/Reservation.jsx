@@ -90,6 +90,13 @@ const Reservation = memo(({ setOpenReservation }) => {
     //fetch요청
   };
 
+  const onClickReservation = () => {
+    if (confirm("예약하시겠습니까?")) {
+      alert("예약되셨습니다.");
+      setOpenReservation(false);
+    } else return;
+  };
+
   return (
     <>
       <ReservationWrap isClicked={isClicked}>
@@ -139,7 +146,9 @@ const Reservation = memo(({ setOpenReservation }) => {
           <span>합계</span>
           <span>₩{getCurrency(totalPrice)}</span>
         </TotalRow>
-        <LongReservationBtn>예약하기</LongReservationBtn>
+        <LongReservationBtn onClick={onClickReservation}>
+          예약하기
+        </LongReservationBtn>
         <Message>예약 확정 전에는 요금이 청구되지 않습니다</Message>
       </ReservationWrap>
       <ModalShadow />
