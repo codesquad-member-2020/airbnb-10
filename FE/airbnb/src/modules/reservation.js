@@ -1,6 +1,4 @@
-const OPEN = "OPEN";
-const CLOSE = "CLOSE";
-const RESERVATION_FETCH = "RESERVATION_FETCH";
+const RESERVATION_FETCH = "reservation/RESERVATION_FETCH";
 
 export const fetchReservation = (reservationData, scoresRating) => {
   return {

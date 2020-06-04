@@ -1,6 +1,20 @@
-// export const updateCurrentPage = (currentPage) => {
+const UPDATE_CURRENT_PAGE = "pagination/UPDATE_CURRENT_PAGE";
+const UPDATE_START_END_PAGE = "pagination/UPDATE_START_END_PAGE";
 
-// }
+export const updateCurrentPage = (currentPage) => {
+  return {
+    type: UPDATE_CURRENT_PAGE,
+    currentPage,
+  };
+};
+
+export const updateStartEndPage = (startPage, endPage) => {
+  return {
+    type: UPDATE_START_END_PAGE,
+    startPage,
+    endPage,
+  };
+};
 
 const initialValue = {
   currentPage: 1,
@@ -13,7 +27,7 @@ const paginationReducer = (state = initialValue, action) => {
     case UPDATE_CURRENT_PAGE:
       return {
         ...state,
-        current: action.current,
+        current: action.currentPage,
       };
     case UPDATE_START_END_PAGE:
       return {
