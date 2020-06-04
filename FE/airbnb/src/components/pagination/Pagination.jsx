@@ -4,6 +4,8 @@ import { useHistory } from "react-router";
 
 import querystring from "query-string";
 
+import PaginationBtn from "./PaginationBtn.jsx";
+
 import {
   updateCurrentPage,
   updateStartEndPage,
@@ -101,28 +103,21 @@ const Pagination = ({ location }) => {
   };
 
   console.log(currentPage);
-
   return (
     <div>
       <ul>
-        <li>
-          <button onClick={onClickStart}>처음</button>
-        </li>
-        <li>
-          <button onClick={onClickPrev}>이전</button>
-        </li>
+        <PaginationBtn name={"<<"} onClickHandler={onClickStart} />
+        <PaginationBtn name={"<"} onClickHandler={onClickPrev} />
         {pagination &&
           pageNumbers.map((pageNumber) => (
-            <li key={pageNumber}>
-              <button onClick={onClickPage(pageNumber)}>{pageNumber}</button>
-            </li>
+            <PaginationBtn
+              key={pageNumber}
+              name={pageNumber}
+              onClickHandler={onClickPage(pageNumber)}
+            />
           ))}
-        <li>
-          <button onClick={onClickNext}>다음</button>
-        </li>
-        <li>
-          <button onClick={onClickEnd}>끝</button>
-        </li>
+        <PaginationBtn name={">>"} onClickHandler={onClickNext} />
+        <PaginationBtn name={">"} onClickHandler={onClickEnd} />
       </ul>
     </div>
   );
