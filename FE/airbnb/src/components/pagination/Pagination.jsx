@@ -69,9 +69,11 @@ const Pagination = ({ location }) => {
   };
 
   const onClickPrev = () => {
-    const FIRST_PAGE = 1;
-
     if (currentPage === FIRST_PAGE) return;
+
+    const FIRST_PAGE = 1;
+    scroll(0, 0);
+
     if (currentPage % INDEXES_PER_PAGE === FIRST_PAGE) {
       const start = startPage - INDEXES_PER_PAGE;
       const end = endPage - INDEXES_PER_PAGE;
@@ -81,9 +83,10 @@ const Pagination = ({ location }) => {
   };
 
   const onClickNext = () => {
-    const CURRENT_LAST_INDEX = 0;
-
     if (currentPage === TOTAL_INDEXES) return;
+
+    const CURRENT_LAST_INDEX = 0;
+    scroll(0, 0);
 
     if (currentPage % INDEXES_PER_PAGE === CURRENT_LAST_INDEX) {
       const start = startPage + INDEXES_PER_PAGE;
@@ -101,6 +104,7 @@ const Pagination = ({ location }) => {
 
   const onClickFirst = () => {
     const FIRST_INDEX = 1;
+    scroll(0, 0);
 
     dispatch(updateCurrentPage(FIRST_INDEX));
     changePagination(0, INDEXES_PER_PAGE);
@@ -108,6 +112,7 @@ const Pagination = ({ location }) => {
 
   const onClickLast = () => {
     if (currentPage === TOTAL_INDEXES) return;
+    scroll(0, 0);
 
     const firstIndexOfLastPage =
       Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) * 10;
