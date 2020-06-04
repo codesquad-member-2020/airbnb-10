@@ -28,6 +28,11 @@ const RoomsList = memo(({ roomsData, location }) => {
   const [openReservation, setOpenReservation] = useState(false);
 
   const dispatch = useDispatch();
+  const { startDate, endDate } = useSelector((state) => state.dateReducer);
+  const { adultCount, childCount } = useSelector(
+    (state) => state.personnelReducer,
+  );
+  // // const a = startDate.format("YYYY-MM-DD");
 
   const url = process.env.REACT_APP_RESERVATION_DB_HOST;
 

@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { faLongArrowAltUp } from "@fortawesome/free-solid-svg-icons";
-import { resetPrices } from "../modules/price";
+
 import querystring from "query-string";
 import _ from "../util/util.js";
 import useUpdateStore from "./useUpdateStore.jsx";
@@ -37,19 +36,23 @@ export const useRoomsFetch = (actionFunc, searchQuery) => {
 
   let requsetUrl = null;
 
-  if (!searchQuery) {
-    //query string none
-    requsetUrl = _.createInitialRequsetURL();
-  } else if (searchQuery && !startDate) {
-    // query string Exist store state none
-    const parsed = querystring.parse(searchQuery);
-    requsetUrl = ROOMS_DB_HOST + searchQuery;
-    useUpdateStore(dispatch, parsed);
-  } else {
-    // query string Exist store state Exist
-    requsetUrl = ROOMS_DB_HOST + searchQuery;
-  }
+  const setRequsetQueryString = () => {
+    if (!searchQuery) {
+      //query string none
+      requsetUrl = _.createInitialRequsetURL();
+    } else if (searchQuery && !startDate) {
+      // query string Exist store state none
+      const parsed = querystring.parse(searchQuery);
+      requsetUrl = ROOMS_DB_HOST + searchQuery;
+      useUpdateStore(dispatch, parsed);
+    } else {
+      // query string Exist store state Exist
+      requsetUrl = ROOMS_DB_HOST + searchQuery;
+    }
+  };
+
   useEffect(() => {
+    setRequsetQueryString();
     fetchRooms();
   }, [searchQuery]);
 

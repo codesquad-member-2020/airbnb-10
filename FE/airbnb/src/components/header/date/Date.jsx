@@ -19,9 +19,9 @@ import { DateWarp } from "../../../style/CustomStyle.jsx";
 import ModalButtons from "../ModalButtons.jsx";
 
 const Date = () => {
+  const dispatch = useDispatch();
   const { startDate, endDate } = useSelector((state) => state.dateReducer);
   const [focusedInput, setFocusedInput] = useState(null);
-  const dispatch = useDispatch();
 
   const handleDatesChange = ({ startDate, endDate }) => {
     dispatch(setStartDate(startDate));
