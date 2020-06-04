@@ -11,6 +11,8 @@ import {
   updateStartEndPage,
 } from "../../modules/pagination.js";
 
+import { DefaultLayout } from "../../style/CustomStyle.jsx";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAngleDoubleLeft,
@@ -128,7 +130,7 @@ const Pagination = ({ location }) => {
   const last = <FontAwesomeIcon icon={faAngleDoubleRight} />;
 
   return (
-    <div>
+    <PaginationWrap>
       <ul>
         <PaginationBtn name={first} onClickHandler={onClickFirst} />
         <PaginationBtn name={prev} onClickHandler={onClickPrev} />
@@ -136,8 +138,20 @@ const Pagination = ({ location }) => {
         <PaginationBtn name={next} onClickHandler={onClickNext} />
         <PaginationBtn name={last} onClickHandler={onClickLast} />
       </ul>
-    </div>
+    </PaginationWrap>
   );
 };
+
+const PaginationWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-bottom: 40px;
+  & ul {
+    ${DefaultLayout}
+  }
+  & li {
+    padding: 0 18px;
+  }
+`;
 
 export default Pagination;
