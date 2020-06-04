@@ -154,6 +154,7 @@ const Title = styled.span`
   font-size: 17px;
   white-space: nowrap;
   overflow: hidden;
+  height: 22px;
   text-overflow: ellipsis;
 `;
 

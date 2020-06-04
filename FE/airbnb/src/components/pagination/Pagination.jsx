@@ -28,12 +28,12 @@ const Pagination = ({ location }) => {
 
   const totalPage = Math.ceil(total / POST_PER_PAGE);
 
-  const totalPagination = Array(totalPage)
+  const totalPageNumbers = Array(totalPage)
     .fill()
     .map((_, index) => index + 1);
 
-  let pageNumbers = totalPagination.slice(startPage, endPage);
-  const TOTAL_LAST_INDEX = totalPagination.length;
+  let pageNumbers = totalPageNumbers.slice(startPage, endPage);
+  const TOTAL_LAST_INDEX = totalPageNumbers.length;
 
   const onClickPage = (pageNumber) => () => {
     const search = location.search;
@@ -88,7 +88,7 @@ const Pagination = ({ location }) => {
   };
 
   const changePagination = (start, end) => {
-    pageNumbers = totalPagination.slice(start, end);
+    pageNumbers = totalPageNumbers.slice(start, end);
     setPagination(true);
     dispatch(updateStartEndPage(start, end));
   };
@@ -116,7 +116,7 @@ const Pagination = ({ location }) => {
         </li>
         {pagination &&
           pageNumbers.map((pageNumber) => (
-            <li>
+            <li key={pageNumber}>
               <button onClick={onClickPage(pageNumber)}>{pageNumber}</button>
             </li>
           ))}
