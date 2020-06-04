@@ -11,7 +11,7 @@ import {
 
 const Pagination = ({ location }) => {
   const POST_PER_PAGE = 20;
-  const LASE_PAGE = 10;
+  const LAST_INDEX = 10;
 
   const url = process.env.REACT_APP_ROOMS_DB_HOST;
   const [pagination, setPagination] = useState(true);
@@ -33,6 +33,7 @@ const Pagination = ({ location }) => {
     .map((_, index) => index + 1);
 
   let pageNumbers = totalPagination.slice(startPage, endPage);
+  const TOTAL_LAST_INDEX = totalPagination.length;
 
   const onClickPage = (pageNumber) => () => {
     const search = location.search;
@@ -40,15 +41,15 @@ const Pagination = ({ location }) => {
 
     dispatch(updateCurrentPage(pageNumber));
     //params 변경
-    const params = querystring.parse(search);
-    console.log(params);
-    if (params.offset) {
-      params.offset = offset;
-      console.log(params);
-      history.push(querystring.stringify(params));
+    // const params = querystring.parse(search);
+    // console.log(params);
+    // if (params.offset) {
+    //   params.offset = offset;
+    //   console.log(params);
+    //   history.push(querystring.stringify(params));
 
-      //offset 변경 방법은?
-    } else history.push(`${search}&offset=${offset}`);
+    //   //offset 변경 방법은?
+    // } else history.push(`${search}&offset=${offset}`);
 
     //fetch작업
   };
@@ -57,9 +58,9 @@ const Pagination = ({ location }) => {
     const FIRST_PAGE = 1;
 
     if (currentPage === FIRST_PAGE) return;
-    if (currentPage % LASE_PAGE === FIRST_PAGE) {
-      const start = startPage - LASE_PAGE;
-      const end = endPage - LASE_PAGE;
+    if (currentPage % LAST_INDEX === FIRST_PAGE) {
+      const start = startPage - LAST_INDEX;
+      const end = endPage - LAST_INDEX;
 
       changePagination(start, end);
     }
@@ -67,17 +68,23 @@ const Pagination = ({ location }) => {
   };
 
   const onClickNext = () => {
-    const LAST_PAGE = totalPagination.length;
     const CURRENT_LAST_PAGE = 0;
 
-    if (currentPage === LAST_PAGE) return;
+    if (currentPage === TOTAL_LAST_INDEX) return;
 
-    if (currentPage % LASE_PAGE === CURRENT_LAST_PAGE) {
-      const start = startPage + LASE_PAGE;
-      const end = endPage + LASE_PAGE;
+    if (currentPage % LAST_INDEX === CURRENT_LAST_PAGE) {
+      const start = startPage + LAST_INDEX;
+      const end = endPage + LAST_INDEX;
       changePagination(start, end);
     }
     dispatch(updateCurrentPage(currentPage + 1));
+  };
+
+  const checkLastIndex = (index) => {
+    if (currentPage === TOTAL_LAST_INDEX) return;
+    const start = startPage + index;
+    const end = endPage + index;
+    changePagination(start, end);
   };
 
   const changePagination = (start, end) => {
@@ -86,11 +93,24 @@ const Pagination = ({ location }) => {
     dispatch(updateStartEndPage(start, end));
   };
 
+  const onClickStart = () => {
+    dispatch(updateCurrentPage(1));
+    changePagination(0, LAST_INDEX);
+  };
+
+  const onClickEnd = () => {
+    dispatch(updateCurrentPage(TOTAL_LAST_INDEX));
+    checkLastIndex(LAST_INDEX);
+  };
+
   console.log(currentPage);
 
   return (
     <div>
       <ul>
+        <li>
+          <button onClick={onClickStart}>처음</button>
+        </li>
         <li>
           <button onClick={onClickPrev}>이전</button>
         </li>
@@ -102,6 +122,9 @@ const Pagination = ({ location }) => {
           ))}
         <li>
           <button onClick={onClickNext}>다음</button>
+        </li>
+        <li>
+          <button onClick={onClickEnd}>끝</button>
         </li>
       </ul>
     </div>
