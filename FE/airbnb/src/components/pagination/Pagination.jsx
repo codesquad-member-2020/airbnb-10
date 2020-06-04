@@ -44,12 +44,11 @@ const Pagination = ({ location }) => {
     .fill()
     .map((_, index) => index + 1);
 
-  console.log(totalPageNumbers, "totalPageNumbers");
-
   let pageNumbers = totalPageNumbers.slice(startPage, endPage);
   const TOTAL_INDEXES = totalPageNumbers.length;
 
-  const onClickPage = (pageNumber) => () => {
+  console.log("render");
+  const onClickPage = (pageNumber) => (event) => {
     const search = location.search;
     let offset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
 
@@ -75,7 +74,6 @@ const Pagination = ({ location }) => {
     if (currentPage % INDEXES_PER_PAGE === FIRST_PAGE) {
       const start = startPage - INDEXES_PER_PAGE;
       const end = endPage - INDEXES_PER_PAGE;
-      console.log("chagne");
       changePagination(start, end);
     }
     dispatch(updateCurrentPage(currentPage - 1));
@@ -98,7 +96,6 @@ const Pagination = ({ location }) => {
     pageNumbers = totalPageNumbers.slice(start, end);
     setPagination(true);
     dispatch(updateStartEndPage(start, end));
-    console.log(start, end);
   };
 
   const onClickFirst = () => {
@@ -126,6 +123,7 @@ const Pagination = ({ location }) => {
       <PaginationBtn
         key={pageNumber}
         name={pageNumber}
+        className={pageNumber === currentPage ? "active-page" : null}
         onClickHandler={onClickPage(pageNumber)}
       />
     ));
@@ -157,7 +155,7 @@ const PaginationWrap = styled.div`
     ${DefaultLayout}
   }
   & li {
-    padding: 0 18px;
+    margin: 0 10px;
   }
 `;
 
