@@ -1,6 +1,5 @@
-import React, { useEffect, memo } from "react";
+import React, { memo } from "react";
 import { useRoomsFetch } from "../../hooks/useFetch.jsx";
-import { fetchInitialData } from "../../modules/roomsList.js";
 import { useSelector } from "react-redux";
 import RoomsList from "./RoomsList.jsx";
 
@@ -12,7 +11,7 @@ const Rooms = ({ location }) => {
     content: { total, accommodations },
   } = useSelector((state) => state.roomsListReducer);
 
-  useRoomsFetch(fetchInitialData, location.search);
+  useRoomsFetch(location.search);
 
   return (
     <RoomsWrap>
