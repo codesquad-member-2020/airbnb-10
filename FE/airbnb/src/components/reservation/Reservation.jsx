@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo, useRef } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { useSelector } from "react-redux";
 
 import { getCurrency } from "../../util/util.js";
@@ -12,7 +12,6 @@ import { ReservationBtn } from "../../style/CustomStyle.jsx";
 import moment from "moment";
 
 const Reservation = memo(({ setOpenReservation }) => {
-  const selecRef = useRef();
   const {
     isClicked,
     content: {
@@ -85,7 +84,6 @@ const Reservation = memo(({ setOpenReservation }) => {
   }, [totalCount]);
 
   const onChangeSelect = () => {
-    // setSelectedPersonnel(selecRef.current.value);
     setSelectedPersonnel(totalCount);
     //fetch요청
   };
@@ -114,11 +112,7 @@ const Reservation = memo(({ setOpenReservation }) => {
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>
-          <select
-            onChange={onChangeSelect}
-            value={selectedPersonnel}
-            ref={selecRef}
-          >
+          <select onChange={onChangeSelect} value={selectedPersonnel}>
             {selectOptionRender()}
           </select>
         </RowBox>

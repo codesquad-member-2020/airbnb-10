@@ -35,6 +35,7 @@ const paginationReducer = (state = initialValue, action) => {
         startPage: action.startPage,
         endPage: action.endPage,
       };
+
     default:
       return state;
   }
