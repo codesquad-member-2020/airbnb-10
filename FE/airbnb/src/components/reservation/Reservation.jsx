@@ -1,22 +1,23 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo, useRef } from "react";
 import { useSelector } from "react-redux";
 
-import useFetch from "../../hooks/useFetch.jsx";
 import { getCurrency } from "../../util/util.js";
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { fetchData } from "../../hooks/useFetch.jsx";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
+import moment from "moment";
+
 const Reservation = memo(({ setOpenReservation }) => {
-  console.log(9);
+  const selecRef = useRef();
   const {
     isClicked,
     content: {
       pricePerNightDiscounted,
+      priceDuringPeriod,
       cleaningFee,
       serviceTax,
       accommodationTax,
@@ -30,8 +31,21 @@ const Reservation = memo(({ setOpenReservation }) => {
 
   const [selectedPersonnel, setSelectedPersonnel] = useState(1);
 
-  // const a = startDate.format("YYYY-MM-DD");
-  // console.log(a);
+  let formatedStartDate;
+  let formatedEndDatee;
+  let period = 1;
+
+  if (!startDate) {
+    const today = moment();
+    const tomorrow = moment().add("days", 1);
+
+    formatedStartDate = today.format("YYYY.MM.DD");
+    formatedEndDatee = tomorrow.format("YYYY.MM.DD");
+  } else {
+    formatedStartDate = startDate.format("YYYY.MM.DD");
+    formatedEndDatee = endDate.format("YYYY.MM.DD");
+    period = endDate.diff(startDate, "days");
+  }
 
   const onClickCloseBtn = () => {
     setOpenReservation(false);
@@ -67,11 +81,20 @@ const Reservation = memo(({ setOpenReservation }) => {
   };
 
   useEffect(() => {
-    onChangeSelect();
+    setSelectedPersonnel(totalCount);
   }, [totalCount]);
 
   const onChangeSelect = () => {
+    // setSelectedPersonnel(selecRef.current.value);
     setSelectedPersonnel(totalCount);
+    //fetch요청
+  };
+
+  const onClickReservation = () => {
+    if (confirm("예약하시겠습니까?")) {
+      alert("예약되셨습니다.");
+      setOpenReservation(false);
+    } else return;
   };
 
   return (
@@ -85,19 +108,25 @@ const Reservation = memo(({ setOpenReservation }) => {
         {scoresRating && scoreRender()}
         <DateRowBox>
           <Title>날짜</Title>
-          <div>{/* <span>{startDate}</span>→<span>{endDate}</span> */}</div>
+          <div>
+            <span>{formatedStartDate}</span>→<span>{formatedEndDatee}</span>
+          </div>
         </DateRowBox>
         <RowBox>
           <Title>인원</Title>
-          <select onChange={onChangeSelect} value={selectedPersonnel}>
+          <select
+            onChange={onChangeSelect}
+            value={selectedPersonnel}
+            ref={selecRef}
+          >
             {selectOptionRender()}
           </select>
         </RowBox>
         <PriceRow>
           <span>
-            ₩{getCurrency(pricePerNightDiscounted)} x {}박
+            ₩{getCurrency(pricePerNightDiscounted)} x {period}박
           </span>
-          <span></span>
+          <span>₩{getCurrency(priceDuringPeriod)}</span>
         </PriceRow>
         {cleaningFee && (
           <PriceRow>
@@ -117,7 +146,9 @@ const Reservation = memo(({ setOpenReservation }) => {
           <span>합계</span>
           <span>₩{getCurrency(totalPrice)}</span>
         </TotalRow>
-        <LongReservationBtn>예약하기</LongReservationBtn>
+        <LongReservationBtn onClick={onClickReservation}>
+          예약하기
+        </LongReservationBtn>
         <Message>예약 확정 전에는 요금이 청구되지 않습니다</Message>
       </ReservationWrap>
       <ModalShadow />
@@ -159,7 +190,7 @@ const PriceRow = styled(Row)`
 
 const ScoreRow = styled(Row)`
   font-size: 13px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 `;
 const TotalRow = styled(PriceRow)`
   font-weight: bold;
@@ -173,8 +204,8 @@ const RowBox = styled(Row)`
     text-align: center;
     margin-top: 10px;
     width: 100%;
-    height: 37px;
-    line-height: 37px;
+    height: 42px;
+    line-height: 42px;
     border: 1px solid var(--gray-1);
   }
   & select {
@@ -185,6 +216,11 @@ const RowBox = styled(Row)`
 const DateRowBox = styled(RowBox)`
   padding-top: 20px;
   border-top: 1px solid var(--gray-1);
+  & div {
+    display: flex;
+    justify-content: space-around;
+    font-size: 18px;
+  }
 `;
 
 const Title = styled.span`
@@ -194,6 +230,7 @@ const Title = styled.span`
 
 const ScoreIcon = styled.span`
   color: var(--mainColor);
+  margin-right: 5px;
 `;
 
 const PricePerNight = styled.span`
@@ -203,7 +240,7 @@ const PricePerNight = styled.span`
 
 const LongReservationBtn = styled(ReservationBtn)`
   width: 100%;
-  height: 40px;
+  height: 45px;
 `;
 
 const Message = styled(Row)`

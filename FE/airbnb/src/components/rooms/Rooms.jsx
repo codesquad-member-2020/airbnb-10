@@ -1,5 +1,5 @@
 import React, { useEffect, useState, memo } from "react";
-import useFetch, { useRoomsFetch } from "../../hooks/useFetch.jsx";
+import { useRoomsFetch } from "../../hooks/useFetch.jsx";
 import { fetchInitialData } from "../../modules/roomsList.js";
 import { useSelector } from "react-redux";
 import RoomsList from "./RoomsList.jsx";
@@ -27,7 +27,11 @@ const Rooms = ({ location }) => {
       </Title>
       <RoomsListWrap>
         {accommodations.map((roomsData) => (
-          <RoomsList key={roomsData.id} roomsData={roomsData} />
+          <RoomsList
+            key={roomsData.id}
+            roomsData={roomsData}
+            location={location}
+          />
         ))}
       </RoomsListWrap>
     </RoomsWrap>
