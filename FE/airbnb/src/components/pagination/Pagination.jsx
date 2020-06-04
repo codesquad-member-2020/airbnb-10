@@ -9,6 +9,8 @@ import {
   updateStartEndPage,
 } from "../../modules/pagination.js";
 
+import _ from "../../util/util.js";
+
 const Pagination = ({ location }) => {
   const POST_PER_PAGE = 20;
   const LASE_PAGE = 10;
@@ -19,11 +21,11 @@ const Pagination = ({ location }) => {
   const history = useHistory();
 
   const {
-    content: { total },
-  } = useSelector((state) => state.roomsListReducer);
-  const { startPage, endPage, currentPage } = useSelector(
-    (state) => state.paginationReducer,
-  );
+    roomsListReducer: {
+      content: { total },
+    },
+    paginationReducer: { startPage, endPage, currentPage },
+  } = useSelector((state) => state);
 
   const totalPage = Math.ceil(total / POST_PER_PAGE);
 
@@ -35,19 +37,21 @@ const Pagination = ({ location }) => {
 
   const onClickPage = (pageNumber) => () => {
     const search = location.search;
-    let offset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
+    const parsed = querystring.parse(search);
+    let currentOffset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
 
     dispatch(updateCurrentPage(pageNumber));
 
-    //params 변경
-    const params = querystring.parse(search);
-    if (params.offset) {
-      params.offset = offset;
-
-      //offset 변경 방법은?
-    } else history.push(`${search}&offset=${offset}`);
-
-    //fetch작업
+    if (!parsed.itemsOffset && !search) {
+      const initialQueryString = _.createInitialQueryString();
+      const offsetQueryString = `&itemsOffset=${currentOffset}`;
+      _.moveToScrollStartPoint();
+      history.push(`/rooms${initialQueryString + offsetQueryString}`);
+    } else {
+      parsed["itemsOffset"] = currentOffset;
+      _.moveToScrollStartPoint();
+      history.push(`/rooms?${querystring.stringify(parsed)}`);
+    }
   };
 
   const onClickPrev = (pageNumber) => () => {

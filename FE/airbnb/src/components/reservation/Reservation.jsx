@@ -13,6 +13,7 @@ import moment from "moment";
 
 const Reservation = memo(({ setOpenReservation }) => {
   const selecRef = useRef();
+  const currentTop = window.pageYOffset + window.screen.height / 2;
   const {
     isClicked,
     content: {
@@ -99,7 +100,7 @@ const Reservation = memo(({ setOpenReservation }) => {
 
   return (
     <>
-      <ReservationWrap isClicked={isClicked}>
+      <ReservationWrap top={currentTop} isClicked={isClicked}>
         <CloseBtn onClick={onClickCloseBtn}>X</CloseBtn>
         <Row>
           <PricePerNight>₩{getCurrency(pricePerNightDiscounted)}</PricePerNight>
@@ -159,7 +160,7 @@ const Reservation = memo(({ setOpenReservation }) => {
 const ReservationWrap = styled.div`
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: ${(props) => props.top && `${props.top}px`};
   transform: translate(-50%, -50%);
   padding: 20px 45px;
   min-height: 360px;
