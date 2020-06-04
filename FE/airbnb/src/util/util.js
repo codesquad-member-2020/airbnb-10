@@ -16,14 +16,28 @@ const _ = {
 
     return `${year}-${month}-${day}`;
   },
+  createInitialQueryString: () => {
+    const initialQueryString = `?checkIn=${_.getCurrentDate()}&checkOut=${_.getTomorrowDate()}&adults=1&priceMin=0&priceMax=500000`;
+
+    return initialQueryString;
+  },
   createInitialRequsetURL: () => {
     const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
 
-    const requsetURL =
-      ROOMS_DB_HOST +
-      `?checkIn=${_.getCurrentDate()}&checkOut=${_.getTomorrowDate()}&adults=1&priceMin=0&priceMax=500000`;
+    const requsetURL = ROOMS_DB_HOST + _.createInitialQueryString();
 
     return requsetURL;
+  },
+  setCurrentPage: (OffsetItems) => {
+    const FIRST_PAGE_NUMBER = 1;
+    const PER_PAGE_COUNT = 20;
+    if (!OffsetItems) {
+      return FIRST_PAGE_NUMBER;
+    } else {
+      const currentPageNumber =
+        OffsetItems / PER_PAGE_COUNT + FIRST_PAGE_NUMBER;
+      return currentPageNumber;
+    }
   },
 };
 
