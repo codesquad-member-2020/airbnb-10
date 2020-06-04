@@ -47,25 +47,12 @@ const Pagination = ({ location }) => {
   let pageNumbers = totalPageNumbers.slice(startPage, endPage);
   const TOTAL_INDEXES = totalPageNumbers.length;
 
-  console.log("render");
   const onClickPage = (pageNumber) => (event) => {
     scroll(0, 0);
     const search = location.search;
     let offset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
 
     dispatch(updateCurrentPage(pageNumber));
-    //params 변경
-    // const params = querystring.parse(search);
-    // console.log(params);
-    // if (params.offset) {
-    //   params.offset = offset;
-    //   console.log(params);
-    //   history.push(querystring.stringify(params));
-
-    //   //offset 변경 방법은?
-    // } else history.push(`${search}&offset=${offset}`);
-
-    //fetch작업
   };
 
   const onClickPrev = () => {
@@ -121,8 +108,6 @@ const Pagination = ({ location }) => {
     const lastIndexOfLastPage = firstIndexOfLastPage + 10;
     changePagination(firstIndexOfLastPage, lastIndexOfLastPage);
   };
-
-  console.log(currentPage);
 
   const pageNumbersRender = () => {
     return pageNumbers.map((pageNumber) => (
