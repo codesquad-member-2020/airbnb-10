@@ -19,11 +19,11 @@ const Pagination = ({ location }) => {
   const history = useHistory();
 
   const {
-    content: { total },
-  } = useSelector((state) => state.roomsListReducer);
-  const { startPage, endPage, currentPage } = useSelector(
-    (state) => state.paginationReducer,
-  );
+    roomsListReducer: {
+      content: { total },
+    },
+    paginationReducer: { startPage, endPage, currentPage },
+  } = useSelector((state) => state);
 
   const totalPage = Math.ceil(total / POST_PER_PAGE);
 
