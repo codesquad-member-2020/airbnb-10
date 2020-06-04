@@ -6,8 +6,6 @@ import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
 const ReservationPrice = ({ title, price, className }) => {
-  console.log("렌더링");
-
   return (
     <>
       {price && (
