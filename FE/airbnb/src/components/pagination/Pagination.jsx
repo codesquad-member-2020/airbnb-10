@@ -7,6 +7,7 @@ import querystring from "query-string";
 import {
   updateCurrentPage,
   updateStartEndPage,
+  updateActive,
 } from "../../modules/pagination.js";
 
 import _ from "../../util/util.js";
@@ -40,6 +41,7 @@ const Pagination = ({ location }) => {
     const parsed = querystring.parse(search);
     let currentOffset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
 
+    dispatch(updateActive(true));
     dispatch(updateCurrentPage(pageNumber));
 
     if (!parsed.itemsOffset && !search) {
