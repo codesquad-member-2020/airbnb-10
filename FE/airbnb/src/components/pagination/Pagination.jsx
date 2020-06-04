@@ -14,7 +14,7 @@ const Pagination = ({ location }) => {
   const LASE_PAGE = 10;
 
   const url = process.env.REACT_APP_ROOMS_DB_HOST;
-  const [nextPagination, setNextPagination] = useState(true);
+  const [pagination, setPagination] = useState(true);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -32,7 +32,7 @@ const Pagination = ({ location }) => {
     .fill()
     .map((_, index) => index + 1);
 
-  let pagination = totalPagination.slice(startPage, endPage);
+  let pageNumbers = totalPagination.slice(startPage, endPage);
 
   const onClickPage = (pageNumber) => () => {
     const search = location.search;
@@ -57,30 +57,33 @@ const Pagination = ({ location }) => {
     const FIRST_PAGE = 1;
 
     if (currentPage === FIRST_PAGE) return;
-    if (currentPage % LASE_PAGE === 1) {
+    if (currentPage % LASE_PAGE === FIRST_PAGE) {
       const start = startPage - LASE_PAGE;
       const end = endPage - LASE_PAGE;
 
-      pagination = totalPagination.slice(start, end);
-      setNextPagination(true);
-      dispatch(updateStartEndPage(start, end));
+      changePagination(start, end);
     }
     dispatch(updateCurrentPage(currentPage - 1));
-
-    //이전 버튼 구현하기
   };
 
   const onClickNext = () => {
-    if (currentPage === totalPagination.length) return;
-    if (currentPage % LASE_PAGE === 0) {
+    const LAST_PAGE = totalPagination.length;
+    const CURRENT_LAST_PAGE = 0;
+
+    if (currentPage === LAST_PAGE) return;
+
+    if (currentPage % LASE_PAGE === CURRENT_LAST_PAGE) {
       const start = startPage + LASE_PAGE;
       const end = endPage + LASE_PAGE;
-
-      pagination = totalPagination.slice(start, end);
-      setNextPagination(true);
-      dispatch(updateStartEndPage(start, end));
+      changePagination(start, end);
     }
     dispatch(updateCurrentPage(currentPage + 1));
+  };
+
+  const changePagination = (start, end) => {
+    pageNumbers = totalPagination.slice(start, end);
+    setPagination(true);
+    dispatch(updateStartEndPage(start, end));
   };
 
   console.log(currentPage);
@@ -91,8 +94,8 @@ const Pagination = ({ location }) => {
         <li>
           <button onClick={onClickPrev}>이전</button>
         </li>
-        {nextPagination &&
-          pagination.map((pageNumber) => (
+        {pagination &&
+          pageNumbers.map((pageNumber) => (
             <li>
               <button onClick={onClickPage(pageNumber)}>{pageNumber}</button>
             </li>
