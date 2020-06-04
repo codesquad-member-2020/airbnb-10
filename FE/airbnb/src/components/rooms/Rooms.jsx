@@ -8,8 +8,6 @@ import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
 const Rooms = ({ location }) => {
-  const ROOMS_DB_HOST = process.env.REACT_APP_ROOMS_DB_HOST;
-
   const [totalCount, setTotalCount] = useState(null);
 
   const {
