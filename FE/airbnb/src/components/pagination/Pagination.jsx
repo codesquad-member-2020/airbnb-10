@@ -49,6 +49,7 @@ const Pagination = ({ location }) => {
 
   console.log("render");
   const onClickPage = (pageNumber) => (event) => {
+    scroll(0, 0);
     const search = location.search;
     let offset = POST_PER_PAGE * pageNumber - POST_PER_PAGE;
 
