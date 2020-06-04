@@ -150,7 +150,7 @@ const Pagination = ({ location }) => {
 const PaginationWrap = styled.div`
   display: flex;
   justify-content: center;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
   & ul {
     ${DefaultLayout}
   }
