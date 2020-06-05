@@ -1,6 +1,6 @@
 package com.codesquad.airbnb.web.mock;
 
-import com.codesquad.airbnb.common.CustomValidatorUtils;
+import com.codesquad.airbnb.common.utils.CustomValidatorUtils;
 import com.codesquad.airbnb.domain.dto.AccommodationDTO;
 import com.codesquad.airbnb.domain.model.Filter;
 import com.codesquad.airbnb.domain.validator.FilterValidator;

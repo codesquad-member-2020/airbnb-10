@@ -1,6 +1,6 @@
 package com.codesquad.airbnb.business;
 
-import com.codesquad.airbnb.common.DAOUtils;
+import com.codesquad.airbnb.common.utils.DAOUtils;
 import com.codesquad.airbnb.dao.AccommodationDAO;
 import com.codesquad.airbnb.dao.FeePolicyMapper;
 import com.codesquad.airbnb.domain.dto.AccommodationDTO;
