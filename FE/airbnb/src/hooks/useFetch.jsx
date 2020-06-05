@@ -29,8 +29,8 @@ const useFetch = (url, actionFunc) => {
   }, []);
 };
 
-export const fetchData = async (url) => {
-  const response = await fetch(url);
+export const fetchData = async (url, method = "GET") => {
+  const response = await fetch(url, { method: method });
   const data = await response.json();
   return data;
 };
