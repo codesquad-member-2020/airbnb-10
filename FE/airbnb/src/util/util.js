@@ -71,4 +71,15 @@ export const getInitialUrl = () => {
   return initialUrl;
 };
 
+export const getUrl = (search, url) => {
+  const today = getDate(0);
+  const tomorrow = getDate(1);
+  let finalUrl = url;
+
+  if (!search) finalUrl += `?checkIn=${today}&checkOut=${tomorrow}`;
+  else finalUrl += search;
+
+  return finalUrl;
+};
+
 export default _;

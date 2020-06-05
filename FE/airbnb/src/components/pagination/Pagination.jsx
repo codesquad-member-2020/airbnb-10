@@ -28,7 +28,6 @@ const Pagination = memo(({ location }) => {
   const POST_PER_PAGE = 20;
   const INDEXES_PER_PAGE = 10;
 
-  const url = process.env.REACT_APP_ROOMS_DB_HOST;
   const [pagination, setPagination] = useState(true);
 
   const dispatch = useDispatch();
@@ -101,9 +100,9 @@ const Pagination = memo(({ location }) => {
   const ONE_STEP = 1;
 
   const onClickPrev = () => {
+    const FIRST_PAGE = 1;
     if (currentPage === FIRST_PAGE) return;
 
-    const FIRST_PAGE = 1;
     scroll(0, 0);
 
     if (currentPage % INDEXES_PER_PAGE === FIRST_PAGE) {
@@ -150,10 +149,14 @@ const Pagination = memo(({ location }) => {
     scroll(0, 0);
 
     const firstIndexOfLastPage =
-      Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) * INDEXES_PER_PAGE;
+      TOTAL_INDEXES % INDEXES_PER_PAGE === 0
+        ? (Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) - 1) * INDEXES_PER_PAGE
+        : Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) * INDEXES_PER_PAGE;
+
     updatePageAndQuery(TOTAL_INDEXES);
 
     const lastIndexOfLastPage = firstIndexOfLastPage + INDEXES_PER_PAGE;
+    console.log(firstIndexOfLastPage, lastIndexOfLastPage, totalPageNumbers);
     changePagination(firstIndexOfLastPage, lastIndexOfLastPage);
   };
 
