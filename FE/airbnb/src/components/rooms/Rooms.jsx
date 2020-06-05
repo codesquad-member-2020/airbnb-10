@@ -14,20 +14,20 @@ const Rooms = ({ location }) => {
 
   useRoomsFetch(location.search);
 
+  const RoomListRender = () => {
+    const roomList = accommodations.map((roomsData) => (
+      <RoomsList key={roomsData.id} roomsData={roomsData} location={location} />
+    ));
+
+    return roomList;
+  };
+
   return (
     <RoomsWrap>
       <Title>
         <div>{total}개 이상의 숙소</div>
       </Title>
-      <RoomsListWrap>
-        {accommodations.map((roomsData) => (
-          <RoomsList
-            key={roomsData.id}
-            roomsData={roomsData}
-            location={location}
-          />
-        ))}
-      </RoomsListWrap>
+      <RoomsListWrap>{RoomListRender()}</RoomsListWrap>
     </RoomsWrap>
   );
 };
