@@ -19,4 +19,12 @@ public class ApiResponse {
         this.status = status;
         this.content = content;
     }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public Object getContent() {
+        return content;
+    }
 }

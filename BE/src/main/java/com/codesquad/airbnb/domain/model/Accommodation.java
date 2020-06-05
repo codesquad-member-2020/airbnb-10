@@ -94,4 +94,11 @@ public class Accommodation {
         int serviceTax = fee.getServiceTax();
         return fee.getDiscountedPrice() + fee.getCleaningFee() + serviceTax + (int)(serviceTax * accommodationTaxRate);
     }
+
+    @Override
+    public String toString() {
+        return "Accommodation{" +
+                "id=" + id +
+                '}';
+    }
 }
