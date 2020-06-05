@@ -93,7 +93,6 @@ const Reservation = memo(({ setOpenReservation, id, location }) => {
   const onClickReservation = () => {
     if (confirm("예약하시겠습니까?")) {
       fetchConfirmedReservation();
-
       setOpenReservation(false);
     } else return;
   };
@@ -104,8 +103,10 @@ const Reservation = memo(({ setOpenReservation, id, location }) => {
     reservationUrl = getUrl(search, reservationUrl);
 
     fetchData(reservationUrl, "POST").then((data) => {
-      if (data.status === "SUCCESS") alert("예약되셨습니다.");
-      else alert("이미 예약된 방입니다.");
+      if (data.status === "SUCCESS") {
+        alert("예약되셨습니다.");
+        window.location.reload();
+      } else alert("이미 예약된 방입니다.");
     });
   };
 
