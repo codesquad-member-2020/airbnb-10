@@ -1,8 +1,9 @@
 import React, { useState, useEffect, memo } from "react";
 import { useSelector } from "react-redux";
 
-import { getCurrency } from "../../util/util.js";
+import { getCurrency, getUrl } from "../../util/util.js";
 import ReservationPrice from "./ReservationPrice.jsx";
+import useFetch from "../../hooks/useFetch.jsx";
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,6 +34,8 @@ const Reservation = memo(({ setOpenReservation }) => {
   let formatedStartDate;
   let formatedEndDatee;
   let period = 1;
+
+  const url = process.env.REACT_APP_RESERVATION_DB_HOST;
 
   if (!startDate) {
     const today = moment();
@@ -88,8 +91,10 @@ const Reservation = memo(({ setOpenReservation }) => {
     //fetch요청
   };
 
-  const onClickReservation = () => {
+  const onClickReservation = ({ target }) => {
+    console.log(target);
     if (confirm("예약하시겠습니까?")) {
+      // getUrl()
       alert("예약되셨습니다.");
       setOpenReservation(false);
     } else return;

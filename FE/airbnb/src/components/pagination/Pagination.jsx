@@ -150,7 +150,10 @@ const Pagination = memo(({ location }) => {
     scroll(0, 0);
 
     const firstIndexOfLastPage =
-      Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) * INDEXES_PER_PAGE;
+      TOTAL_INDEXES % INDEXES_PER_PAGE === 0
+        ? (Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) - 1) * INDEXES_PER_PAGE
+        : Math.floor(TOTAL_INDEXES / INDEXES_PER_PAGE) * INDEXES_PER_PAGE;
+
     updatePageAndQuery(TOTAL_INDEXES);
 
     const lastIndexOfLastPage = firstIndexOfLastPage + INDEXES_PER_PAGE;
