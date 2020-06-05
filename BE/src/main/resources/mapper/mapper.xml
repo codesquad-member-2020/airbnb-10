@@ -60,17 +60,17 @@
                        minimum_nights <![CDATA[<=]]> #{period}
                AND     maximum_nights >= #{period}
                     <if test="people != 0">
-                       maximum_capacity >= #{people}
+                       AND     maximum_capacity >= #{people}
                     </if>
                     <if test="priceMin != 0">
-                       TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
-                                (SELECT accommodation_tax
-                                FROM    fee_policy) + cleaning_fee_exchanged, 0)  >= #{priceMin}
+                       AND     TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
+                                    (SELECT accommodation_tax
+                                    FROM    fee_policy) + cleaning_fee_exchanged, 0)  >= #{priceMin}
                     </if>
                     <if test="priceMax != 0">
-                       TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
-                                (SELECT accommodation_tax
-                                FROM    fee_policy) + cleaning_fee_exchanged, 0) <![CDATA[<=]]> #{priceMax}
+                       AND     TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
+                                    (SELECT accommodation_tax
+                                    FROM    fee_policy) + cleaning_fee_exchanged, 0) <![CDATA[<=]]> #{priceMax}
                     </if>
                AND     a1.id NOT IN (SELECT b.accommodation
                                     FROM    booking b
