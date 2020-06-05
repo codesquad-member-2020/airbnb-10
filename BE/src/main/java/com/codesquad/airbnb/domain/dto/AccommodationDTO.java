@@ -60,6 +60,10 @@ public class AccommodationDTO {
         this.images = builder.images;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     public int getPricePerNight() {
         return pricePerNight;
     }
