@@ -2,13 +2,15 @@ package com.codesquad.airbnb.dao;
 
 import com.codesquad.airbnb.domain.model.Accommodation;
 import com.codesquad.airbnb.domain.model.Filter;
-import com.codesquad.airbnb.util.CurrencyConvertor;
+import com.codesquad.airbnb.common.utils.CurrencyConvertor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.context.annotation.Import;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -17,7 +19,9 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@MybatisTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(AccommodationDAO.class)
 public class AccommodationDAOTest {
 
     private static final Logger log = LoggerFactory.getLogger(AccommodationDAOTest.class);
@@ -35,20 +39,20 @@ public class AccommodationDAOTest {
     private float accommodationTaxRate;
 
     @BeforeEach
-    public void setParameters() {
+    public void 세팅() {
         // given
         filter = new Filter();
         // 1. 날짜 조건
-        filter.setCheckIn(LocalDate.parse("2020-05-23"));
-        filter.setCheckOut(LocalDate.parse("2020-05-24"));
+        filter.setCheckIn(LocalDate.parse("2020-08-19"));
+        filter.setCheckOut(LocalDate.parse("2020-09-18"));
         // 2. 요금 조건
-//        filter.setPriceMin(100000);
-//        filter.setPriceMax(200000);
+        filter.setPriceMin(0);
+        filter.setPriceMax(800000);
         // 3. 인원 조건
         filter.setAdults(3);
         filter.setChildren(2);
         // 4. 페이징
-//        filter.setItemsOffset(200);
+        filter.setItemsOffset(140);
 
         parameters = new HashMap<>();
         parameters.put("people", filter.getPeople());
@@ -85,7 +89,7 @@ public class AccommodationDAOTest {
         int total = accommodationDAO.countOfFilterResult(parameters);
 
         // then
-        assertThat(total).isEqualTo(38);
+        assertThat(total).isEqualTo(152);
     }
 
     @Test
@@ -120,7 +124,7 @@ public class AccommodationDAOTest {
 
         // when
         List<Accommodation> accommodations = accommodationDAO.findUsingFilter(parameters);
-        Integer id = 1;
+        Integer id = 593;
         parameters.put("id", id);
         Accommodation accommodationForBooking = accommodationDAO.findAccommodationChargeInfoById(parameters);
 
@@ -157,8 +161,8 @@ public class AccommodationDAOTest {
                 }
             }
         }
-        assertThat(feeList.size()).isEqualTo(39);
-//        assertThat(accommodations.size()).isEqualTo(feeList.size());
+
+        assertThat(feeList.size()).isEqualTo(206);
     }
 
     @Test
