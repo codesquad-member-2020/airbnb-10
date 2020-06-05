@@ -28,7 +28,6 @@ const Pagination = memo(({ location }) => {
   const POST_PER_PAGE = 20;
   const INDEXES_PER_PAGE = 10;
 
-  const url = process.env.REACT_APP_ROOMS_DB_HOST;
   const [pagination, setPagination] = useState(true);
 
   const dispatch = useDispatch();
@@ -157,6 +156,7 @@ const Pagination = memo(({ location }) => {
     updatePageAndQuery(TOTAL_INDEXES);
 
     const lastIndexOfLastPage = firstIndexOfLastPage + INDEXES_PER_PAGE;
+    console.log(firstIndexOfLastPage, lastIndexOfLastPage, totalPageNumbers);
     changePagination(firstIndexOfLastPage, lastIndexOfLastPage);
   };
 

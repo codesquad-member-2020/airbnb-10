@@ -8,7 +8,6 @@ import { fetchData } from "../../hooks/useFetch.jsx";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { DefaultLayout } from "../../style/CustomStyle.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
 import moment from "moment";

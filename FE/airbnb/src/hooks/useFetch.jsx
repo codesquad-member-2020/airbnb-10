@@ -65,6 +65,7 @@ export const useRoomsFetch = (searchQuery) => {
     const response = await fetch(requsetUrl);
     const data = await response.json();
 
+    console.log(data, "roomdata");
     if (!paginationActive) {
       dispatch(fetchInitialData(data));
     } else {
