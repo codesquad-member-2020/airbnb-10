@@ -12,6 +12,8 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { fetchData } from "../../hooks/useFetch.jsx";
 import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
+import Slider from "react-slick";
+
 const RoomsList = memo(({ roomsData, location }) => {
   const {
     id,
@@ -30,6 +32,15 @@ const RoomsList = memo(({ roomsData, location }) => {
   const dispatch = useDispatch();
 
   const url = process.env.REACT_APP_RESERVATION_DB_HOST;
+
+  const setting = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+  };
 
   const scoreRender = () => {
     return (
@@ -77,7 +88,11 @@ const RoomsList = memo(({ roomsData, location }) => {
     <>
       <RoomsWrap>
         <ImageArea>
-          <img src={images[1]} alt="숙소이미지" />
+          <Slider {...setting}>
+            {images.map((el) => {
+              return <img src={el} />;
+            })}
+          </Slider>
         </ImageArea>
         <RoomsContent>
           <ContentRowBothEnds>
@@ -145,7 +160,8 @@ const ImageArea = styled.div`
   height: 220px;
   & img {
     width: 100%;
-    height: 100%;
+    height: 200px;
+    border-radius: 5px;
   }
 `;
 
