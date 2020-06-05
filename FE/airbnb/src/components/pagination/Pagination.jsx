@@ -101,9 +101,9 @@ const Pagination = memo(({ location }) => {
   const ONE_STEP = 1;
 
   const onClickPrev = () => {
+    const FIRST_PAGE = 1;
     if (currentPage === FIRST_PAGE) return;
 
-    const FIRST_PAGE = 1;
     scroll(0, 0);
 
     if (currentPage % INDEXES_PER_PAGE === FIRST_PAGE) {
