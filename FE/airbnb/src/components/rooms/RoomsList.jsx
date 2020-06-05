@@ -78,7 +78,6 @@ const RoomsList = memo(({ roomsData, location }) => {
       <RoomsWrap>
         <ImageArea>
           <img src={images[1]} alt="숙소이미지" />
-          {/* 수정하기 */}
         </ImageArea>
         <RoomsContent>
           <ContentRowBothEnds>

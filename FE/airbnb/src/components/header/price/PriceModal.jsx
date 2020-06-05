@@ -18,12 +18,17 @@ const PriceModal = ({ modalHandler }) => {
   } = useSelector((state) => state);
   const [minPrice, maxPrice] = priceValues;
 
+  const {
+    fee: { average },
+  } = content;
+
   const onClickResetHandler = () => {
     dispatch(resetPrices());
   };
 
   return (
     <PriceModalWrap>
+      <AverageContent>평균 1박 요금은 ₩{average}원 입니다.</AverageContent>
       <Chart
         chartBarUnit={PRICE_UNIT}
         chartBarCount={CHART_COUNT}
@@ -48,13 +53,19 @@ const PriceModal = ({ modalHandler }) => {
 
 const PRICE_UNIT = 50000;
 const CHART_COUNT = 20;
-const CHART_DATAS = [50000];
 
 const PriceModalWrap = styled(ToggleWrap)`
   position: absolute;
   margin-top: 5px;
   padding: 20px;
   width: 30vw;
+`;
+
+const AverageContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 `;
 
 export default PriceModal;
