@@ -78,6 +78,7 @@ const Personnel = () => {
           />
 
           <ModalButtons
+            setModal={setIsOpen}
             resetHandler={onClickResetHandler}
             width="85"
             height="20"

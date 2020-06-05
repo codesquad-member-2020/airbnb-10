@@ -18,7 +18,7 @@ import { setPersonnelCount } from "../../modules/personnel.js";
 
 const DEFAULT_PERSONNEL_COUNT = 1;
 
-const ModalButtons = ({ resetHandler, width, height }) => {
+const ModalButtons = ({ setModal, resetHandler, width, height }) => {
   const { personnelReducer, dateReducer, priceReducer } = useSelector(
     (store) => store,
   );
@@ -90,6 +90,7 @@ const ModalButtons = ({ resetHandler, width, height }) => {
   };
 
   const saveHandler = () => {
+    setModal(null);
     history.push(`/rooms?${createQueryString()}`);
     dispatch(initPagination());
   };

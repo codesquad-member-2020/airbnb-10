@@ -25,7 +25,7 @@ const Price = () => {
   return (
     <PriceWrap ref={toggleContainer}>
       <Button onClick={onClickHandler}>금액</Button>
-      {isOpen && <PriceModal />}
+      {isOpen && <PriceModal modalHandler={setIsOpen} />}
     </PriceWrap>
   );
 };

@@ -10,7 +10,7 @@ import { ToggleWrap } from "../../../style/CustomStyle.jsx";
 import { resetPrices } from "../../../modules/price.js";
 import { useDispatch, useSelector } from "react-redux";
 
-const PriceModal = () => {
+const PriceModal = ({ modalHandler }) => {
   const dispatch = useDispatch();
   const {
     priceReducer: { priceValues },
@@ -38,7 +38,10 @@ const PriceModal = () => {
       />
       <PriceRange />
       <PriceBoxes />
-      <ModalButtons resetHandler={onClickResetHandler} />
+      <ModalButtons
+        setModal={modalHandler}
+        resetHandler={onClickResetHandler}
+      />
     </PriceModalWrap>
   );
 };
