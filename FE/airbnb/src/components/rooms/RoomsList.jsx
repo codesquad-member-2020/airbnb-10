@@ -161,6 +161,7 @@ const ImageArea = styled.div`
 `;
 
 const Title = styled.span`
+  height: 20px;
   font-size: 17px;
   white-space: nowrap;
   overflow: hidden;
