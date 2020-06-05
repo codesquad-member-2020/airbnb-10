@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { fetchReservation } from "../../modules/reservation.js";
 import Reservation from "../reservation/Reservation.jsx";
-import { getCurrency, getDate } from "../../util/util.js";
+import { getCurrency, getDate, getUrl } from "../../util/util.js";
 
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
@@ -48,18 +48,6 @@ const RoomsList = memo(({ roomsData, location }) => {
     );
   };
 
-  const getUrl = (id) => {
-    const today = getDate(0);
-    const tomorrow = getDate(1);
-    const search = location.search;
-    let reservationUrl = url + id;
-
-    if (!search) reservationUrl += `?checkIn=${today}&checkOut=${tomorrow}`;
-    else reservationUrl += search;
-
-    return reservationUrl;
-  };
-
   const fetchReservationData = (reservationUrl) => {
     fetchData(reservationUrl).then((data) =>
       dispatch(fetchReservation(data, scoresRating)),
@@ -67,8 +55,10 @@ const RoomsList = memo(({ roomsData, location }) => {
   };
 
   const onClickReservation = ({ target: { id } }) => {
-    const reservationUrl = getUrl(id);
+    const search = location.search;
+    let reservationUrl = url + id;
 
+    reservationUrl = getUrl(search, reservationUrl);
     setOpenReservation(true);
     fetchReservationData(reservationUrl);
   };
@@ -107,7 +97,11 @@ const RoomsList = memo(({ roomsData, location }) => {
         </RoomsContent>
       </RoomsWrap>
       {openReservation && (
-        <Reservation setOpenReservation={setOpenReservation} />
+        <Reservation
+          setOpenReservation={setOpenReservation}
+          id={id}
+          location={location}
+        />
       )}
     </>
   );

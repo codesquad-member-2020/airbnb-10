@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import { getCurrency, getUrl } from "../../util/util.js";
 import ReservationPrice from "./ReservationPrice.jsx";
-import useFetch from "../../hooks/useFetch.jsx";
+import { fetchData } from "../../hooks/useFetch.jsx";
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +13,7 @@ import { ReservationBtn } from "../../style/CustomStyle.jsx";
 
 import moment from "moment";
 
-const Reservation = memo(({ setOpenReservation }) => {
+const Reservation = memo(({ setOpenReservation, id, location }) => {
   const {
     content: {
       pricePerNightDiscounted,
@@ -88,16 +88,25 @@ const Reservation = memo(({ setOpenReservation }) => {
 
   const onChangeSelect = () => {
     setSelectedPersonnel(totalCount);
-    //fetch요청
   };
 
-  const onClickReservation = ({ target }) => {
-    console.log(target);
+  const onClickReservation = () => {
     if (confirm("예약하시겠습니까?")) {
-      // getUrl()
-      alert("예약되셨습니다.");
+      fetchConfirmedReservation();
+
       setOpenReservation(false);
     } else return;
+  };
+
+  const fetchConfirmedReservation = () => {
+    let reservationUrl = url + id;
+    const search = location.search;
+    reservationUrl = getUrl(search, reservationUrl);
+
+    fetchData(reservationUrl, "POST").then((data) => {
+      if (data.status === "SUCCESS") alert("예약되셨습니다.");
+      else alert("이미 예약된 방입니다.");
+    });
   };
 
   const priceRender = (title, price) => {
