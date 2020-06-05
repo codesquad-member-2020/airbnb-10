@@ -42,6 +42,11 @@ const _ = {
   moveToScrollStartPoint: () => {
     window.scrollTo(0, 0);
   },
+  getCookie: () => {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + key + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+  },
 };
 
 export const getDate = (date) => {

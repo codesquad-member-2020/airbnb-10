@@ -41,7 +41,12 @@ const Date = () => {
   };
 
   const CalendarButtonsTab = () => {
-    return <ModalButtons resetHandler={onClickResetHandler} />;
+    return (
+      <ModalButtons
+        setModal={setFocusedInput}
+        resetHandler={onClickResetHandler}
+      />
+    );
   };
 
   return (
