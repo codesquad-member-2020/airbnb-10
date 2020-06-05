@@ -174,7 +174,7 @@ const ReservationWrap = styled.div`
   padding: 20px 45px;
   min-height: 360px;
   width: 300px;
-  z-index: 1;
+  z-index: 2;
   background-color: var(--white);
 `;
 
@@ -256,6 +256,7 @@ const ModalShadow = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
 `;
 
 export default Reservation;

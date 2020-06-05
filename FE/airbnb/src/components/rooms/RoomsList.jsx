@@ -78,6 +78,7 @@ const RoomsList = memo(({ roomsData, location }) => {
     <>
       <RoomsWrap>
         <ImageArea>
+          {/* <img src={images[0]} /> */}
           <Slider {...setting}>
             {images.map((el) => {
               return <img src={el} />;
