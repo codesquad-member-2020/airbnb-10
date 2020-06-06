@@ -11,6 +11,6 @@ public interface UserMapper {
     @Insert("INSERT INTO user(email) VALUES (#{email})")
     public void insertUser(User user);
 
-    @Select("SELECT id FROM user WHERE email = #{email}")
-    public Integer findByEmail(User user);
+    @Select("SELECT id, email FROM user WHERE email = #{email}")
+    public User findByEmail(User user);
 }
