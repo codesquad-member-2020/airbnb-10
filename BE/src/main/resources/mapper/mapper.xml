@@ -147,7 +147,15 @@
                 AND TRUNCATE((price_discounted + service_tax + service_tax *
                         (SELECT accommodation_tax
                         FROM fee_policy) + cleaning_fee) * ${exchangeRate}, 0) <![CDATA[<=]]> #{priceMax}
-        </if>
+            </if>
+            AND     a.id NOT IN (SELECT b.accommodation
+                                FROM    booking b
+                                LEFT OUTER JOIN accommodation a
+                                ON b.accommodation = a.id
+                                WHERE   ((check_in <![CDATA[<=]]> #{checkIn} AND check_out > #{checkIn})
+                                            OR (check_in <![CDATA[<]]> #{checkOut} AND check_out > #{checkOut})
+                                            OR ((check_in BETWEEN #{checkIn} AND #{checkOut})
+                                                AND (check_out BETWEEN #{checkIn} AND #{checkOut}))))
         </where>
     </select>
 
@@ -185,8 +193,8 @@
     <select id="findFeeUsingFilterForTest" resultMap="test">
         SELECT id,
                TRUNCATE(price_discounted_exchanged + service_tax_exchanged + service_tax_exchanged *
-               (SELECT accommodation_tax
-                FROM   fee_policy) + cleaning_fee_exchanged, 0) AS price_total
+                    (SELECT accommodation_tax
+                    FROM   fee_policy) + cleaning_fee_exchanged, 0) AS price_total
         FROM   (SELECT id,
                        TRUNCATE((price - price * discount_rate) * ${exchangeRate}, 0) AS price_discounted_exchanged,
                        TRUNCATE(cleaning_fee * ${exchangeRate}, 0) AS cleaning_fee_exchanged,
