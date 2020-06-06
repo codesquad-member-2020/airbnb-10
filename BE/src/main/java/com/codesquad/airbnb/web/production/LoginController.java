@@ -32,6 +32,7 @@ public class LoginController {
         log.debug("{}", code);
 
         Cookie cookie = new Cookie("jwt", loginService.parseJWTFromGithubAccount(code));
+        cookie.setPath("/");
         cookie.setMaxAge(60 * 60 * 3);
         response.addCookie(cookie);
 
