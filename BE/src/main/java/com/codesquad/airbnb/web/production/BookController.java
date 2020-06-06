@@ -22,30 +22,38 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getReservationInfo(@PathVariable Integer id, Filter filter, BindingResult result) {
+    public ResponseEntity<ApiResponse> getReservationInfo(@PathVariable Integer id,
+                                                          Filter filter,
+                                                          BindingResult result) {
         new FilterValidator().validate(filter, result);
         if (result.hasErrors()) {
             return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL,
-                    CustomValidatorUtils.getErrorMessage(result)), HttpStatus.FORBIDDEN);
+                    CustomValidatorUtils.getErrorMessage(result)),
+                    HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS,
                 bookService.getAccommodation(id, filter)), HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<ApiResponse> booking(@PathVariable Integer id, Filter filter, BindingResult result) {
+    public ResponseEntity<ApiResponse> booking(@PathVariable Integer id,
+                                               Filter filter,
+                                               BindingResult result) {
         new FilterValidator().validate(filter, result);
         if (result.hasErrors()) {
             return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL,
-                    CustomValidatorUtils.getErrorMessage(result)), HttpStatus.FORBIDDEN);
+                    CustomValidatorUtils.getErrorMessage(result)),
+                    HttpStatus.FORBIDDEN);
         }
 
         if (bookService.booking(id, filter, new User(2, "beginin@gmail.com"))) {
             return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS,
-                    null), HttpStatus.OK);
+                    null),
+                    HttpStatus.OK);
         }
 
         return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL,
-                "이미 예약된 숙소입니다."), HttpStatus.FORBIDDEN);
+                "이미 예약된 숙소입니다."),
+                HttpStatus.FORBIDDEN);
     }
 }
