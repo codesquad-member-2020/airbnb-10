@@ -53,7 +53,7 @@ public class LoginService {
         loginUser = userMapper.findByEmail(loginUser);
 
         log.debug("logined User: {}", loginUser);
-        
+
         return loginUser;
     }
 

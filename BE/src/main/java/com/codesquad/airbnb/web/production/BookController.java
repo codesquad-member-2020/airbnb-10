@@ -7,14 +7,12 @@ import com.codesquad.airbnb.domain.model.Filter;
 import com.codesquad.airbnb.domain.model.User;
 import com.codesquad.airbnb.domain.validator.FilterValidator;
 import com.codesquad.airbnb.web.response.ApiResponse;
-import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/rooms")

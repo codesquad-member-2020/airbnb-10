@@ -2,7 +2,6 @@ package com.codesquad.airbnb.exception;
 
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.codesquad.airbnb.exception.custom.EntityNotFoundException;
 import com.codesquad.airbnb.web.response.ApiResponse;
 import org.slf4j.Logger;

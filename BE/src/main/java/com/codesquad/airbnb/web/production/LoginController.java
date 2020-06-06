@@ -1,7 +1,6 @@
 package com.codesquad.airbnb.web.production;
 
 import com.codesquad.airbnb.business.LoginService;
-import com.codesquad.airbnb.web.response.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
