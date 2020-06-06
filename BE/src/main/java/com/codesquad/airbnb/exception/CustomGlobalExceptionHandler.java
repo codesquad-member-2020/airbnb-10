@@ -29,7 +29,7 @@ public class CustomGlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handleMissingRequestCookieException(MissingRequestCookieException e) {
         log.error("handleMissingRequestCookieException");
         return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL,
-                e.getMessage()),
+                ErrorMessage.UNAUTHORIZED.getMessage()),
                 HttpStatus.UNAUTHORIZED);
     }
 
