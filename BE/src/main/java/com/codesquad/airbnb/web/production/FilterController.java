@@ -23,11 +23,16 @@ public class FilterController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ApiResponse> rooms(Filter filter, BindingResult result) {
+    public ResponseEntity<ApiResponse> rooms(Filter filter,
+                                             BindingResult result) {
         new FilterValidator().validate(filter, result);
         if (result.hasErrors()) {
-            return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL, CustomValidatorUtils.getErrorMessage(result)), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.FAIL,
+                    CustomValidatorUtils.getErrorMessage(result)),
+                    HttpStatus.FORBIDDEN);
         }
-        return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS, filterService.getFilteringResult(filter)), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse(ApiResponse.Status.SUCCESS,
+                filterService.getFilteringResult(filter)),
+                HttpStatus.OK);
     }
 }
