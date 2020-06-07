@@ -3,7 +3,6 @@ package com.codesquad.airbnb.business;
 import com.codesquad.airbnb.exception.ErrorMessage;
 import com.codesquad.airbnb.exception.custom.EntityNotFoundException;
 import com.codesquad.airbnb.common.utils.DAOUtils;
-import com.codesquad.airbnb.dao.AccommodationDAO;
 import com.codesquad.airbnb.dao.AccommodationMapper;
 import com.codesquad.airbnb.dao.BookingMapper;
 import com.codesquad.airbnb.dao.FeePolicyMapper;
@@ -19,16 +18,13 @@ import java.util.Map;
 @Service
 public class BookService {
 
-    private AccommodationDAO accommodationDAO;
     private AccommodationMapper accommodationMapper;
     private FeePolicyMapper feePolicyMapper;
     private BookingMapper bookingMapper;
 
-    public BookService(AccommodationDAO accommodationDAO,
-                       AccommodationMapper accommodationMapper,
+    public BookService(AccommodationMapper accommodationMapper,
                        FeePolicyMapper feePolicyMapper,
                        BookingMapper bookingMapper) {
-        this.accommodationDAO = accommodationDAO;
         this.accommodationMapper = accommodationMapper;
         this.feePolicyMapper = feePolicyMapper;
         this.bookingMapper = bookingMapper;
@@ -40,7 +36,7 @@ public class BookService {
         }
 
         Map<String, Object> parameters = DAOUtils.createParameters(filter, id);
-        Accommodation accommodation = accommodationDAO.findAccommodationChargeInfoById(parameters);
+        Accommodation accommodation = accommodationMapper.findAccommodationChargeInfoById(parameters);
 
         float accommodationTaxRate = feePolicyMapper.findAccommodationTax();
 

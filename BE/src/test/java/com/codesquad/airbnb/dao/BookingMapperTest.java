@@ -30,7 +30,7 @@ public class BookingMapperTest {
         filter.setCheckIn(LocalDate.parse("2020-06-03"));
         filter.setCheckOut(LocalDate.parse("2020-06-06"));
 
-        User user = new User(2, "beginin15@gmail.com");
+        User user = new User(3, "beginin15@gmail.com");
 
         bookingMapper.insertBooking(new Booking(user, accommodation, filter));
 
@@ -48,7 +48,7 @@ public class BookingMapperTest {
         filter.setCheckIn(LocalDate.parse("2020-06-01"));
         filter.setCheckOut(LocalDate.parse("2020-06-05"));
 
-        User user = new User(1, "beginin15@gmail.com");
+        User user = new User(3, "beginin15@gmail.com");
 
         // when
         int id = bookingMapper.countByAccommodationIdAndPeriod(
