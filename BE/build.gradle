@@ -21,6 +21,9 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'org.assertj:assertj-core'
+	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.1.1'
+	implementation 'com.auth0:java-jwt:3.10.2'
+	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.3'
 }
 
 test {
