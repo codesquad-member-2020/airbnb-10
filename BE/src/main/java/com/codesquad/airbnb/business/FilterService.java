@@ -1,7 +1,7 @@
 package com.codesquad.airbnb.business;
 
 import com.codesquad.airbnb.common.utils.DAOUtils;
-import com.codesquad.airbnb.dao.AccommodationDAO;
+import com.codesquad.airbnb.dao.AccommodationMapper;
 import com.codesquad.airbnb.dao.FeePolicyMapper;
 import com.codesquad.airbnb.domain.dto.AccommodationDTO;
 import com.codesquad.airbnb.domain.dto.FeeFilterDTO;
@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 public class FilterService {
 
     private static final Logger log = LoggerFactory.getLogger(FilterService.class);
-    private AccommodationDAO accommodationDAO;
+    private AccommodationMapper accommodationMapper;
     private FeePolicyMapper feePolicyMapper;
 
-    public FilterService(AccommodationDAO accommodationDAO, FeePolicyMapper feePolicyMapper) {
-        this.accommodationDAO = accommodationDAO;
+    public FilterService(AccommodationMapper accommodationMapper, FeePolicyMapper feePolicyMapper) {
+        this.accommodationMapper = accommodationMapper;
         this.feePolicyMapper = feePolicyMapper;
     }
 
@@ -34,7 +34,7 @@ public class FilterService {
 
         float accommodationTax = feePolicyMapper.findAccommodationTax();
 
-        result.put("accommodations", accommodationDAO.findUsingFilter(parameters)
+        result.put("accommodations", accommodationMapper.findUsingFilter(parameters)
                 .stream()
                 .map(model -> new AccommodationDTO.Builder(model.getId())
                         .name(model.getName())
@@ -48,7 +48,7 @@ public class FilterService {
                         .build())
                 .collect(Collectors.toList()));
 
-        result.put("total", accommodationDAO.countOfFilterResult(parameters));
+        result.put("total", accommodationMapper.countOfFilterResult(parameters));
 
         result.put("fee", createFeeFilter(parameters));
 
@@ -56,9 +56,9 @@ public class FilterService {
     }
 
     private FeeFilterDTO createFeeFilter(Map<String, Object> parameters) {
-        Map<String, Integer> fee = accommodationDAO.findMinAndMaxOfFee(parameters);
+        Map<String, Integer> fee = accommodationMapper.findMinAndMaxOfFee(parameters);
         return new FeeFilterDTO(fee.get("min"),
                 fee.get("max"),
-                accommodationDAO.findFeeUsingFilter(parameters));
+                accommodationMapper.findFeeUsingFilter(parameters));
     }
 }

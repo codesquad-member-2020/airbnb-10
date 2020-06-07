@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.context.annotation.Import;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -21,13 +20,12 @@ import static org.assertj.core.api.Assertions.*;
 
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(AccommodationDAO.class)
-public class AccommodationDAOTest {
+public class AccommodationMapperTest {
 
-    private static final Logger log = LoggerFactory.getLogger(AccommodationDAOTest.class);
+    private static final Logger log = LoggerFactory.getLogger(AccommodationMapperTest.class);
 
     @Autowired
-    private AccommodationDAO accommodationDAO;
+    private AccommodationMapper accommodationMapper;
 
     @Autowired
     private FeePolicyMapper feePolicyMapper;
@@ -44,7 +42,7 @@ public class AccommodationDAOTest {
         filter = new Filter();
         // 1. 날짜 조건
         filter.setCheckIn(LocalDate.parse("2020-08-19"));
-        filter.setCheckOut(LocalDate.parse("2020-09-18"));
+        filter.setCheckOut(LocalDate.parse("2020-08-20"));
         // 2. 요금 조건
         filter.setPriceMin(0);
         filter.setPriceMax(800000);
@@ -52,7 +50,7 @@ public class AccommodationDAOTest {
         filter.setAdults(3);
         filter.setChildren(2);
         // 4. 페이징
-        filter.setItemsOffset(140);
+        filter.setItemsOffset(0);
 
         parameters = new HashMap<>();
         parameters.put("people", filter.getPeople());
@@ -68,7 +66,7 @@ public class AccommodationDAOTest {
     @Test
     public void 숙소_필터링() {
         // when
-        List<Accommodation> accommodations = accommodationDAO.findUsingFilter(parameters);
+        List<Accommodation> accommodations = accommodationMapper.findUsingFilter(parameters);
 
         // then
         assertThat(accommodations).isNotNull();
@@ -80,35 +78,35 @@ public class AccommodationDAOTest {
         // 인원 검사
         assertThat(accommodations).allMatch(a -> a.getMaximumCapacity() >= filter.getPeople());
         // 페이징 검사
-        assertThat(accommodations.size()).isEqualTo(12);
+        assertThat(accommodations.size()).isEqualTo(20);
     }
 
     @Test
     public void 숙소_필터링_총_개수() {
         // when
-        int total = accommodationDAO.countOfFilterResult(parameters);
+        int total = accommodationMapper.countOfFilterResult(parameters);
 
         // then
-        assertThat(total).isEqualTo(152);
+        assertThat(total).isEqualTo(38);
     }
 
     @Test
     public void 숙소_예약_모달창() {
         // given
-        parameters.put("id", 2);
+        parameters.put("id", 18);
 
         // when
-        Accommodation accommodation = accommodationDAO.findAccommodationChargeInfoById(parameters);
+        Accommodation accommodation = accommodationMapper.findAccommodationChargeInfoById(parameters);
 
         // then
-        assertThat(accommodation.getId()).isEqualTo(2);
+        assertThat(accommodation.getId()).isEqualTo(18);
         assertThat(accommodation).isNotNull();
-        assertThat(accommodation.getOriginalPricePerNight()).isEqualTo(116996);
-        assertThat(accommodation.getDiscountedPricePerNight()).isEqualTo(116996);
-        assertThat(accommodation.getCleaningFee()).isEqualTo(0);
-        assertThat(accommodation.getServiceTax(filter)).isEqualTo(22847);
-        assertThat(accommodation.getAccommodationTax(filter, accommodationTaxRate)).isEqualTo(2284);
-        assertThat(accommodation.getTotalPrice(filter, accommodationTaxRate)).isEqualTo(142127);
+        assertThat(accommodation.getOriginalPricePerNight()).isEqualTo(178573);
+        assertThat(accommodation.getDiscountedPricePerNight()).isEqualTo(148215);
+        assertThat(accommodation.getCleaningFee()).isEqualTo(59113);
+        assertThat(accommodation.getServiceTax(filter)).isEqualTo(28707);
+        assertThat(accommodation.getAccommodationTax(filter, accommodationTaxRate)).isEqualTo(2870);
+        assertThat(accommodation.getTotalPrice(filter, accommodationTaxRate)).isEqualTo(238905);
     }
 
     @Test
@@ -123,10 +121,10 @@ public class AccommodationDAOTest {
         parameters.put("itemsOffset", filter.getItemsOffset());
 
         // when
-        List<Accommodation> accommodations = accommodationDAO.findUsingFilter(parameters);
-        Integer id = 593;
+        List<Accommodation> accommodations = accommodationMapper.findUsingFilter(parameters);
+        Integer id = 18;
         parameters.put("id", id);
-        Accommodation accommodationForBooking = accommodationDAO.findAccommodationChargeInfoById(parameters);
+        Accommodation accommodationForBooking = accommodationMapper.findAccommodationChargeInfoById(parameters);
 
         // then
         Accommodation accommodationFiltered = null;
@@ -149,26 +147,25 @@ public class AccommodationDAOTest {
     @Test
     public void 숙소_요금_리스트_비교() {
         // when
-        List<Accommodation> accommodations = accommodationDAO.findUsingFilter(parameters);
-        List<Map<String, Integer>> feeList = accommodationDAO.findFeeUsingFilterTest(parameters);
+        List<Accommodation> accommodations = accommodationMapper.findUsingFilter(parameters);
+        List<Map<String, Integer>> feeList = accommodationMapper.findFeeUsingFilterForTest(parameters);
 
         // then
         for (Accommodation a : accommodations) {
             for (Map<String, Integer> result : feeList) {
                 if (a.getId().equals(result.get("id"))) {
-                    log.debug("filter list id: {}, price: {} / price list id: {}, price: {}", a.getId(), a.getPricePerNightDiscounted(accommodationTaxRate), result.get("id"), result.get("price"));
                     assertThat(a.getPricePerNightDiscounted(accommodationTaxRate)).isEqualTo(result.get("price"));
                 }
             }
         }
 
-        assertThat(feeList.size()).isEqualTo(206);
+        assertThat(feeList.size()).isEqualTo(39);
     }
 
     @Test
     public void 최소_최대_금액() {
         // when
-        Map<String, Integer> prices = accommodationDAO.findMinAndMaxOfFee(parameters);
+        Map<String, Integer> prices = accommodationMapper.findMinAndMaxOfFee(parameters);
 
         // then
         assertThat(prices.get("min")).isEqualTo(26446);
