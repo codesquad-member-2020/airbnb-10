@@ -10,6 +10,24 @@ import { ToggleWrap } from "../../../style/CustomStyle.jsx";
 import { resetPrices } from "../../../modules/price.js";
 import { useDispatch, useSelector } from "react-redux";
 
+const PRICE_VALUES = [
+  10000,
+  500000,
+  34324,
+  340340,
+  920000,
+  600000,
+  400000,
+  600000,
+  600000,
+  600000,
+  600000,
+  600000,
+  600000,
+  600000,
+  600000,
+];
+
 const PriceModal = ({ modalHandler }) => {
   const dispatch = useDispatch();
   const {
@@ -32,7 +50,7 @@ const PriceModal = ({ modalHandler }) => {
       <Chart
         chartBarUnit={PRICE_UNIT}
         chartBarCount={CHART_COUNT}
-        chartDatas={content.fee.feelist}
+        chartDatas={PRICE_VALUES}
         chartBarIncreaseUnit={2}
         chartBarWidthPercent={90}
         chartWidth={100}

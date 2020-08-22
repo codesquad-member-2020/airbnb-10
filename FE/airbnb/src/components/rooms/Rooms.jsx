@@ -7,6 +7,8 @@ import RoomsList from "./RoomsList.jsx";
 import styled from "styled-components";
 import { DefaultLayout } from "../../style/CustomStyle.jsx";
 
+import { roomLists } from "../../mock/roomList";
+
 const Rooms = ({ location }) => {
   const {
     content: { total, accommodations },
